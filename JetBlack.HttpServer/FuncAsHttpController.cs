@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     internal class FuncAsHttpController : HttpController
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     public class HttpServerConfig
     {

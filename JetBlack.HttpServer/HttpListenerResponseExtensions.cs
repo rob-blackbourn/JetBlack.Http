@@ -3,7 +3,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Text;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     public static class HttpListenerResponseExtensions
     {

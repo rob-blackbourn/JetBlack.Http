@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-namespace HttpServer
+namespace JetBlack.HttpServer.Routing
 {
     internal class HttpRouter : IHttpRouter
     {

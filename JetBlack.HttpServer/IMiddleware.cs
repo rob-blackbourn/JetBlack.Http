@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     public interface IMiddleware
     {

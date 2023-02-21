@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace HttpServer
+using JetBlack.HttpServer.Routing;
+
+namespace JetBlack.HttpServer
 {
     public class HttpServer
     {

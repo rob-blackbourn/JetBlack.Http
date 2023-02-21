@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 
-namespace HttpServer
+namespace JetBlack.HttpServer.Routing
 {
     public interface IHttpRouter
     {

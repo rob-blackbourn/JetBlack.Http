@@ -5,7 +5,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     public class HttpRequest
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     public static class TypeDiscovery
     {

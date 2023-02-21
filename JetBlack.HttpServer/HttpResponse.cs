@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace HttpServer
+namespace JetBlack.HttpServer
 {
     public class HttpResponse
     {
