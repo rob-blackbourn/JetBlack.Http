@@ -14,7 +14,7 @@ namespace JetBlack.HttpServer.Routing
 
         private readonly ILogger _logger;
 
-        private readonly Dictionary<string, HttpController> _routingTable = new Dictionary<string, HttpController>();
+        private readonly List<Route> _routes = new List<Route>();
         private readonly List<KeyValuePair<string, List<IMiddleware>>> _middlewareTable = new List<KeyValuePair<string, List<IMiddleware>>>();
 
         public HttpRouter(
@@ -55,6 +55,18 @@ namespace JetBlack.HttpServer.Routing
             }
         }
 
+        private (HttpController?, Dictionary<string, object?>?) FindRoute(string path)
+        {
+            foreach (var route in _routes)
+            {
+                var (isMatch, matches) = route.Path.Match(path);
+                if (isMatch)
+                    return (route.Controller, matches);
+            }
+
+            return (null, null);
+        }
+
         public async Task RouteAsync(HttpListenerContext ctx)
         {
             try
@@ -64,30 +76,28 @@ namespace JetBlack.HttpServer.Routing
                 var req = new HttpRequest(ctx.Request);
                 var res = new HttpResponse(ctx.Response);
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-                var route = ctx.Request.Url.LocalPath;
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+                var path = ctx.Request.Url.LocalPath;
 
-                if (string.IsNullOrWhiteSpace(route))
+                if (string.IsNullOrWhiteSpace(path))
                 {
-                    _logger.LogWarning($"'{nameof(route)}' cannot be null or whitespace.");
+                    _logger.LogWarning($"'{nameof(path)}' cannot be null or whitespace.");
 
                     await res.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
                     return;
                 }
 
-                route = route.ToLower();
+                var (controller, matches) = FindRoute(path.ToLower());
 
-                if (!_routingTable.TryGetValue(route, out var controller) && !_routingTable.TryGetValue(route.TrimEnd('/'), out controller))
+                if (controller == null)
                 {
-                    _logger.LogWarning($"Failed to resolve controller for route '{route}'.");
+                    _logger.LogWarning($"Failed to resolve controller for route '{path}'.");
 
                     await res.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
                     return;
                 }
 
                 await InvokeMiddlewaresAsync(
-                    route,
+                    path,
                     req,
                     res);
 
@@ -123,7 +133,7 @@ namespace JetBlack.HttpServer.Routing
         }
 
         public void RegisterController<TController>(
-            string route,
+            string path,
             TController controller,
             bool overrideExistingRoute = false)
 
@@ -133,14 +143,8 @@ namespace JetBlack.HttpServer.Routing
             {
                 _logger.LogInformation($"{nameof(RegisterController)} ENTER");
 
-                route = route.ToLower();
-
-                if (_routingTable.ContainsKey(route) && !overrideExistingRoute)
-                    throw new ArgumentException($"There is already a controller registered for the route '{route}'!");
-
-                _routingTable.Add(
-                    route,
-                    controller);
+                var route = new Route(new PathDefinition(path.ToLower()), controller);
+                _routes.Add(route);
             }
             finally
             {
