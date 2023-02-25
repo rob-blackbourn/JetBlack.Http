@@ -6,10 +6,10 @@ namespace JetBlack.HttpServer.Routing
 {
     public interface IHttpRouter
     {
-        (Func<HttpRequest, HttpResponse, Task>, Dictionary<string,object?>?) FindHandler(string path);
+        (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string,object?>?) FindHandler(string path);
 
         void AddRoute(
             string path,
-            Func<HttpRequest, HttpResponse, Task> handler);
+            Func<HttpRequest, Task<HttpResponse>> handler);
     }
 }

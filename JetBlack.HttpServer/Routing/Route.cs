@@ -6,9 +6,9 @@ namespace JetBlack.HttpServer.Routing
     public class Route
     {
         public PathDefinition Path { get; }
-        public Func<HttpRequest, HttpResponse, Task> Controller { get; }
+        public Func<HttpRequest, Task<HttpResponse>> Controller { get; }
 
-        public Route(PathDefinition path, Func<HttpRequest, HttpResponse, Task> controller)
+        public Route(PathDefinition path, Func<HttpRequest, Task<HttpResponse>> controller)
         {
             Path = path;
             Controller = controller;

@@ -21,7 +21,7 @@ namespace JetBlack.HttpServer.Routing
         }
 
 
-        private (Func<HttpRequest, HttpResponse, Task>?, Dictionary<string, object?>?) FindRoute(string path)
+        private (Func<HttpRequest, Task<HttpResponse>>?, Dictionary<string, object?>?) FindRoute(string path)
         {
             foreach (var route in _routes)
             {
@@ -33,7 +33,7 @@ namespace JetBlack.HttpServer.Routing
             return (null, null);
         }
 
-        public (Func<HttpRequest, HttpResponse, Task>, Dictionary<string,object?>?) FindHandler(string path)
+        public (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string,object?>?) FindHandler(string path)
         {
             var (handler, matches) = FindRoute(path.ToLower());
 
@@ -46,14 +46,14 @@ namespace JetBlack.HttpServer.Routing
             return (handler, matches);
         }
 
-        private Task NotFound(HttpRequest request, HttpResponse response)
+        private Task<HttpResponse> NotFound(HttpRequest request)
         {
-            return response.AnswerWithStatusCodeAsync(HttpStatusCode.NotFound);
+            return Task.FromResult(new HttpResponse(HttpStatusCode.NotFound));
         }
 
         public void AddRoute(
             string path,
-            Func<HttpRequest, HttpResponse, Task> handler)
+            Func<HttpRequest, Task<HttpResponse>> handler)
         {
             try
             {

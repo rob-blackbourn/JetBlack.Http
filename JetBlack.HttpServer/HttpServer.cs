@@ -18,7 +18,7 @@ namespace JetBlack.HttpServer
         private readonly ILogger<HttpServer> _logger;
 
         private IHttpRouter _router;
-        private readonly List<Func<HttpRequest, HttpResponse, Task>> _middlewares = new List<Func<HttpRequest, HttpResponse, Task>>();
+        private readonly List<Func<HttpRequest, Task>> _middlewares = new List<Func<HttpRequest, Task>>();
 
         public HttpServer(
             ILoggerFactory? loggerFactory,
@@ -109,7 +109,7 @@ namespace JetBlack.HttpServer
         }
 
         public HttpServer RegisterMiddleware(
-            Func<HttpRequest, HttpResponse, Task> middleware)
+            Func<HttpRequest, Task> middleware)
         {
             if (middleware is null)
             {
@@ -123,7 +123,7 @@ namespace JetBlack.HttpServer
 
         public HttpServer AddRoute(
             string path,
-            Func<HttpRequest, HttpResponse, Task> handler)
+            Func<HttpRequest, Task<HttpResponse>> handler)
         {
             if (string.IsNullOrWhiteSpace(path))
             {
@@ -140,38 +140,35 @@ namespace JetBlack.HttpServer
             return this;
         }
 
-        private async Task InvokeMiddlewaresAsync(
-            HttpRequest req,
-            HttpResponse res)
+        private async Task InvokeMiddlewaresAsync(HttpRequest request)
         {
             foreach (var handler in _middlewares)
-            {
-                await handler(
-                    req, 
-                    res);
-            }
+                await handler(request);
         }
 
         private async Task HandleContext(HttpListenerContext context)
         {
             var request = new HttpRequest(context);
-            var response = new HttpResponse(context);
             var path = context.Request.Url.LocalPath;
             try
             {
-                await InvokeMiddlewaresAsync(
-                    request,
-                    response);
+                await InvokeMiddlewaresAsync(request);
 
                 var (handler, matches) = _router.FindHandler(path);
                 request.Matches = matches;
-                await handler(request, response);
-
+                var response = await handler(request);
+                await response.Apply(context.Response);
             }
             catch
             {
-                await response.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
+                var response = await InternalServerError();
+                await response.Apply(context.Response);
             }
+        }
+
+        private Task<HttpResponse> InternalServerError()
+        {
+            return Task.FromResult(new HttpResponse(HttpStatusCode.InternalServerError));
         }
 
         public async Task RunAsync(CancellationToken cancellationToken = default)

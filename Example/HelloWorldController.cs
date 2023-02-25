@@ -7,11 +7,9 @@ namespace Example
 {
     public class HelloWorldController
     {
-        public Task GetAsync(HttpRequest req, HttpResponse res)
+        public Task<HttpResponse> SayHello(HttpRequest req)
         {
-            return res.AnswerWithStatusCodeAsync(
-                "Hello World!",
-                HttpStatusCode.OK);
+            return Task.FromResult(HttpResponse.FromString("Hello, World!", statusCode: HttpStatusCode.OK));
         }
     }
 }
