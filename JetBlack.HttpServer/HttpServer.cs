@@ -121,7 +121,7 @@ namespace JetBlack.HttpServer
             return this;
         }
 
-        public HttpServer RegisterController(
+        public HttpServer AddRoute(
             string path,
             Func<HttpRequest, HttpResponse, Task> handler)
         {
@@ -135,7 +135,7 @@ namespace JetBlack.HttpServer
                 throw new ArgumentNullException(nameof(handler));
             }
 
-            _router.RegisterController(path, handler);
+            _router.AddRoute(path, handler);
 
             return this;
         }
@@ -163,7 +163,7 @@ namespace JetBlack.HttpServer
                     req,
                     res);
 
-                var handler = _router.RouteAsync(path);
+                var handler = _router.FindHandler(path);
                 await handler(req, res);
 
             }

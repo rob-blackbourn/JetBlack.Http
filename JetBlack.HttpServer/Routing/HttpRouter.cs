@@ -33,7 +33,7 @@ namespace JetBlack.HttpServer.Routing
             return (null, null);
         }
 
-        public Func<HttpRequest, HttpResponse, Task> RouteAsync(string path)
+        public Func<HttpRequest, HttpResponse, Task> FindHandler(string path)
         {
             var (handler, matches) = FindRoute(path.ToLower());
 
@@ -51,20 +51,20 @@ namespace JetBlack.HttpServer.Routing
             return response.AnswerWithStatusCodeAsync(HttpStatusCode.NotFound);
         }
 
-        public void RegisterController(
+        public void AddRoute(
             string path,
             Func<HttpRequest, HttpResponse, Task> handler)
         {
             try
             {
-                _logger.LogInformation($"{nameof(RegisterController)} ENTER");
+                _logger.LogInformation($"{nameof(AddRoute)} ENTER");
 
                 var route = new Route(new PathDefinition(path.ToLower()), handler);
                 _routes.Add(route);
             }
             finally
             {
-                _logger.LogInformation($"{nameof(RegisterController)} LEAVE");
+                _logger.LogInformation($"{nameof(AddRoute)} LEAVE");
             }
         }
     }

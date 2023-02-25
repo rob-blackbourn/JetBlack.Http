@@ -18,7 +18,7 @@ namespace Example
 
                 return listener;
             })
-            .RegisterController("/api/v1/helloWorld", controller.GetAsync);
+            .AddRoute("/api/v1/helloWorld", controller.GetAsync);
 
             await server.RunAsync();
         }

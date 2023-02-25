@@ -5,9 +5,9 @@ namespace JetBlack.HttpServer.Routing
 {
     public interface IHttpRouter
     {
-        Func<HttpRequest, HttpResponse, Task> RouteAsync(string path);
+        Func<HttpRequest, HttpResponse, Task> FindHandler(string path);
 
-        void RegisterController(
+        void AddRoute(
             string path,
             Func<HttpRequest, HttpResponse, Task> handler);
     }
