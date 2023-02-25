@@ -152,6 +152,27 @@ namespace JetBlack.HttpServer
             }
         }
 
+        private async Task HandleContext(HttpListenerContext context)
+        {
+            var req = new HttpRequest(context);
+            var res = new HttpResponse(context);
+            var path = context.Request.Url.LocalPath;
+            try
+            {
+                await InvokeMiddlewaresAsync(
+                    req,
+                    res);
+
+                var handler = _router.RouteAsync(path);
+                await handler(req, res);
+
+            }
+            catch
+            {
+                await res.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
+            }
+        }
+
         public async Task RunAsync(CancellationToken cancellationToken = default)
         {
             try
@@ -164,17 +185,8 @@ namespace JetBlack.HttpServer
                 {
                     try
                     {
-                        var ctx = await _listener.GetContextAsync();
-
-                        var req = new HttpRequest(ctx);
-                        var res = new HttpResponse(ctx);
-                        var path = ctx.Request.Url.LocalPath;
-
-                        await InvokeMiddlewaresAsync(
-                            req,
-                            res);
-
-                        await _router.RouteAsync(req, res, path);
+                        var context = await _listener.GetContextAsync();
+                        await HandleContext(context);
                     }
                     catch (Exception ex)
                     {

@@ -33,38 +33,22 @@ namespace JetBlack.HttpServer.Routing
             return (null, null);
         }
 
-        public async Task RouteAsync(HttpRequest req, HttpResponse res, string path)
+        public Func<HttpRequest, HttpResponse, Task> RouteAsync(string path)
         {
-            try
+            var (handler, matches) = FindRoute(path.ToLower());
+
+            if (handler == null)
             {
-                _logger.LogInformation($"{nameof(RouteAsync)} ENTER");
-
-                if (string.IsNullOrWhiteSpace(path))
-                {
-                    _logger.LogWarning($"'{nameof(path)}' cannot be null or whitespace.");
-
-                    await res.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
-                    return;
-                }
-
-                var (handler, matches) = FindRoute(path.ToLower());
-
-                if (handler == null)
-                {
-                    _logger.LogWarning($"Failed to resolve controller for route '{path}'.");
-
-                    await res.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
-                    return;
-                }
-
-                await handler(
-                    req,
-                    res);
+                _logger.LogWarning($"Failed to resolve controller for route '{path}'.");
+                return NotFound;
             }
-            finally
-            {
-                _logger.LogInformation($"{nameof(RouteAsync)} LEAVE");
-            }
+
+            return handler;
+        }
+
+        private Task NotFound(HttpRequest request, HttpResponse response)
+        {
+            return response.AnswerWithStatusCodeAsync(HttpStatusCode.NotFound);
         }
 
         public void RegisterController(
