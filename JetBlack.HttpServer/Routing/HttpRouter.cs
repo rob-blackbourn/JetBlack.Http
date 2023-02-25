@@ -33,17 +33,17 @@ namespace JetBlack.HttpServer.Routing
             return (null, null);
         }
 
-        public Func<HttpRequest, HttpResponse, Task> FindHandler(string path)
+        public (Func<HttpRequest, HttpResponse, Task>, Dictionary<string,object?>?) FindHandler(string path)
         {
             var (handler, matches) = FindRoute(path.ToLower());
 
             if (handler == null)
             {
                 _logger.LogWarning($"Failed to resolve controller for route '{path}'.");
-                return NotFound;
+                return (NotFound, null);
             }
 
-            return handler;
+            return (handler, matches);
         }
 
         private Task NotFound(HttpRequest request, HttpResponse response)

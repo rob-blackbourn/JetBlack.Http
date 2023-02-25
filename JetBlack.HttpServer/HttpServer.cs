@@ -154,22 +154,23 @@ namespace JetBlack.HttpServer
 
         private async Task HandleContext(HttpListenerContext context)
         {
-            var req = new HttpRequest(context);
-            var res = new HttpResponse(context);
+            var request = new HttpRequest(context);
+            var response = new HttpResponse(context);
             var path = context.Request.Url.LocalPath;
             try
             {
                 await InvokeMiddlewaresAsync(
-                    req,
-                    res);
+                    request,
+                    response);
 
-                var handler = _router.FindHandler(path);
-                await handler(req, res);
+                var (handler, matches) = _router.FindHandler(path);
+                request.Matches = matches;
+                await handler(request, response);
 
             }
             catch
             {
-                await res.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
+                await response.AnswerWithStatusCodeAsync(HttpStatusCode.InternalServerError);
             }
         }
 
