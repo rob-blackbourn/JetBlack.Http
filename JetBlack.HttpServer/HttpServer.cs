@@ -18,6 +18,7 @@ namespace JetBlack.HttpServer
         private readonly ILogger<HttpServer> _logger;
 
         private IHttpRouter _router;
+        private readonly List<Func<HttpRequest, HttpResponse, Task>> _middlewares = new List<Func<HttpRequest, HttpResponse, Task>>();
 
         public HttpServer(
             ILoggerFactory? loggerFactory,
@@ -115,7 +116,7 @@ namespace JetBlack.HttpServer
                 throw new ArgumentNullException(nameof(middleware));
             }
 
-            _router.RegisterMiddleware(middleware);
+            _middlewares.Add(middleware);
 
             return this;
         }
@@ -139,6 +140,17 @@ namespace JetBlack.HttpServer
             return this;
         }
 
+        private async Task InvokeMiddlewaresAsync(
+            HttpRequest req,
+            HttpResponse res)
+        {
+            foreach (var handler in _middlewares)
+            {
+                await handler(
+                    req, 
+                    res);
+            }
+        }
 
         public async Task RunAsync(CancellationToken cancellationToken = default)
         {
@@ -154,7 +166,15 @@ namespace JetBlack.HttpServer
                     {
                         var ctx = await _listener.GetContextAsync();
 
-                        await _router.RouteAsync(ctx);
+                        var req = new HttpRequest(ctx);
+                        var res = new HttpResponse(ctx);
+                        var path = ctx.Request.Url.LocalPath;
+
+                        await InvokeMiddlewaresAsync(
+                            req,
+                            res);
+
+                        await _router.RouteAsync(req, res, path);
                     }
                     catch (Exception ex)
                     {

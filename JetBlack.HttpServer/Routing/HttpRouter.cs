@@ -13,7 +13,6 @@ namespace JetBlack.HttpServer.Routing
         private readonly ILogger _logger;
 
         private readonly List<Route> _routes = new List<Route>();
-        private readonly List<Func<HttpRequest, HttpResponse, Task>> _middlewares = new List<Func<HttpRequest, HttpResponse, Task>>();
 
         public HttpRouter(
             ILogger logger)
@@ -21,17 +20,6 @@ namespace JetBlack.HttpServer.Routing
             _logger = logger;
         }
 
-        private async Task InvokeMiddlewaresAsync(
-            HttpRequest req,
-            HttpResponse res)
-        {
-            foreach (var handler in _middlewares)
-            {
-                await handler(
-                    req, 
-                    res);
-            }
-        }
 
         private (Func<HttpRequest, HttpResponse, Task>?, Dictionary<string, object?>?) FindRoute(string path)
         {
@@ -45,15 +33,11 @@ namespace JetBlack.HttpServer.Routing
             return (null, null);
         }
 
-        public async Task RouteAsync(HttpListenerContext ctx)
+        public async Task RouteAsync(HttpRequest req, HttpResponse res, string path)
         {
             try
             {
                 _logger.LogInformation($"{nameof(RouteAsync)} ENTER");
-
-                var req = new HttpRequest(ctx);
-                var res = new HttpResponse(ctx);
-                var path = ctx.Request.Url.LocalPath;
 
                 if (string.IsNullOrWhiteSpace(path))
                 {
@@ -63,9 +47,9 @@ namespace JetBlack.HttpServer.Routing
                     return;
                 }
 
-                var (controller, matches) = FindRoute(path.ToLower());
+                var (handler, matches) = FindRoute(path.ToLower());
 
-                if (controller == null)
+                if (handler == null)
                 {
                     _logger.LogWarning($"Failed to resolve controller for route '{path}'.");
 
@@ -73,11 +57,7 @@ namespace JetBlack.HttpServer.Routing
                     return;
                 }
 
-                await InvokeMiddlewaresAsync(
-                    req,
-                    res);
-
-                await controller(
+                await handler(
                     req,
                     res);
             }
@@ -85,12 +65,6 @@ namespace JetBlack.HttpServer.Routing
             {
                 _logger.LogInformation($"{nameof(RouteAsync)} LEAVE");
             }
-        }
-
-        public void RegisterMiddleware(
-            Func<HttpRequest, HttpResponse, Task> middleware)
-        {
-            _middlewares.Add(middleware);
         }
 
         public void RegisterController(

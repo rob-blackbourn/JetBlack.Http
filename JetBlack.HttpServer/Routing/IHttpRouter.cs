@@ -6,10 +6,7 @@ namespace JetBlack.HttpServer.Routing
 {
     public interface IHttpRouter
     {
-        Task RouteAsync(HttpListenerContext ctx);
-
-        void RegisterMiddleware(
-            Func<HttpRequest, HttpResponse, Task> middleware);
+        Task RouteAsync(HttpRequest req, HttpResponse res, string path);
 
         void RegisterController(
             string path,
