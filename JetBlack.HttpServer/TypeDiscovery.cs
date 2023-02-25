@@ -7,13 +7,7 @@ namespace JetBlack.HttpServer
 {
     public static class TypeDiscovery
     {
-        private static readonly Type _controllerType = typeof(HttpController);
         private static readonly Type _middlewareType = typeof(IMiddleware);
-
-        public static IEnumerable<Type> FindControllerTypes(Assembly assembly)
-        {
-            return FindTypes(assembly, _controllerType);
-        }
 
         public static IEnumerable<Type> FindMiddlewareTypes(Assembly assembly)
         {

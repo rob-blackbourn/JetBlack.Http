@@ -62,19 +62,19 @@ namespace JetBlack.HttpServer.Routing
             // A path with more segments is allowed if the last segment is a variable of type 'path'.
             if (parts.Length > _segments.Count)
             {
-                var last_segment = _segments.Last();
-                if (last_segment.Type != "path")
+                var lastSegment = _segments.Last();
+                if (lastSegment.Type != "path")
                     return NoMatch;
                 var index = _segments.Count - 1;
-                matches[last_segment.Name] = string.Join("/", parts.Skip(index));
+                matches[lastSegment.Name] = string.Join("/", parts.Skip(index));
                 parts = parts.Take(index).ToArray();
             }
 
             // Now the path parts and segments are the same length we can check them.
             foreach (var item in parts.Zip(_segments, (a,b) => new {Part = a, Segment = b}))
             {
-                var (is_match, name, value) = item.Segment.Match(item.Part);
-                if (!is_match)
+                var (isMatch, name, value) = item.Segment.Match(item.Part);
+                if (!isMatch)
                     return NoMatch;
                 if (name != null)
                     matches[name] = value;

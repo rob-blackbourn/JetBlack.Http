@@ -55,7 +55,7 @@ namespace JetBlack.HttpServer.Routing
             }
         }
 
-        private (HttpController?, Dictionary<string, object?>?) FindRoute(string path)
+        private (Func<HttpRequest, HttpResponse, Task>?, Dictionary<string, object?>?) FindRoute(string path)
         {
             foreach (var route in _routes)
             {
@@ -101,7 +101,7 @@ namespace JetBlack.HttpServer.Routing
                     req,
                     res);
 
-                await controller.HandleAnyAsync(
+                await controller(
                     req,
                     res);
             }
@@ -132,18 +132,15 @@ namespace JetBlack.HttpServer.Routing
             _middlewareTable.Add(entry);
         }
 
-        public void RegisterController<TController>(
+        public void RegisterController(
             string path,
-            TController controller,
-            bool overrideExistingRoute = false)
-
-            where TController : HttpController
+            Func<HttpRequest, HttpResponse, Task> handler)
         {
             try
             {
                 _logger.LogInformation($"{nameof(RegisterController)} ENTER");
 
-                var route = new Route(new PathDefinition(path.ToLower()), controller);
+                var route = new Route(new PathDefinition(path.ToLower()), handler);
                 _routes.Add(route);
             }
             finally

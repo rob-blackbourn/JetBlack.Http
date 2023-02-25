@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace JetBlack.HttpServer.Routing
@@ -13,11 +14,8 @@ namespace JetBlack.HttpServer.Routing
 
             where TMiddleware : class, IMiddleware;
 
-        void RegisterController<TController>(
+        void RegisterController(
             string path,
-            TController controller,
-            bool overrideExistingRoute = false)
-
-            where TController : HttpController;
+            Func<HttpRequest, HttpResponse, Task> handler);
     }
 }

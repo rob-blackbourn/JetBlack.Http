@@ -77,25 +77,6 @@ namespace JetBlack.HttpServer
         public HttpServer(
             ILoggerFactory? loggerFactory,
             HttpServerConfig configuration,
-            IEnumerable<HttpController> controllers)
-
-            : this(loggerFactory, CreateHttpListenerWithPrefixes(configuration.ListenerPrefixes))
-        {
-            foreach (var controller in controllers)
-                RegisterController(controller);
-        }
-
-        public HttpServer(
-            HttpServerConfig configuration,
-            IEnumerable<HttpController> controllers)
-
-            : this(loggerFactory: null, configuration, controllers: controllers)
-        {
-        }
-
-        public HttpServer(
-            ILoggerFactory? loggerFactory,
-            HttpServerConfig configuration,
             IEnumerable<IMiddleware> middlewares)
 
             : this(loggerFactory, CreateHttpListenerWithPrefixes(configuration.ListenerPrefixes))
@@ -109,30 +90,6 @@ namespace JetBlack.HttpServer
             IEnumerable<IMiddleware> middlewares)
 
             : this(loggerFactory: null, configuration, middlewares: middlewares)
-        {
-        }
-
-        public HttpServer(
-            ILoggerFactory? loggerFactory,
-            HttpServerConfig configuration,
-            IEnumerable<HttpController> controllers,
-            IEnumerable<IMiddleware> middlewares)
-
-            : this(loggerFactory, CreateHttpListenerWithPrefixes(configuration.ListenerPrefixes))
-        {
-            foreach (var controller in controllers)
-                RegisterController(controller);
-
-            foreach (var middleware in middlewares)
-                RegisterMiddleware(middleware);
-        }
-
-        public HttpServer(
-            HttpServerConfig configuration,
-            IEnumerable<HttpController> controllers,
-            IEnumerable<IMiddleware> middlewares)
-
-            : this(loggerFactory: null, configuration, controllers: controllers, middlewares: middlewares)
         {
         }
 
@@ -243,55 +200,13 @@ namespace JetBlack.HttpServer
             return this;
         }
 
-        /// <summary>
-        /// Constructs and registers a controller for the route declared with the <see cref="RouteAttribute"/>.
-        /// </summary>
-        /// <param name="overrideExistingRoute">Flag to indicate that a route (if already registered) should be overriden.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer RegisterController<TController>(bool overrideExistingRoute = false)
-            where TController : HttpController, new()
-        {
-            return RegisterController(
-                new TController(), 
-                overrideExistingRoute);
-        }
-
-        /// <summary>
-        /// Registers a controller and extracts the route from the declared <see cref="RouteAttribute"/>.
-        /// </summary>
-        /// <param name="controller">A instance which must be assignable to the type <see cref="HttpController"/>.</param>
-        /// <param name="overrideExistingRoute">Flag to indicate that a route (if already registered) should be overriden.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer RegisterController<TController>(
-            TController controller,
-            bool overrideExistingRoute = false)
-
-            where TController : HttpController
-        {
-            if (!TypeDiscovery.TryGetControllerRouteFromAttribute(typeof(TController), out var route))
-                throw new InvalidOperationException($"Failed to resolve controller route!");
-
-            return RegisterController(
-                route,
-                controller,
-                overrideExistingRoute);
-        }
-
-        /// <summary>
-        /// Wraps a <see cref="Func{T, TResult}"/> into a (internal) controller class and registers it for the given route.
-        /// </summary>
-        /// <param name="route">The route which should be handled by the controller.</param>
-        /// <param name="handler">The <see cref="Func{T, TResult}"/> which should be wrapped into an (internal) controller class.</param>
-        /// <param name="overrideExistingRoute">Flag to indicate that a route (if already registered) should be overriden.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
         public HttpServer RegisterController(
-            string route,
-            Func<HttpRequest, HttpResponse, Task> handler,
-            bool overrideExistingRoute = false)
+            string path,
+            Func<HttpRequest, HttpResponse, Task> handler)
         {
-            if (string.IsNullOrWhiteSpace(route))
+            if (string.IsNullOrWhiteSpace(path))
             {
-                throw new ArgumentException($"'{nameof(route)}' cannot be null or whitespace.", nameof(route));
+                throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
             }
 
             if (handler is null)
@@ -299,63 +214,7 @@ namespace JetBlack.HttpServer
                 throw new ArgumentNullException(nameof(handler));
             }
 
-            return RegisterController(
-                route,
-                new FuncAsHttpController(handler),
-                overrideExistingRoute);
-        }
-
-        /// <summary>
-        /// Constructs and registers a controller for the given route.
-        /// </summary>
-        /// <param name="route">The route which should be handled by the controller.</param>
-        /// <param name="overrideExistingRoute">Flag to indicate that a route (if already registered) should be overriden.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer RegisterController<TController>(
-            string route,
-            bool overrideExistingRoute = false)
-
-            where TController : HttpController, new()
-        {
-            if (string.IsNullOrWhiteSpace(route))
-            {
-                throw new ArgumentException($"'{nameof(route)}' cannot be null or whitespace.", nameof(route));
-            }
-
-            return RegisterController(
-                route, 
-                new TController(), 
-                overrideExistingRoute);
-        }
-
-        /// <summary>
-        /// Registers a controller for the given route.
-        /// </summary>
-        /// <param name="route">The route which should be handled by the controller.</param>
-        /// <param name="controller">A instance which must be assignable to the type parameter <typeparamref name="TController"/>.</param>
-        /// <param name="overrideExistingRoute">Flag to indicate that a route (if already registered) should be overriden.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer RegisterController<TController>(
-            string route, 
-            TController controller,
-            bool overrideExistingRoute = false)
-
-            where TController : HttpController
-        {
-            if (string.IsNullOrWhiteSpace(route))
-            {
-                throw new ArgumentException($"'{nameof(route)}' cannot be null or whitespace.", nameof(route));
-            }
-
-            if (controller is null)
-            {
-                throw new ArgumentNullException(nameof(controller));
-            }
-
-            _router.RegisterController(
-                route,
-                controller,
-                overrideExistingRoute);
+            _router.RegisterController(path, handler);
 
             return this;
         }

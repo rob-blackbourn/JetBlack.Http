@@ -9,6 +9,8 @@ namespace Example
     {
         static async Task Main(string[] args)
         {
+            var controller = new HelloWorldController();
+
             var server = new HttpServer(() =>
             {
                 var listener = new HttpListener();
@@ -16,7 +18,7 @@ namespace Example
 
                 return listener;
             })
-            .RegisterController<HelloWorldController>("/api/v1/helloWorld");
+            .RegisterController("/api/v1/helloWorld", controller.GetAsync);
 
             await server.RunAsync();
         }

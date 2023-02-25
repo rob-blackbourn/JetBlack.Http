@@ -5,9 +5,9 @@ using JetBlack.HttpServer;
 
 namespace Example
 {
-    public class HelloWorldController : HttpController
+    public class HelloWorldController
     {
-        public override Task GetAsync(HttpRequest req, HttpResponse res)
+        public Task GetAsync(HttpRequest req, HttpResponse res)
         {
             return res.AnswerWithStatusCodeAsync(
                 "Hello World!",
