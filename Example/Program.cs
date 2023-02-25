@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-
-using JetBlack.HttpServer;
+using JetBlack.Http;
 
 namespace Example
 {
@@ -9,8 +8,6 @@ namespace Example
     {
         static async Task Main(string[] args)
         {
-            var controller = new HelloWorldController();
-
             var server = new HttpServer(() =>
             {
                 var listener = new HttpListener();
@@ -18,9 +15,15 @@ namespace Example
 
                 return listener;
             })
-            .AddRoute("/api/v1/helloWorld", controller.SayHello);
+            .AddRoute("/api/v1/helloWorld", SayHello);
 
             await server.RunAsync();
         }
+
+        public static Task<HttpResponse> SayHello(HttpRequest req)
+        {
+            return Task.FromResult(HttpResponse.FromString("Hello, World!", statusCode: HttpStatusCode.OK));
+        }
+
     }
 }

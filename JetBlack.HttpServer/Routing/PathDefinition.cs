@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JetBlack.HttpServer.Routing
+namespace JetBlack.Http.Routing
 {
     public class PathDefinition
     {

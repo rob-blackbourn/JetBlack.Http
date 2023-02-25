@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using System.Text;
 
-namespace JetBlack.HttpServer
+namespace JetBlack.Http
 {
     public class HttpResponse
     {
