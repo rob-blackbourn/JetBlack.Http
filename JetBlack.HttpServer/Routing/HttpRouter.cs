@@ -10,14 +10,13 @@ namespace JetBlack.HttpServer.Routing
 {
     internal class HttpRouter : IHttpRouter
     {
-        private readonly ILogger _logger;
+        private readonly ILogger<HttpRouter> _logger;
 
         private readonly List<Route> _routes = new List<Route>();
 
-        public HttpRouter(
-            ILogger logger)
+        public HttpRouter(ILoggerFactory loggerFactory)
         {
-            _logger = logger;
+            _logger = loggerFactory.CreateLogger<HttpRouter>();
         }
 
 

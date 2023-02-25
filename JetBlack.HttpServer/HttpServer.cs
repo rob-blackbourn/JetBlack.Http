@@ -21,57 +21,31 @@ namespace JetBlack.HttpServer
         private readonly List<Func<HttpRequest, Task>> _middlewares = new List<Func<HttpRequest, Task>>();
 
         public HttpServer(
-            ILoggerFactory? loggerFactory,
-            HttpListener listener)
+            HttpListener listener,
+            ILoggerFactory? loggerFactory = null)
         {
+            loggerFactory ??= NullLoggerFactory.Instance;
+            _logger = loggerFactory.CreateLogger<HttpServer>();
+
             if (listener is null)
-            {
                 throw new ArgumentNullException(nameof(listener));
-            }
 
             if (!listener.Prefixes.Any())
-            {
                 throw new ArgumentException($"'{nameof(listener.Prefixes)}' must contain at least one prefix.");
-            }
 
             _listener = listener;
-
-            loggerFactory ??= NullLoggerFactory.Instance;
-
-            _logger = loggerFactory.CreateLogger<HttpServer>();
-            _router = new HttpRouter(
-                loggerFactory.CreateLogger<HttpRouter>());
+            _router = new HttpRouter(loggerFactory);
         }
 
-        public HttpServer(HttpListener listener)
-            : this(loggerFactory: null, listener)
+        public HttpServer(Func<HttpListener> listenerFactory, ILoggerFactory? loggerFactory = null)
+            : this(listenerFactory.Invoke(), loggerFactory)
         {
         }
 
         public HttpServer(
-            ILoggerFactory? loggerFactory,
-            Func<HttpListener> listenerFactory)
-
-            : this(loggerFactory, listenerFactory.Invoke())
-        {
-        }
-
-        public HttpServer(Func<HttpListener> listenerFactory)
-            : this(loggerFactory: null, listenerFactory.Invoke())
-        {
-        }
-
-        public HttpServer(
-            ILoggerFactory? loggerFactory,
-            params string[] listenerPrefixes)
-
-            : this(loggerFactory, CreateHttpListenerWithPrefixes(listenerPrefixes))
-        {
-
-        }
-
-        public HttpServer(params string[] listenerPrefixes)
-            : this(loggerFactory: null, listenerPrefixes)
+            string[] listenerPrefixes,
+            ILoggerFactory? loggerFactory = null)
+            : this(CreateHttpListenerWithPrefixes(listenerPrefixes), loggerFactory)
         {
         }
 
@@ -85,55 +59,23 @@ namespace JetBlack.HttpServer
             return listener;
         }
 
-
-        /// <summary>
-        /// Allows to use a custom router implementation.
-        /// </summary>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer UseRouter<TRouter>()
-            where TRouter : class, IHttpRouter, new()
-        {
-            return UseRouter(new TRouter());
-        }
-
-        /// <summary>
-        /// Allows to use a custom router implementation.
-        /// </summary>
-        /// <param name="router">The <see cref="IHttpRouter"/> instance to use</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer UseRouter<TRouter>(TRouter router)
-            where TRouter : class, IHttpRouter
-        {
-            _router = router ?? throw new ArgumentNullException(nameof(router));
-            return this;
-        }
-
-        public HttpServer RegisterMiddleware(
-            Func<HttpRequest, Task> middleware)
+        public HttpServer AddMiddleware(Func<HttpRequest, Task> middleware)
         {
             if (middleware is null)
-            {
                 throw new ArgumentNullException(nameof(middleware));
-            }
 
             _middlewares.Add(middleware);
 
             return this;
         }
 
-        public HttpServer AddRoute(
-            string path,
-            Func<HttpRequest, Task<HttpResponse>> handler)
+        public HttpServer AddRoute(string path, Func<HttpRequest, Task<HttpResponse>> handler)
         {
             if (string.IsNullOrWhiteSpace(path))
-            {
                 throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
-            }
 
             if (handler is null)
-            {
                 throw new ArgumentNullException(nameof(handler));
-            }
 
             _router.AddRoute(path, handler);
 
@@ -175,8 +117,6 @@ namespace JetBlack.HttpServer
         {
             try
             {
-                _logger.LogInformation($"{nameof(RunAsync)} ENTER");
-
                 _listener.Start();
 
                 while (!cancellationToken.IsCancellationRequested)
@@ -198,10 +138,6 @@ namespace JetBlack.HttpServer
             {
                 _logger.LogError(ex, null);
                 throw;
-            }
-            finally
-            {
-                _logger.LogInformation($"{nameof(RunAsync)} LEAVE");
             }
         }
     }
