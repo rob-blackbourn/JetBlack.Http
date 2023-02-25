@@ -51,9 +51,8 @@ namespace JetBlack.HttpServer.Routing
             {
                 _logger.LogInformation($"{nameof(RouteAsync)} ENTER");
 
-                var req = new HttpRequest(ctx.Request);
-                var res = new HttpResponse(ctx.Response);
-
+                var req = new HttpRequest(ctx);
+                var res = new HttpResponse(ctx);
                 var path = ctx.Request.Url.LocalPath;
 
                 if (string.IsNullOrWhiteSpace(path))

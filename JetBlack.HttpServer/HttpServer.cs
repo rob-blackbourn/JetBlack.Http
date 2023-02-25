@@ -153,6 +153,7 @@ namespace JetBlack.HttpServer
                     try
                     {
                         var ctx = await _listener.GetContextAsync();
+
                         await _router.RouteAsync(ctx);
                     }
                     catch (Exception ex)

@@ -4,11 +4,12 @@ namespace JetBlack.HttpServer
 {
     public class HttpResponse
     {
-        public HttpListenerResponse Response { get; }
+        public HttpListenerContext Context { get; }
+        public HttpListenerResponse Response => Context.Response;
 
-        public HttpResponse(HttpListenerResponse res)
+        public HttpResponse(HttpListenerContext context)
         {
-            Response = res;
+            Context = context;
         }
     }
 }
