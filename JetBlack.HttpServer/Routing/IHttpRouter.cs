@@ -8,11 +8,8 @@ namespace JetBlack.HttpServer.Routing
     {
         Task RouteAsync(HttpListenerContext ctx);
 
-        void RegisterMiddleware<TMiddleware>(
-            string route,
-            TMiddleware middleware)
-
-            where TMiddleware : class, IMiddleware;
+        void RegisterMiddleware(
+            Func<HttpRequest, HttpResponse, Task> middleware);
 
         void RegisterController(
             string path,

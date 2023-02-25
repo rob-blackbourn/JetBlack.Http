@@ -10,12 +10,10 @@ namespace JetBlack.HttpServer.Routing
 {
     internal class HttpRouter : IHttpRouter
     {
-        private const string GLOBAL_MIDDLEWARE_KEY = "*";
-
         private readonly ILogger _logger;
 
         private readonly List<Route> _routes = new List<Route>();
-        private readonly List<KeyValuePair<string, List<IMiddleware>>> _middlewareTable = new List<KeyValuePair<string, List<IMiddleware>>>();
+        private readonly List<Func<HttpRequest, HttpResponse, Task>> _middlewares = new List<Func<HttpRequest, HttpResponse, Task>>();
 
         public HttpRouter(
             ILogger logger)
@@ -23,33 +21,13 @@ namespace JetBlack.HttpServer.Routing
             _logger = logger;
         }
 
-        private List<IMiddleware> GetMiddlewaresForRoute(string route)
-        {
-            var middlewareEntry = _middlewareTable
-                .FirstOrDefault(entry => entry.Key.Equals(route));
-
-            if (middlewareEntry.Equals(default(KeyValuePair<string, List<IMiddleware>>)))
-                return Enumerable.Empty<IMiddleware>().ToList();
-
-            return middlewareEntry.Value;
-        }
-
         private async Task InvokeMiddlewaresAsync(
-            string route,
             HttpRequest req,
             HttpResponse res)
         {
-            var middlewares = GetMiddlewaresForRoute(GLOBAL_MIDDLEWARE_KEY);
-
-            middlewares.AddRange(
-                GetMiddlewaresForRoute(route));
-
-            middlewares.AddRange(
-                GetMiddlewaresForRoute(route.TrimEnd('/')));
-
-            foreach (var middleware in middlewares)
+            foreach (var handler in _middlewares)
             {
-                await middleware.HandleRequestAsync(
+                await handler(
                     req, 
                     res);
             }
@@ -97,7 +75,6 @@ namespace JetBlack.HttpServer.Routing
                 }
 
                 await InvokeMiddlewaresAsync(
-                    path,
                     req,
                     res);
 
@@ -111,25 +88,10 @@ namespace JetBlack.HttpServer.Routing
             }
         }
 
-        public void RegisterMiddleware<TMiddleware>(
-            string route,
-            TMiddleware middleware)
-
-            where TMiddleware : class, IMiddleware
+        public void RegisterMiddleware(
+            Func<HttpRequest, HttpResponse, Task> middleware)
         {
-            var entry = _middlewareTable.FirstOrDefault(entry => entry.Key.Equals(route));
-
-            if (!entry.Equals(default(KeyValuePair<string, List<IMiddleware>>)))
-            {
-                entry.Value.Add(middleware);
-                return;
-            }
-
-            entry = new KeyValuePair<string, List<IMiddleware>>(
-                route,
-                new List<IMiddleware> { middleware });
-
-            _middlewareTable.Add(entry);
+            _middlewares.Add(middleware);
         }
 
         public void RegisterController(

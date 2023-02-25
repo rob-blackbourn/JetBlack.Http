@@ -74,25 +74,6 @@ namespace JetBlack.HttpServer
         {
         }
 
-        public HttpServer(
-            ILoggerFactory? loggerFactory,
-            HttpServerConfig configuration,
-            IEnumerable<IMiddleware> middlewares)
-
-            : this(loggerFactory, CreateHttpListenerWithPrefixes(configuration.ListenerPrefixes))
-        {
-            foreach (var middleware in middlewares)
-                RegisterMiddleware(middleware);
-        }
-
-        public HttpServer(
-            HttpServerConfig configuration,
-            IEnumerable<IMiddleware> middlewares)
-
-            : this(loggerFactory: null, configuration, middlewares: middlewares)
-        {
-        }
-
         private static HttpListener CreateHttpListenerWithPrefixes(IEnumerable<string> listenerPrefixes)
         {
             var listener = new HttpListener();
@@ -126,76 +107,15 @@ namespace JetBlack.HttpServer
             return this;
         }
 
-        /// <summary>
-        /// Wraps a <see cref="Func{T1, T2, TResult}"/> into a (internal) middleware class and registers it for the given route.
-        /// </summary>
-        /// <param name="handler">The <see cref="Func{T1, T2, TResult}"/> which should be wrapped into an (internal) middleware class.</param>
-        /// <param name="route">The route on which the middleware should be registered.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
         public HttpServer RegisterMiddleware(
-            Func<HttpRequest, HttpResponse, Task> handler,
-            string route = "*")
-        {
-            if (handler is null)
-            {
-                throw new ArgumentNullException(nameof(handler));
-            }
-
-            if (string.IsNullOrWhiteSpace(route))
-            {
-                throw new ArgumentException($"'{nameof(route)}' cannot be null or whitespace.", nameof(route));
-            }
-
-            var middleware = new FuncAsMiddleware(handler);
-
-            return RegisterMiddleware(
-                middleware,
-                route);
-        }
-
-        /// <summary>
-        /// Allows to register a middleware used globally or bound to a specific route.
-        /// </summary>
-        /// <param name="route">The route on which the middleware should be registered.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer RegisterMiddleware<TMiddleware>(string route = "*")
-            where TMiddleware : class, IMiddleware, new()
-        {
-            if (string.IsNullOrWhiteSpace(route))
-            {
-                throw new ArgumentException($"'{nameof(route)}' cannot be null or whitespace.", nameof(route));
-            }
-
-            return RegisterMiddleware(
-                new TMiddleware(),
-                route);
-        }
-
-        /// <summary>
-        /// Allows to register a middleware used globally or bound to a specific route.
-        /// </summary>
-        /// <param name="middleware"></param>
-        /// <param name="route">The route on which the middleware should be registered.</param>
-        /// <returns>The current <see cref="HttpServer"/> instance.</returns>
-        public HttpServer RegisterMiddleware<TMiddleware>(
-            TMiddleware middleware,
-            string route = "*")
-
-            where TMiddleware : class, IMiddleware
+            Func<HttpRequest, HttpResponse, Task> middleware)
         {
             if (middleware is null)
             {
                 throw new ArgumentNullException(nameof(middleware));
             }
 
-            if (string.IsNullOrWhiteSpace(route))
-            {
-                throw new ArgumentException($"'{nameof(route)}' cannot be null or whitespace.", nameof(route));
-            }
-
-            _router.RegisterMiddleware(
-                route, 
-                middleware);
+            _router.RegisterMiddleware(middleware);
 
             return this;
         }
