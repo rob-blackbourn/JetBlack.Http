@@ -14,14 +14,15 @@ namespace JetBlack.Http
 {
     public class HttpServer
     {
-        private readonly HttpListener _listener;
         private readonly ILogger<HttpServer> _logger;
-
-        private IHttpRouter _router;
+        private readonly HttpListener _listener;
         private readonly List<Func<HttpRequest, Task>> _middlewares = new List<Func<HttpRequest, Task>>();
+
+        public IHttpRouter Router { get; }
 
         public HttpServer(
             HttpListener listener,
+            IHttpRouter? router = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
@@ -34,18 +35,25 @@ namespace JetBlack.Http
                 throw new ArgumentException($"'{nameof(listener.Prefixes)}' must contain at least one prefix.");
 
             _listener = listener;
-            _router = new HttpRouter(loggerFactory);
+            Router = router ?? new HttpRouter(loggerFactory);
         }
 
-        public HttpServer(Func<HttpListener> listenerFactory, ILoggerFactory? loggerFactory = null)
-            : this(listenerFactory.Invoke(), loggerFactory)
+        public HttpServer(
+            Func<HttpListener> listenerFactory,
+            IHttpRouter? router = null,
+            ILoggerFactory? loggerFactory = null)
+            : this(listenerFactory.Invoke(), router, loggerFactory)
         {
         }
 
         public HttpServer(
             string[] listenerPrefixes,
+            IHttpRouter? router = null,
             ILoggerFactory? loggerFactory = null)
-            : this(CreateHttpListenerWithPrefixes(listenerPrefixes), loggerFactory)
+            : this(
+                CreateHttpListenerWithPrefixes(listenerPrefixes),
+                router,
+                loggerFactory)
         {
         }
 
@@ -71,15 +79,9 @@ namespace JetBlack.Http
 
         public HttpServer AddRoute(string path, Func<HttpRequest, Task<HttpResponse>> handler)
         {
-            if (string.IsNullOrWhiteSpace(path))
-                throw new ArgumentException($"'{nameof(path)}' cannot be null or whitespace.", nameof(path));
+            Router.AddRoute(path, handler);
 
-            if (handler is null)
-                throw new ArgumentNullException(nameof(handler));
-
-            _router.AddRoute(path, handler);
-
-            return this;
+            return this; // This is a convenience method for fluid style calls.
         }
 
         private async Task InvokeMiddlewaresAsync(HttpRequest request)
@@ -88,7 +90,7 @@ namespace JetBlack.Http
                 await handler(request);
         }
 
-        private async Task HandleContext(HttpListenerContext context)
+        private async Task HandleRequestAsync(HttpListenerContext context)
         {
             var request = new HttpRequest(context);
             var path = context.Request.Url.LocalPath;
@@ -96,7 +98,7 @@ namespace JetBlack.Http
             {
                 await InvokeMiddlewaresAsync(request);
 
-                var (handler, matches) = _router.FindHandler(path);
+                var (handler, matches) = Router.FindHandler(path);
                 request.Matches = matches;
                 var response = await handler(request);
                 await response.Apply(context.Response);
@@ -124,7 +126,7 @@ namespace JetBlack.Http
                     try
                     {
                         var context = await _listener.GetContextAsync();
-                        await HandleContext(context);
+                        await HandleRequestAsync(context);
                     }
                     catch (Exception ex)
                     {
