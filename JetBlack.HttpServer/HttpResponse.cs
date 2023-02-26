@@ -7,12 +7,21 @@ namespace JetBlack.Http
     public class HttpResponse
     {
         public HttpStatusCode StatusCode { get; }
+        public string ContentType { get;}
+        public Encoding? ContentEncoding { get; }
         public WebHeaderCollection? Headers { get; }
         public byte[]? Body { get; }
 
-        public HttpResponse(HttpStatusCode statusCode, WebHeaderCollection? headers = null, byte[]? body = null)
+        public HttpResponse(
+            HttpStatusCode statusCode,
+            string contentType = "text/html",
+            Encoding? contentEncoding = null,
+            WebHeaderCollection? headers = null,
+            byte[]? body = null)
         {
             StatusCode = statusCode;
+            ContentType = contentType;
+            ContentEncoding = contentEncoding;
             Headers = headers;
             Body = body;
         }
@@ -20,6 +29,8 @@ namespace JetBlack.Http
         public async Task Apply(HttpListenerResponse response)
         {
             response.StatusCode = (int) StatusCode;
+            response.ContentType = ContentType;
+            response.ContentEncoding = ContentEncoding;
 
             if (Headers != null)
             {
@@ -28,20 +39,31 @@ namespace JetBlack.Http
             }
 
             if (Body != null)
+            {
+                response.ContentLength64 = Body.LongLength;
                 await response.OutputStream.WriteAsync(Body, 0, Body.Length);
+            }
 
             response.Close();
         }
 
-        public static HttpResponse FromString(string text, WebHeaderCollection? headers = null, HttpStatusCode statusCode = HttpStatusCode.OK)
+        public static HttpResponse FromString(
+            string text,
+            HttpStatusCode statusCode = HttpStatusCode.OK,
+            string contentType = "text/plain",
+            Encoding? contentEncoding = null,
+            WebHeaderCollection? headers = null
+            )
         {
+            contentEncoding ??= Encoding.UTF8;
             var body = Encoding.UTF8.GetBytes(text);
-            if (headers == null)
-                headers = new WebHeaderCollection();
-            if (headers["Content-Type"] == null)
-                headers["Content-Type"] = "text/plain";
 
-            return new HttpResponse(statusCode, headers, body);
+            return new HttpResponse(
+                statusCode,
+                contentType,
+                contentEncoding,
+                headers,
+                body);
         }
     }
 }
