@@ -15,8 +15,8 @@ namespace JetBlack.Http
     public class HttpServer
     {
         private readonly ILogger<HttpServer> _logger;
-        private readonly HttpListener _listener;
 
+        public HttpListener Listener { get; }
         public IList<Func<HttpRequest, Task>> Middlewares { get; }
         public IHttpRouter Router { get; }
 
@@ -35,7 +35,7 @@ namespace JetBlack.Http
             if (!listener.Prefixes.Any())
                 throw new ArgumentException($"'{nameof(listener.Prefixes)}' must contain at least one prefix.");
 
-            _listener = listener;
+            Listener = listener;
             Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
             Router = router ?? new HttpRouter(loggerFactory);
         }
@@ -55,14 +55,14 @@ namespace JetBlack.Http
             IList<Func<HttpRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
             : this(
-                CreateHttpListenerWithPrefixes(listenerPrefixes),
+                CreateHttpListener(listenerPrefixes),
                 router,
                 middlewares,
                 loggerFactory)
         {
         }
 
-        private static HttpListener CreateHttpListenerWithPrefixes(IEnumerable<string> listenerPrefixes)
+        private static HttpListener CreateHttpListener(IEnumerable<string> listenerPrefixes)
         {
             var listener = new HttpListener();
 
@@ -70,20 +70,6 @@ namespace JetBlack.Http
                 listener.Prefixes.Add(prefix);
 
             return listener;
-        }
-
-        public HttpServer AddMiddleware(Func<HttpRequest, Task> middleware)
-        {
-            Middlewares.Add(middleware);
-
-            return this;
-        }
-
-        public HttpServer AddRoute(string path, Func<HttpRequest, Task<HttpResponse>> handler)
-        {
-            Router.AddRoute(path, handler);
-
-            return this; // This is a convenience method for fluid style calls.
         }
 
         private async Task InvokeMiddlewaresAsync(HttpRequest request)
@@ -121,13 +107,13 @@ namespace JetBlack.Http
         {
             try
             {
-                _listener.Start();
+                Listener.Start();
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
                     try
                     {
-                        var context = await _listener.GetContextAsync();
+                        var context = await Listener.GetContextAsync();
                         await HandleRequestAsync(context);
                     }
                     catch (Exception ex)
@@ -136,7 +122,7 @@ namespace JetBlack.Http
                     }
                 }
 
-                _listener.Stop();
+                Listener.Stop();
             }
             catch (Exception ex)
             {
