@@ -2,37 +2,37 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build JetBlack.HttpServer",
+            "label": "build JetBlack.Http",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/JetBlack.HttpServer/JetBlack.HttpServer.csproj",
+                "${workspaceFolder}/JetBlack.Http/JetBlack.Http.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish JetBlack.HttpServer",
+            "label": "publish JetBlack.Http",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/JetBlack.HttpServer/JetBlack.HttpServer.csproj",
+                "${workspaceFolder}/JetBlack.Http/JetBlack.Http.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch JetBlack.HttpServer",
+            "label": "watch JetBlack.Http",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/JetBlack.HttpServer/JetBlack.HttpServer.csproj",
+                "${workspaceFolder}/JetBlack.Http/JetBlack.Http.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

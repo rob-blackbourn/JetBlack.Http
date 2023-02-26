@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JetBlack.HttpServer\JetBlack.HttpServer.csproj" />
+    <ProjectReference Include="..\JetBlack.Http\JetBlack.Http.csproj" />
   </ItemGroup>
   
   <ItemGroup>

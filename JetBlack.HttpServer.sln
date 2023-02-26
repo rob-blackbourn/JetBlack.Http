@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JetBlack.HttpServer", "JetBlack.HttpServer\JetBlack.HttpServer.csproj", "{E4CD153C-B56C-4655-A0CD-8C73A69468E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JetBlack.Http", "JetBlack.Http\JetBlack.Http.csproj", "{E4CD153C-B56C-4655-A0CD-8C73A69468E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Example\Example.csproj", "{FDD5A34D-9221-41D1-9F20-84824405F43D}"
 EndProject

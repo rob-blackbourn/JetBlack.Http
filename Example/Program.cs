@@ -22,7 +22,11 @@ namespace Example
 
         public static Task<HttpResponse> SayHello(HttpRequest req)
         {
-            return Task.FromResult(HttpResponse.FromString("Hello, World!", statusCode: HttpStatusCode.OK));
+            var response = HttpResponse.FromString(
+                "Hello, World!",
+                statusCode: HttpStatusCode.OK);
+
+            return Task.FromResult(response);
         }
 
     }
