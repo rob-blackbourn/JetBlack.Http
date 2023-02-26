@@ -24,7 +24,7 @@ namespace JetBlack.Http.Routing
         {
             if (segment.StartsWith("{") && segment.EndsWith("}"))
             {
-                var parts = segment.Split(':');
+                var parts = segment.Substring(1, segment.Length-2).Split(':');
                 if (parts.Length == 1)
                 {
                     Name = parts[0];
@@ -75,7 +75,7 @@ namespace JetBlack.Http.Routing
             {
                 var convert = _converters[Type ?? string.Empty];
                 var result = convert(value, Format);
-                return (true, value, result);
+                return (true, Name, result);
             }
             catch
             {

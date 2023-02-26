@@ -15,15 +15,35 @@ namespace Example
 
                 return listener;
             })
-            .AddRoute("/api/v1/helloWorld", SayHello);
+            .AddRoute("/api/v1/helloWorld", SayHello)
+            .AddRoute("/api/v1/hello/{name:string}", SayName)
+            .AddRoute("/api/v1/hello/{name:string}/{age:int}", SayNameAndAge);
 
             await server.RunAsync();
         }
 
-        public static Task<HttpResponse> SayHello(HttpRequest req)
+        public static Task<HttpResponse> SayHello(HttpRequest request)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
+                statusCode: HttpStatusCode.OK);
+
+            return Task.FromResult(response);
+        }
+
+        public static Task<HttpResponse> SayName(HttpRequest request)
+        {
+            var response = HttpResponse.FromString(
+                $"Hello, {request.Matches["name"]}!",
+                statusCode: HttpStatusCode.OK);
+
+            return Task.FromResult(response);
+        }
+
+        public static Task<HttpResponse> SayNameAndAge(HttpRequest request)
+        {
+            var response = HttpResponse.FromString(
+                $"Hello, {request.Matches["name"]}, you are {request.Matches["age"]}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
