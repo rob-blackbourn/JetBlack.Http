@@ -16,13 +16,14 @@ namespace JetBlack.Http
     {
         private readonly ILogger<HttpServer> _logger;
         private readonly HttpListener _listener;
-        private readonly List<Func<HttpRequest, Task>> _middlewares = new List<Func<HttpRequest, Task>>();
 
+        public IList<Func<HttpRequest, Task>> Middlewares { get; }
         public IHttpRouter Router { get; }
 
         public HttpServer(
             HttpListener listener,
             IHttpRouter? router = null,
+            IList<Func<HttpRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
@@ -35,24 +36,28 @@ namespace JetBlack.Http
                 throw new ArgumentException($"'{nameof(listener.Prefixes)}' must contain at least one prefix.");
 
             _listener = listener;
+            Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
             Router = router ?? new HttpRouter(loggerFactory);
         }
 
         public HttpServer(
             Func<HttpListener> listenerFactory,
             IHttpRouter? router = null,
+            IList<Func<HttpRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
-            : this(listenerFactory.Invoke(), router, loggerFactory)
+            : this(listenerFactory.Invoke(), router, middlewares, loggerFactory)
         {
         }
 
         public HttpServer(
             string[] listenerPrefixes,
             IHttpRouter? router = null,
+            IList<Func<HttpRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
             : this(
                 CreateHttpListenerWithPrefixes(listenerPrefixes),
                 router,
+                middlewares,
                 loggerFactory)
         {
         }
@@ -69,10 +74,7 @@ namespace JetBlack.Http
 
         public HttpServer AddMiddleware(Func<HttpRequest, Task> middleware)
         {
-            if (middleware is null)
-                throw new ArgumentNullException(nameof(middleware));
-
-            _middlewares.Add(middleware);
+            Middlewares.Add(middleware);
 
             return this;
         }
@@ -86,7 +88,7 @@ namespace JetBlack.Http
 
         private async Task InvokeMiddlewaresAsync(HttpRequest request)
         {
-            foreach (var handler in _middlewares)
+            foreach (var handler in Middlewares)
                 await handler(request);
         }
 
