@@ -35,7 +35,7 @@ namespace JetBlack.Http
             if (Headers != null)
             {
                 foreach (var key in Headers.AllKeys)
-                    response.Headers[key] = Headers[key];
+                    response.AddHeader(key, Headers[key]);
             }
 
             if (Body != null)
@@ -58,6 +58,22 @@ namespace JetBlack.Http
             contentEncoding ??= Encoding.UTF8;
             var body = Encoding.UTF8.GetBytes(text);
 
+            return new HttpResponse(
+                statusCode,
+                contentType,
+                contentEncoding,
+                headers,
+                body);
+        }
+
+        public static HttpResponse FromBytes(
+            byte[] body,
+            HttpStatusCode statusCode = HttpStatusCode.OK,
+            string contentType = "application/octet-stream",
+            Encoding? contentEncoding = null,
+            WebHeaderCollection? headers = null
+            )
+        {
             return new HttpResponse(
                 statusCode,
                 contentType,
