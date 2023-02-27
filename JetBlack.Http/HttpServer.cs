@@ -21,7 +21,7 @@ namespace JetBlack.Http
         public IHttpRouter Router { get; }
 
         public HttpServer(
-            HttpListener listener,
+            HttpListener? listener = null,
             IHttpRouter? router = null,
             IList<Func<HttpRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
@@ -29,7 +29,7 @@ namespace JetBlack.Http
             loggerFactory ??= NullLoggerFactory.Instance;
             _logger = loggerFactory.CreateLogger<HttpServer>();
 
-            Listener = listener;
+            Listener = listener ?? new HttpListener();
             Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
             Router = router ?? new HttpRouter(loggerFactory);
         }
