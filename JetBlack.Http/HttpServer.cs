@@ -29,12 +29,6 @@ namespace JetBlack.Http
             loggerFactory ??= NullLoggerFactory.Instance;
             _logger = loggerFactory.CreateLogger<HttpServer>();
 
-            if (listener is null)
-                throw new ArgumentNullException(nameof(listener));
-
-            if (!listener.Prefixes.Any())
-                throw new ArgumentException($"'{nameof(listener.Prefixes)}' must contain at least one prefix.");
-
             Listener = listener;
             Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
             Router = router ?? new HttpRouter(loggerFactory);
