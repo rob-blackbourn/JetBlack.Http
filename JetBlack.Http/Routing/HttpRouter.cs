@@ -33,7 +33,7 @@ namespace JetBlack.Http.Routing
 
         public (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string,object?>?) FindHandler(string path)
         {
-            var (handler, matches) = FindRoute(path.ToLower());
+            var (handler, matches) = FindRoute(path);
 
             if (handler == null)
             {
@@ -57,7 +57,7 @@ namespace JetBlack.Http.Routing
             {
                 _logger.LogInformation($"{nameof(AddRoute)} ENTER");
 
-                var route = new Route(new PathDefinition(path.ToLower()), handler);
+                var route = new Route(new PathDefinition(path), handler);
                 _routes.Add(route);
             }
             finally
