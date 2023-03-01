@@ -8,9 +8,10 @@ namespace JetBlack.Http.Routing
     {
         private static (bool, Dictionary<string, object?>) NoMatch = (false, new Dictionary<string, object?>());
 
+        private readonly List<PathSegment> _segments = new List<PathSegment>();
+
         public string Path { get; }
         public bool EndsWithSlash { get; }
-        private readonly List<PathSegment> _segments = new List<PathSegment>();
 
         public PathDefinition(string path)
         {
@@ -88,6 +89,6 @@ namespace JetBlack.Http.Routing
             return Path.GetHashCode();
         }
 
-        public override string ToString() => $"PathDefinition: {Path}";
+        public override string ToString() => Path;
     }
 }

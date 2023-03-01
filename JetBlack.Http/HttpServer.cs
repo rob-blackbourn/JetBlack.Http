@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,7 +55,8 @@ namespace JetBlack.Http
         {
         }
 
-        private static HttpListener CreateHttpListener(IEnumerable<string> listenerPrefixes)
+        private static HttpListener CreateHttpListener(
+            IEnumerable<string> listenerPrefixes)
         {
             var listener = new HttpListener();
 

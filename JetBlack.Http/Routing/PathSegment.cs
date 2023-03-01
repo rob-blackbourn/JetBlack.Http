@@ -83,6 +83,6 @@ namespace JetBlack.Http.Routing
             }
         }
 
-        public override string ToString() => $"PathSegment: Name=\"{Name}\",IsVariable={IsVariable},Type={Type},Format={Format}";
+        public override string ToString() => $"Name=\"{Name}\",IsVariable={IsVariable},Type={Type},Format={Format}";
     }
 }

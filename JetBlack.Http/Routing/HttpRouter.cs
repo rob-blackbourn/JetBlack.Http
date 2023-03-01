@@ -37,11 +37,12 @@ namespace JetBlack.Http.Routing
 
         public (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string,object?>?) FindHandler(string path)
         {
+            _logger.LogTrace($"Finding handler for route '{path}'.");
             var (handler, matches) = FindRoute(path);
 
             if (handler == null)
             {
-                _logger.LogWarning($"Failed to resolve controller for route '{path}'.");
+                _logger.LogWarning($"Failed to find handler for route '{path}'.");
                 return (NotFound, null);
             }
 
@@ -57,17 +58,10 @@ namespace JetBlack.Http.Routing
             string path,
             Func<HttpRequest, Task<HttpResponse>> handler)
         {
-            try
-            {
-                _logger.LogInformation($"{nameof(AddRoute)} ENTER");
+            _logger.LogDebug("Adding handler for {Path}", path);
 
-                var route = new Route(new PathDefinition(path), handler);
-                _routes.Add(route);
-            }
-            finally
-            {
-                _logger.LogInformation($"{nameof(AddRoute)} LEAVE");
-            }
+            var route = new Route(new PathDefinition(path), handler);
+            _routes.Add(route);
         }
     }
 }
