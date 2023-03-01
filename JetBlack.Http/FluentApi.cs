@@ -24,6 +24,13 @@ namespace JetBlack.Http
             return server;
         }
 
+        public static HttpServer AddPrefix(
+            this HttpServer server,
+            string uriPrefix)
+        {
+            server.Listener.Prefixes.Add(uriPrefix);
+            return server;
+        }
 
         public static HttpServer ConfigureListener(
             this HttpServer server,

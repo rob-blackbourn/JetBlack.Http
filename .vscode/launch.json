@@ -17,7 +17,7 @@
         "env": {
           "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
         },
-        "console": "externalTerminal",
+        "console": "integratedTerminal",
         "stopAtEntry": false
       }
     ]

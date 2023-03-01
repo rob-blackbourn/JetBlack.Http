@@ -1,0 +1,29 @@
+GET http://brick.jetblack.net:8081/api/v1/helloworld
+
+###
+
+GET http://localhost:8081/api/v1/helloworld
+
+###
+
+GET http://localhost:8081/api/v1/hello
+
+###
+
+GET http://localhost:8081/api/v1/hello?name=Rob
+
+###
+
+GET http://localhost:8081/api/v1/hello?age=12
+
+###
+
+GET http://localhost:8081/api/v1/hello?name=Rob&age=12
+
+###
+
+GET http://localhost:8081/api/v1/hello/Rob
+
+###
+
+GET http://localhost:8081/api/v1/hello/Rob/12
