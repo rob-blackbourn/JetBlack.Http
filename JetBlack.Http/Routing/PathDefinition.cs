@@ -60,7 +60,8 @@ namespace JetBlack.Http.Routing
             // Keep the matches we find.
             var matches = new Dictionary<string, object?>();
 
-            // A path with more segments is allowed if the last segment is a variable of type 'path'.
+            // A path with more segments is allowed if the last segment is a
+            // variable of type 'path'.
             if (parts.Length > _segments.Count)
             {
                 var lastSegment = _segments.Last();
@@ -72,7 +73,7 @@ namespace JetBlack.Http.Routing
             }
 
             // Now the path parts and segments are the same length we can check them.
-            foreach (var item in parts.Zip(_segments, (a,b) => new {Part = a, Segment = b}))
+            foreach (var item in parts.Zip(_segments, (a, b) => new { Part = a, Segment = b }))
             {
                 var (isMatch, name, value) = item.Segment.Match(item.Part, ignoreCase);
                 if (!isMatch)

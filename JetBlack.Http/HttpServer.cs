@@ -94,35 +94,41 @@ namespace JetBlack.Http
 
         private Task<HttpResponse> InternalServerError()
         {
-            return Task.FromResult(new HttpResponse(HttpStatusCode.InternalServerError));
+            return Task.FromResult(
+                new HttpResponse(HttpStatusCode.InternalServerError));
         }
 
         public async Task RunAsync(CancellationToken cancellationToken = default)
         {
+            _logger.LogInformation("Starting.");
+
             try
             {
+                _logger.LogInformation("Starting the listener.");
+
                 Listener.Start();
+
+                _logger.LogInformation(
+                    "Listening on [{Bindings}].",
+                    string.Join(",", Listener.Prefixes));
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    try
-                    {
-                        var context = await Listener.GetContextAsync();
-                        await HandleRequestAsync(context);
-                    }
-                    catch (Exception ex)
-                    {
-                        _logger.LogError(ex, string.Empty);
-                    }
+                    var context = await Listener.GetContextAsync();
+                    await HandleRequestAsync(context);
                 }
+
+                _logger.LogInformation("Stopping the listener.");
 
                 Listener.Stop();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, null);
+                _logger.LogCritical(ex, "The listener has faulted.");
                 throw;
             }
+
+            _logger.LogInformation("Stopped.");
         }
     }
 }
