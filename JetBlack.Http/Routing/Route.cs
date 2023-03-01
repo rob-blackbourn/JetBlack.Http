@@ -6,12 +6,14 @@ namespace JetBlack.Http.Routing
     public class Route
     {
         public PathDefinition Path { get; }
-        public Func<HttpRequest, Task<HttpResponse>> Controller { get; }
+        public Func<HttpRequest, Task<HttpResponse>> Handler { get; }
 
-        public Route(PathDefinition path, Func<HttpRequest, Task<HttpResponse>> controller)
+        public Route(PathDefinition path, Func<HttpRequest, Task<HttpResponse>> handler)
         {
             Path = path;
-            Controller = controller;
+            Handler = handler;
         }
+
+        public override string ToString() => Path.ToString();
     }
 }

@@ -13,9 +13,13 @@ namespace JetBlack.Http.Routing
 
         private readonly List<Route> _routes = new List<Route>();
 
-        public HttpRouter(ILoggerFactory loggerFactory)
+        public bool IgnoreCase { get; set; }
+
+        public HttpRouter(bool ignoreCase, ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger<HttpRouter>();
+
+            IgnoreCase = ignoreCase;
         }
 
 
@@ -23,9 +27,9 @@ namespace JetBlack.Http.Routing
         {
             foreach (var route in _routes)
             {
-                var (isMatch, matches) = route.Path.Match(path);
+                var (isMatch, matches) = route.Path.Match(path, IgnoreCase);
                 if (isMatch)
-                    return (route.Controller, matches);
+                    return (route.Handler, matches);
             }
 
             return (null, null);

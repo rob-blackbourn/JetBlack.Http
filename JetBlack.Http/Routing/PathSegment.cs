@@ -66,10 +66,10 @@ namespace JetBlack.Http.Routing
             }
         }
 
-        public (bool, string?, object?) Match(string value)
+        public (bool, string?, object?) Match(string value, bool ignoreCase)
         {
             if (!IsVariable)
-                return (value == Name, null, null);
+                return (string.Compare(value, Name, ignoreCase) == 0, null, null);
 
             try
             {

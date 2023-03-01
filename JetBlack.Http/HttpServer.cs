@@ -31,7 +31,7 @@ namespace JetBlack.Http
 
             Listener = listener ?? new HttpListener();
             Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
-            Router = router ?? new HttpRouter(loggerFactory);
+            Router = router ?? new HttpRouter(true, loggerFactory);
         }
 
         public HttpServer(

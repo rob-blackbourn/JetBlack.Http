@@ -35,7 +35,7 @@ namespace JetBlack.Http.Routing
                 _segments.Add(new PathSegment(segment));
         }
 
-        public (bool, Dictionary<string, object?>) Match(string path)
+        public (bool, Dictionary<string, object?>) Match(string path, bool ignoreCase)
         {
             if (!path.StartsWith("/"))
                 throw new Exception("Paths must be absolute");
@@ -73,7 +73,7 @@ namespace JetBlack.Http.Routing
             // Now the path parts and segments are the same length we can check them.
             foreach (var item in parts.Zip(_segments, (a,b) => new {Part = a, Segment = b}))
             {
-                var (isMatch, name, value) = item.Segment.Match(item.Part);
+                var (isMatch, name, value) = item.Segment.Match(item.Part, ignoreCase);
                 if (!isMatch)
                     return NoMatch;
                 if (name != null)
