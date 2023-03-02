@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 namespace JetBlack.Http.Routing
 {
-    internal class HttpRouter : IHttpRouter
+    public class HttpRouter : IHttpRouter
     {
         private readonly ILogger<HttpRouter> _logger;
 
@@ -35,7 +35,7 @@ namespace JetBlack.Http.Routing
             return (null, null);
         }
 
-        public (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string,object?>?) FindHandler(string path)
+        public (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string, object?>?) FindHandler(string path)
         {
             _logger.LogTrace($"Finding handler for route '{path}'.");
             var (handler, matches) = FindRoute(path);
