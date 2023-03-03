@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace JetBlack.Http.Routing
+namespace JetBlack.Http
 {
     public class PathSegment
     {
@@ -24,7 +24,7 @@ namespace JetBlack.Http.Routing
         {
             if (segment.StartsWith("{") && segment.EndsWith("}"))
             {
-                var parts = segment.Substring(1, segment.Length-2).Split(':');
+                var parts = segment.Substring(1, segment.Length - 2).Split(':');
                 if (parts.Length == 1)
                 {
                     Name = parts[0];
@@ -41,7 +41,7 @@ namespace JetBlack.Http.Routing
                 {
                     Name = parts[0];
                     Type = parts[1];
-                    Format = parts[2];                    
+                    Format = parts[2];
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace JetBlack.Http.Routing
 
                 if (!_converters.ContainsKey(Type))
                     throw new Exception("Invalid type");
-                
+
                 IsVariable = true;
             }
             else if (segment.StartsWith("{") || segment.EndsWith("}"))
