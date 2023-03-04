@@ -22,6 +22,7 @@ namespace JetBlack.Http.Core
         where TServerInfo : class
     {
         private readonly ILogger<HttpServer<TRouter, TRouteInfo, TServerInfo>> _logger;
+        private readonly TServerInfo _serverInfo;
 
         /// <summary>
         /// Create an HTTP Server.
@@ -45,31 +46,12 @@ namespace JetBlack.Http.Core
             Listener = listener ?? new HttpListener();
             Middlewares = middlewares ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>>();
             Router = routerFactory(loggerFactory);
-            ServerInfo = serverInfo;
+            _serverInfo = serverInfo;
         }
 
-        /// <summary>
-        /// The listener.
-        /// </summary>
-        /// <value>An HttpListener object.</value>
-        public HttpListener Listener { get; }
-        /// <summary>
-        /// The middlewares.
-        /// </summary>
-        /// <value>A list of middleware handlers.</value>
-        public IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>> Middlewares { get; }
-        /// <summary>
-        /// The router.
-        /// </summary>
-        /// <value>A router</value>
-        public TRouter Router { get; }
-        /// <summary>
-        /// The server information. This is passed to all handlers and persists
-        /// for the lifetime of the server. It can be used to pass persistent
-        /// information around handlers.
-        /// </summary>
-        /// <value>Server information.</value>
-        public TServerInfo ServerInfo { get; }
+        internal HttpListener Listener { get; }
+        internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>> Middlewares { get; }
+        internal TRouter Router { get; }
 
         /// <summary>
         /// Run the server.
@@ -122,7 +104,7 @@ namespace JetBlack.Http.Core
                 var request = new HttpRequest<TRouteInfo, TServerInfo>(
                     context,
                     routeInfo,
-                    ServerInfo);
+                    _serverInfo);
 
                 // Invoke the middleware.
                 foreach (var middlewareHandler in Middlewares)

@@ -18,7 +18,19 @@ namespace JetBlack.Http.Core
         /// <param name="handler">The handler.</param>
         /// <param name="path">The path.</param>
         /// <param name="methods">The HTTP methods.</param>
-        void AddRoute(Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler, string path, params string[] methods);
-        (Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>>, TRouteInfo) FindHandler(string path, string method);
+        void AddRoute(
+            Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler,
+            string path,
+            params string[] methods);
+
+        /// <summary>
+        /// Find a handler for a route. If no handler is found return an appropriate error handler.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <param name="method">The HTTP method</param>
+        /// <returns></returns>
+        (Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>>, TRouteInfo) FindHandler(
+            string path,
+            string method);
     }
 }
