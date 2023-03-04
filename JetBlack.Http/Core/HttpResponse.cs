@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using System.Text;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Core
 {
     public class HttpResponse
     {
         public HttpStatusCode StatusCode { get; }
-        public string ContentType { get;}
+        public string ContentType { get; }
         public Encoding? ContentEncoding { get; }
         public WebHeaderCollection? Headers { get; }
         public byte[]? Body { get; }
@@ -28,7 +28,7 @@ namespace JetBlack.Http
 
         public async Task Apply(HttpListenerResponse response)
         {
-            response.StatusCode = (int) StatusCode;
+            response.StatusCode = (int)StatusCode;
             response.ContentType = ContentType;
             response.ContentEncoding = ContentEncoding;
 

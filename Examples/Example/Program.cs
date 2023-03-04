@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using JetBlack.Http;
+using JetBlack.Http.Core;
+using JetBlack.Http.Rest;
 
 namespace Example
 {

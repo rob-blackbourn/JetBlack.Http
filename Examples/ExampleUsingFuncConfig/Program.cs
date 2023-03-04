@@ -1,7 +1,10 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
-using JetBlack.Http;
+
 using Microsoft.Extensions.Logging;
+
+using JetBlack.Http.Core;
+using JetBlack.Http.Rest;
 
 namespace Example
 {

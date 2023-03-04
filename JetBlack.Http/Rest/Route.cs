@@ -1,7 +1,9 @@
 using System;
 using System.Threading.Tasks;
 
-namespace JetBlack.Http
+using JetBlack.Http.Core;
+
+namespace JetBlack.Http.Rest
 {
     public class Route
     {

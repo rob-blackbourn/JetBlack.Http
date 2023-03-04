@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Core
 {
     public class HttpRequest
     {

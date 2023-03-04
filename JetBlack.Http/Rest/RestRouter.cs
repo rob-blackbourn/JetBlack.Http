@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-namespace JetBlack.Http
+using JetBlack.Http.Core;
+
+namespace JetBlack.Http.Rest
 {
     public class RestRouter : IHttpRouter
     {

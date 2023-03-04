@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Rest
 {
     public class PathSegment
     {

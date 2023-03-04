@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Core
 {
     public static class FluentApi
     {

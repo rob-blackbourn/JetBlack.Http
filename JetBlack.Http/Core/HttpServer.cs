@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Core
 {
     public class HttpServer<TRouter> where TRouter : class, IHttpRouter
     {

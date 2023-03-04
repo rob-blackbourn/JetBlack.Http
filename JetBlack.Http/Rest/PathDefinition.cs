@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Rest
 {
     public class PathDefinition
     {

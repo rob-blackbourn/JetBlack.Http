@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace JetBlack.Http
+namespace JetBlack.Http.Core
 {
     public interface IHttpRouter
     {
