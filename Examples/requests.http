@@ -26,4 +26,12 @@ GET http://localhost:8081/api/v1/hello/Rob
 
 ###
 
+POST http://localhost:8081/api/v1/hello/Rob
+
+###
+
 GET http://localhost:8081/api/v1/hello/Rob/12
+
+###
+
+POST http://localhost:8081/api/v1/hello/Rob/12

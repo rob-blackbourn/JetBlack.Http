@@ -23,9 +23,9 @@ namespace Example
             var server = new RestServer()
                 .AddPrefix("http://*:8081/")
                 .ConfigureRouter(router => router.IgnoreCase = true)
-                .AddRoute(SayHello, "/api/v1/helloWorld")
-                .AddRoute(SayWithQueryString, "/api/v1/hello")
-                .AddRoute(SayName, "/api/v1/hello/{name:string}")
+                .AddRoute(SayHello, "/api/v1/helloWorld", "GET")
+                .AddRoute(SayWithQueryString, "/api/v1/hello") // GET is the default.
+                .AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST")
                 .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
             await server.RunAsync();

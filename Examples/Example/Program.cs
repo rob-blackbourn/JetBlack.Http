@@ -26,9 +26,9 @@ namespace Example
             listener.Prefixes.Add("http://*:8081/");
 
             var router = new RestRouter(true, loggerFactory);
-            router.AddRoute(SayHello, "/api/v1/helloWorld");
-            router.AddRoute(SayWithQueryString, "/api/v1/hello");
-            router.AddRoute(SayName, "/api/v1/hello/{name:string}");
+            router.AddRoute(SayHello, "/api/v1/helloWorld", "GET");
+            router.AddRoute(SayWithQueryString, "/api/v1/hello"); // GET is the default.
+            router.AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST");
             router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
             var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task>>();
