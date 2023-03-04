@@ -9,12 +9,14 @@ using JetBlack.Http.Core;
 
 namespace JetBlack.Http.Rest
 {
+    using RestRequest = HttpRequest<RestRouteInfo, RestServerInfo>;
+
     public class RestServer : HttpServer<RestRouter, RestRouteInfo, RestServerInfo>
     {
         public RestServer(
             HttpListener? listener = null,
             RestRouter? router = null,
-            IList<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task>>? middlewares = null,
+            IList<Func<RestRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
             : base(
                 lf => router ?? new RestRouter(true, lf),

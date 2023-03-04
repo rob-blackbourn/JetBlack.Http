@@ -8,6 +8,8 @@ using JetBlack.Http.Rest;
 
 namespace Example
 {
+    using RestRequest = HttpRequest<RestRouteInfo, RestServerInfo>;
+
     internal class Program
     {
         static async Task Main(string[] args)
@@ -34,7 +36,7 @@ namespace Example
         }
 
 
-        public static Task<HttpResponse> SayHello(HttpRequest<RestRouteInfo, RestServerInfo> request)
+        public static Task<HttpResponse> SayHello(RestRequest request)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
@@ -43,7 +45,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayName(HttpRequest<RestRouteInfo, RestServerInfo> request)
+        public static Task<HttpResponse> SayName(RestRequest request)
         {
             var name = request.RouteInfo.Matches["name"];
 
@@ -54,7 +56,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayNameAndAge(HttpRequest<RestRouteInfo, RestServerInfo> request)
+        public static Task<HttpResponse> SayNameAndAge(RestRequest request)
         {
             var name = request.RouteInfo.Matches["name"];
             var age = request.RouteInfo.Matches["age"];
@@ -66,7 +68,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayWithQueryString(HttpRequest<RestRouteInfo, RestServerInfo> request)
+        public static Task<HttpResponse> SayWithQueryString(RestRequest request)
         {
             var name = request.Request.QueryString.Get("name");
             var age = request.Request.QueryString.Get("age");
