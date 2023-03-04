@@ -29,13 +29,13 @@ namespace Example
             router.AddRoute("/api/v1/hello/{name:string}", SayName);
             router.AddRoute("/api/v1/hello/{name:string}/{age:int}", SayNameAndAge);
 
-            var middlewares = new List<Func<HttpRequest<RestRouteInfo>, Task>>();
+            var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task>>();
 
             var server = new RestServer(listener, router, middlewares, loggerFactory);
             await server.RunAsync();
         }
 
-        public static Task<HttpResponse> SayHello(HttpRequest<RestRouteInfo> request)
+        public static Task<HttpResponse> SayHello(HttpRequest<RestRouteInfo, RestServerInfo> request)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
@@ -44,7 +44,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayName(HttpRequest<RestRouteInfo> request)
+        public static Task<HttpResponse> SayName(HttpRequest<RestRouteInfo, RestServerInfo> request)
         {
             var name = request.RouteInfo.Matches["name"];
 
@@ -55,7 +55,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayNameAndAge(HttpRequest<RestRouteInfo> request)
+        public static Task<HttpResponse> SayNameAndAge(HttpRequest<RestRouteInfo, RestServerInfo> request)
         {
             var name = request.RouteInfo.Matches["name"];
             var age = request.RouteInfo.Matches["age"];
@@ -67,7 +67,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayWithQueryString(HttpRequest<RestRouteInfo> request)
+        public static Task<HttpResponse> SayWithQueryString(HttpRequest<RestRouteInfo, RestServerInfo> request)
         {
             var name = request.Request.QueryString.Get("name");
             var age = request.Request.QueryString.Get("age");

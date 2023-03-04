@@ -7,62 +7,68 @@ namespace JetBlack.Http.Core
 {
     public static class FluentApi
     {
-        public static HttpServer<TRouter, TRouteInfo> AddRoute<TRouter, TRouteInfo>(
-            this HttpServer<TRouter, TRouteInfo> server,
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> AddRoute<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
             string path,
-            Func<HttpRequest<TRouteInfo>, Task<HttpResponse>> handler)
-            where TRouter : class, IHttpRouter<TRouteInfo>
+            Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler)
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
+            where TServerInfo : class
         {
             server.Router.AddRoute(path, handler);
             return server;
         }
 
-        public static HttpServer<TRouter, TRouteInfo> AddMiddleware<TRouter, TRouteInfo>(
-            this HttpServer<TRouter, TRouteInfo> server,
-            Func<HttpRequest<TRouteInfo>, Task> handler)
-            where TRouter : class, IHttpRouter<TRouteInfo>
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> AddMiddleware<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
+            Func<HttpRequest<TRouteInfo, TServerInfo>, Task> handler)
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
+            where TServerInfo : class
         {
             server.Middlewares.Add(handler);
             return server;
         }
 
-        public static HttpServer<TRouter, TRouteInfo> AddPrefix<TRouter, TRouteInfo>(
-            this HttpServer<TRouter, TRouteInfo> server,
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> AddPrefix<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
             string uriPrefix)
-            where TRouter : class, IHttpRouter<TRouteInfo>
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
+            where TServerInfo : class
         {
             server.Listener.Prefixes.Add(uriPrefix);
             return server;
         }
 
-        public static HttpServer<TRouter, TRouteInfo> ConfigureListener<TRouter, TRouteInfo>(
-            this HttpServer<TRouter, TRouteInfo> server,
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> ConfigureListener<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
             Action<HttpListener> configure)
-            where TRouter : class, IHttpRouter<TRouteInfo>
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
+            where TServerInfo : class
         {
             configure(server.Listener);
             return server;
         }
 
-        public static HttpServer<TRouter, TRouteInfo> ConfigureRouter<TRouter, TRouteInfo>(
-            this HttpServer<TRouter, TRouteInfo> server,
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> ConfigureRouter<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
             Action<TRouter> configure)
-            where TRouter : class, IHttpRouter<TRouteInfo>
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
+            where TServerInfo : class
         {
             configure(server.Router);
             return server;
         }
 
-        public static HttpServer<TRouter, TRouteInfo> ConfigureMiddleware<TRouter, TRouteInfo>(
-            this HttpServer<TRouter, TRouteInfo> server,
-            Action<IList<Func<HttpRequest<TRouteInfo>, Task>>> configure)
-            where TRouter : class, IHttpRouter<TRouteInfo>
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> ConfigureMiddleware<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
+            Action<IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>>> configure)
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
+            where TServerInfo : class
         {
             configure(server.Middlewares);
             return server;

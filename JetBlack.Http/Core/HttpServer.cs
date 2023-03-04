@@ -9,31 +9,35 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace JetBlack.Http.Core
 {
-    public class HttpServer<TRouter, TRouteInfo>
-        where TRouter : class, IHttpRouter<TRouteInfo>
+    public class HttpServer<TRouter, TRouteInfo, TServerInfo>
+        where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
         where TRouteInfo : class
+        where TServerInfo : class
     {
-        private readonly ILogger<HttpServer<TRouter, TRouteInfo>> _logger;
+        private readonly ILogger<HttpServer<TRouter, TRouteInfo, TServerInfo>> _logger;
 
         public HttpListener Listener { get; }
-        public IList<Func<HttpRequest<TRouteInfo>, Task>> Middlewares { get; }
+        public IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>> Middlewares { get; }
         public TRouter Router { get; }
+        public TServerInfo ServerInfo { get; }
 
         public HttpServer(
             Func<ILoggerFactory, TRouter> routerFactory,
+            TServerInfo serverInfo,
             HttpListener? listener = null,
-            IList<Func<HttpRequest<TRouteInfo>, Task>>? middlewares = null,
+            IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
-            _logger = loggerFactory.CreateLogger<HttpServer<TRouter, TRouteInfo>>();
+            _logger = loggerFactory.CreateLogger<HttpServer<TRouter, TRouteInfo, TServerInfo>>();
 
             Listener = listener ?? new HttpListener();
-            Middlewares = middlewares ?? new List<Func<HttpRequest<TRouteInfo>, Task>>();
+            Middlewares = middlewares ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Task>>();
             Router = routerFactory(loggerFactory);
+            ServerInfo = serverInfo;
         }
 
-        private async Task InvokeMiddlewaresAsync(HttpRequest<TRouteInfo> request)
+        private async Task InvokeMiddlewaresAsync(HttpRequest<TRouteInfo, TServerInfo> request)
         {
             foreach (var handler in Middlewares)
                 await handler(request);
@@ -44,7 +48,7 @@ namespace JetBlack.Http.Core
             try
             {
                 var (handler, routeInfo) = Router.FindHandler(context.Request.Url.LocalPath);
-                var request = new HttpRequest<TRouteInfo>(context, routeInfo);
+                var request = new HttpRequest<TRouteInfo, TServerInfo>(context, routeInfo, ServerInfo);
 
                 await InvokeMiddlewaresAsync(request);
                 var response = await handler(request);
