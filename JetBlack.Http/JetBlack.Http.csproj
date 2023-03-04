@@ -13,7 +13,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Authors>Rob Blackbourn</Authors>
     <Company>JetBlack</Company>
-    <RepositoryUrl>https://github.com/rob-blackbourn/jetblack-dotnet-http</RepositoryUrl>
+    <RepositoryUrl>https://github.com/rob-blackbourn/JetBlack.Http</RepositoryUrl>
     <Description>A simple http server.</Description>
     <PackageTags>http-server, rest, rest-server</PackageTags>
   </PropertyGroup>
