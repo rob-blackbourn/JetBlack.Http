@@ -15,6 +15,7 @@
     <Company>JetBlack</Company>
     <RepositoryUrl>https://github.com/rob-blackbourn/JetBlack.Http</RepositoryUrl>
     <Description>A simple http server.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>http-server, rest, rest-server</PackageTags>
   </PropertyGroup>
 
