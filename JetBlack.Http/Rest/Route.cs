@@ -5,7 +5,7 @@ using JetBlack.Http.Core;
 
 namespace JetBlack.Http.Rest
 {
-    public class Route
+    internal class Route
     {
         public PathDefinition Path { get; }
         public Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task<HttpResponse>> Handler { get; }

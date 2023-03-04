@@ -11,8 +11,18 @@ namespace JetBlack.Http.Rest
 {
     using RestRequest = HttpRequest<RestRouteInfo, RestServerInfo>;
 
+    /// <summary>
+    /// A REST server.
+    /// </summary>
     public class RestServer : HttpServer<RestRouter, RestRouteInfo, RestServerInfo>
     {
+        /// <summary>
+        /// Construct a REST server.
+        /// </summary>
+        /// <param name="listener">An optional listener.</param>
+        /// <param name="router">An optional router.</param>
+        /// <param name="middlewares">Optional middlewares.</param>
+        /// <param name="loggerFactory">An optional logger factory.</param>
         public RestServer(
             HttpListener? listener = null,
             RestRouter? router = null,

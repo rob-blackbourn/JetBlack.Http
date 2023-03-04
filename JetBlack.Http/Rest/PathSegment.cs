@@ -4,7 +4,7 @@ using System.Globalization;
 
 namespace JetBlack.Http.Rest
 {
-    public class PathSegment
+    internal class PathSegment
     {
         private static readonly IDictionary<string, Func<string, string?, object?>> _converters = new Dictionary<string, Func<string, string?, object?>>
         {

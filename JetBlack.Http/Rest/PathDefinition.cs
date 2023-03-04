@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JetBlack.Http.Rest
 {
-    public class PathDefinition
+    internal class PathDefinition
     {
         private static (bool, Dictionary<string, object?>) NoMatch = (false, new Dictionary<string, object?>());
 
