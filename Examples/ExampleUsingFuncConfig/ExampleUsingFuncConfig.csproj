@@ -1,28 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>JetBlack.Http</PackageId>
-    <Version>1.0.0-alpha.4</Version>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <Authors>Rob Blackbourn</Authors>
-    <Company>JetBlack</Company>
-    <RepositoryUrl>https://github.com/rob-blackbourn/JetBlack.Http</RepositoryUrl>
-    <Description>A simple http server.</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageTags>http-server, rest, rest-server</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\README.md" Pack="true" PackagePath="\"/>
+    <ProjectReference Include="..\..\JetBlack.Http\JetBlack.Http.csproj" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />

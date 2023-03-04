@@ -38,13 +38,14 @@
             ],
             "problemMatcher": "$msCompile"
         },
+
         {
             "label": "build Example",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Example/Example.csproj",
+                "${workspaceFolder}/Examples/Example/Example.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -60,7 +61,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Example/Example.csproj",
+                "${workspaceFolder}/Examples/Example/Example.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -73,11 +74,96 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Example/Example.csproj",
+                "${workspaceFolder}/Examples/Example/Example.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
-        }
+        },
+
+        {
+            "label": "build ExampleUsingFluentConfig",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "publish ExampleUsingFluentConfig",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch ExampleUsingFluentConfig",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
+            "label": "build ExampleUsingFuncConfig",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "publish ExampleUsingFuncConfig",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch ExampleUsingFuncConfig",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
     ]
 }

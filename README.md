@@ -9,6 +9,9 @@ for example the route "http://example.com/api/v1/hello/{name:string}/{age:int}"
 can be routed to an appropriate handler, with the path variables resolved
 by name and type.
 
+Other features include middleware, fluent configuration, and a replaceable
+router.
+
 ## Installation
 
 The package can be installed through [nuget](https://www.nuget.org/packages/JetBlack.Http/1.0.0-alpha.3).
@@ -20,27 +23,38 @@ This is taken from the examples folder:
 ```csharp
 using System.Net;
 using System.Threading.Tasks;
-using JetBlack.Http;
+
+using Microsoft.Extensions.Logging;
+
+using JetBlack.Http.Core;
+using JetBlack.Http.Rest;
 
 namespace Example
 {
+    using RestRequest = HttpRequest<RestRouteInfo, RestServerInfo>;
+
     internal class Program
     {
         static async Task Main(string[] args)
         {
-            var server = new HttpServer()
-                .ConfigureListener(listener => listener.Prefixes.Add("http://localhost:8081/"))
-                .ConfigureRouter(router => {
-                    router.AddRoute("/api/v1/helloWorld", SayHello);
-                    router.AddRoute("/api/v1/hello/{name:string}", SayName);
-                    router.AddRoute("/api/v1/hello/{name:string}/{age:int}", SayNameAndAge);
-                });
+            using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+                builder.SetMinimumLevel(LogLevel.Trace);
+            });
 
+            var server = new RestServer()
+                .AddPrefix("http://*:8081/")
+                .ConfigureRouter(router => router.IgnoreCase = true)
+                .AddRoute(SayHello, "/api/v1/helloWorld", "GET")
+                .AddRoute(SayWithQueryString, "/api/v1/hello") // GET is the default
+                .AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST")
+                .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
             await server.RunAsync();
         }
 
-        public static Task<HttpResponse> SayHello(HttpRequest request)
+        public static Task<HttpResponse> SayHello(RestRequest request)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
@@ -49,32 +63,42 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayName(HttpRequest request)
+        public static Task<HttpResponse> SayName(RestRequest request)
         {
-            if (request.Matches == null)
-                return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
+            var name = request.RouteInfo.Matches["name"];
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.Matches["name"]}!",
+                $"Hello, {name}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayNameAndAge(HttpRequest request)
+        public static Task<HttpResponse> SayNameAndAge(RestRequest request)
         {
-            if (request.Matches == null)
-                return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
+            var name = request.RouteInfo.Matches["name"];
+            var age = request.RouteInfo.Matches["age"];
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.Matches["name"]}, you are {request.Matches["age"]}!",
+                $"Hello, {name}, you are {age}!",
+                statusCode: HttpStatusCode.OK);
+
+            return Task.FromResult(response);
+        }
+
+        public static Task<HttpResponse> SayWithQueryString(RestRequest request)
+        {
+            var name = request.Request.QueryString.Get("name");
+            var age = request.Request.QueryString.Get("age");
+
+            var response = HttpResponse.FromString(
+                $"Hello, {name ?? "nobody"}, you are {age ?? "a mystery"}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
         }
     }
-}
-```
+}```
 
 ## Acknowledgements
 

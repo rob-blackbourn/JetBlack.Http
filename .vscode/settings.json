@@ -1,4 +1,9 @@
 {
+    "[csharp]": {
+        "editor.maxTokenizationLineLength": 2500,
+        "editor.rulers": [80],
+        "editor.formatOnSave": true
+    },
     "cSpell.words": [
         "datetime",
         "Middlewares"

@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace JetBlack.Http.Routing
+namespace JetBlack.Http.Rest
 {
-    public class PathSegment
+    internal class PathSegment
     {
         private static readonly IDictionary<string, Func<string, string?, object?>> _converters = new Dictionary<string, Func<string, string?, object?>>
         {
@@ -24,7 +24,7 @@ namespace JetBlack.Http.Routing
         {
             if (segment.StartsWith("{") && segment.EndsWith("}"))
             {
-                var parts = segment.Substring(1, segment.Length-2).Split(':');
+                var parts = segment.Substring(1, segment.Length - 2).Split(':');
                 if (parts.Length == 1)
                 {
                     Name = parts[0];
@@ -41,7 +41,7 @@ namespace JetBlack.Http.Routing
                 {
                     Name = parts[0];
                     Type = parts[1];
-                    Format = parts[2];                    
+                    Format = parts[2];
                 }
                 else
                 {
@@ -50,7 +50,7 @@ namespace JetBlack.Http.Routing
 
                 if (!_converters.ContainsKey(Type))
                     throw new Exception("Invalid type");
-                
+
                 IsVariable = true;
             }
             else if (segment.StartsWith("{") || segment.EndsWith("}"))
@@ -66,10 +66,10 @@ namespace JetBlack.Http.Routing
             }
         }
 
-        public (bool, string?, object?) Match(string value)
+        public (bool, string?, object?) Match(string value, bool ignoreCase)
         {
             if (!IsVariable)
-                return (value == Name, null, null);
+                return (string.Compare(value, Name, ignoreCase) == 0, null, null);
 
             try
             {
@@ -83,6 +83,6 @@ namespace JetBlack.Http.Routing
             }
         }
 
-        public override string ToString() => $"PathSegment: Name=\"{Name}\",IsVariable={IsVariable},Type={Type},Format={Format}";
+        public override string ToString() => $"Name=\"{Name}\",IsVariable={IsVariable},Type={Type},Format={Format}";
     }
 }

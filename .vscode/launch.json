@@ -10,15 +10,47 @@
         "request": "launch",
         "preLaunchTask": "build Example",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Example/bin/Debug/net6.0/Example.dll",
+        "program": "${workspaceFolder}/Examples/Example/bin/Debug/net6.0/Example.dll",
         "args": [],
-        "cwd": "${workspaceFolder}/Example",
+        "cwd": "${workspaceFolder}/Examples/Example",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "env": {
           "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
         },
-        "console": "externalTerminal",
+        "console": "integratedTerminal",
         "stopAtEntry": false
-      }
+      },
+      {
+        "name": "ExampleUsingFluentConfig",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build ExampleUsingFluentConfig",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/ExampleUsingFluentConfig/bin/Debug/net6.0/ExampleUsingFluentConfig.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/Examples/ExampleUsingFluentConfig",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "env": {
+          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
+        },
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
+        "name": "ExampleUsingFuncConfig",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build ExampleUsingFuncConfig",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/ExampleUsingFuncConfig/bin/Debug/net6.0/ExampleUsingFuncConfig.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/Examples/ExampleUsingFuncConfig",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "env": {
+          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
+        },
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
     ]
 }
