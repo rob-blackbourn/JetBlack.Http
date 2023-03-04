@@ -46,11 +46,10 @@ namespace Example
 
         public static Task<HttpResponse> SayName(HttpRequest<RestRouteInfo> request)
         {
-            if (request?.RouteInfo?.Matches == null)
-                return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
+            var name = request.RouteInfo.Matches["name"];
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.RouteInfo.Matches["name"]}!",
+                $"Hello, {name}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
@@ -58,11 +57,11 @@ namespace Example
 
         public static Task<HttpResponse> SayNameAndAge(HttpRequest<RestRouteInfo> request)
         {
-            if (request?.RouteInfo?.Matches == null)
-                return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
+            var name = request.RouteInfo.Matches["name"];
+            var age = request.RouteInfo.Matches["age"];
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.RouteInfo.Matches["name"]}, you are {request.RouteInfo.Matches["age"]}!",
+                $"Hello, {name}, you are {age}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);

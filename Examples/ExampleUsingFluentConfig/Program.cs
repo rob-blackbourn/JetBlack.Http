@@ -6,10 +6,8 @@ using Microsoft.Extensions.Logging;
 using JetBlack.Http.Core;
 using JetBlack.Http.Rest;
 
-
 namespace Example
 {
-    using RestRequest = HttpRequest<RestRouteInfo>;
 
     internal class Program
     {
@@ -32,7 +30,7 @@ namespace Example
             await server.RunAsync();
         }
 
-        public static Task<HttpResponse> SayHello(RestRequest request)
+        public static Task<HttpResponse> SayHello(HttpRequest<RestRouteInfo> request)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
@@ -41,31 +39,30 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayName(RestRequest request)
+        public static Task<HttpResponse> SayName(HttpRequest<RestRouteInfo> request)
         {
-            if (request?.RouteInfo?.Matches == null)
-                return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
+            var name = request.RouteInfo.Matches["name"];
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.RouteInfo.Matches["name"]}!",
+                $"Hello, {name}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayNameAndAge(RestRequest request)
+        public static Task<HttpResponse> SayNameAndAge(HttpRequest<RestRouteInfo> request)
         {
-            if (request?.RouteInfo?.Matches == null)
-                return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
+            var name = request.RouteInfo.Matches["name"];
+            var age = request.RouteInfo.Matches["age"];
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.RouteInfo.Matches["name"]}, you are {request.RouteInfo.Matches["age"]}!",
+                $"Hello, {name}, you are {age}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayWithQueryString(RestRequest request)
+        public static Task<HttpResponse> SayWithQueryString(HttpRequest<RestRouteInfo> request)
         {
             var name = request.Request.QueryString.Get("name");
             var age = request.Request.QueryString.Get("age");

@@ -24,8 +24,7 @@ namespace JetBlack.Http.Rest
             IgnoreCase = ignoreCase;
         }
 
-
-        private (Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>>?, Dictionary<string, object?>?) FindRoute(string path)
+        private (Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>>?, Dictionary<string, object?>) FindRoute(string path)
         {
             foreach (var route in _routes)
             {
@@ -34,10 +33,10 @@ namespace JetBlack.Http.Rest
                     return (route.Handler, matches);
             }
 
-            return (null, null);
+            return (null, new Dictionary<string, object?>());
         }
 
-        public (Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>>, RestRouteInfo?) FindHandler(string path)
+        public (Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>>, RestRouteInfo) FindHandler(string path)
         {
             _logger.LogTrace($"Finding handler for route '{path}'.");
             var (handler, matches) = FindRoute(path);
@@ -45,7 +44,7 @@ namespace JetBlack.Http.Rest
             if (handler == null)
             {
                 _logger.LogWarning($"Failed to find handler for route '{path}'.");
-                return (NotFound, null);
+                return (NotFound, new RestRouteInfo(matches));
             }
 
             return (handler, new RestRouteInfo(matches));

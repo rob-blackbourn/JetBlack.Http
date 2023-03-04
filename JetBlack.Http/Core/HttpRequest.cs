@@ -6,9 +6,9 @@ namespace JetBlack.Http.Core
     {
         public HttpListenerContext Context { get; }
         public HttpListenerRequest Request => Context.Request;
-        public TRouteInfo? RouteInfo { get; }
+        public TRouteInfo RouteInfo { get; }
 
-        public HttpRequest(HttpListenerContext context, TRouteInfo? routeInfo)
+        public HttpRequest(HttpListenerContext context, TRouteInfo routeInfo)
         {
             Context = context;
             RouteInfo = routeInfo;
