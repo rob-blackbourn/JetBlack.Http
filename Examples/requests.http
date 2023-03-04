@@ -1,4 +1,4 @@
-GET http://brick.jetblack.net:8081/api/v1/helloworld
+GET http://beast.jetblack.net:8081/api/v1/helloworld
 
 ###
 

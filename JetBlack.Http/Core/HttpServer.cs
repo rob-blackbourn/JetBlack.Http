@@ -72,10 +72,36 @@ namespace JetBlack.Http.Core
                     "Listening on [{Bindings}].",
                     string.Join(",", Listener.Prefixes));
 
+                var listenerTask = Task.Run(
+                    () => Listener.GetContextAsync(),
+                    cancellationToken
+                );
+                var tasks = new List<Task>(new[] { listenerTask });
+
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var context = await Listener.GetContextAsync();
-                    await HandleRequestAsync(context);
+                    var task = await Task.WhenAny(tasks);
+                    tasks.Remove(task);
+
+                    if (task != listenerTask)
+                    {
+                        await task;
+                        continue;
+                    }
+
+                    var context = await listenerTask;
+                    tasks.Add(
+                        Task.Run(
+                            () => HandleRequestAsync(context),
+                            cancellationToken
+                        )
+                    );
+                    tasks.Add(
+                        listenerTask = Task.Run(
+                            () => Listener.GetContextAsync(),
+                            cancellationToken
+                        )
+                    );
                 }
 
                 _logger.LogInformation("Stopping the listener.");
