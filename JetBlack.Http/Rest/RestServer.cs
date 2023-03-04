@@ -36,5 +36,10 @@ namespace JetBlack.Http.Rest
                 loggerFactory)
         {
         }
+
+        public RestServer(ILoggerFactory loggerFactory)
+            : this(null, null, null, loggerFactory)
+        {
+        }
     }
 }

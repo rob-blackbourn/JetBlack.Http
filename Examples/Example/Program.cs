@@ -16,7 +16,7 @@ namespace Example
     {
         static async Task Main(string[] args)
         {
-            using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+            var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.AddConsole();
                 builder.SetMinimumLevel(LogLevel.Trace);

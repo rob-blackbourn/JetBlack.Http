@@ -14,13 +14,13 @@ namespace Example
     {
         static async Task Main(string[] args)
         {
-            using ILoggerFactory loggerFactory = LoggerFactory.Create(builder =>
+            var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.AddConsole();
                 builder.SetMinimumLevel(LogLevel.Trace);
             });
 
-            var server = new RestServer()
+            var server = new RestServer(loggerFactory)
                 .ConfigureListener(listener => listener.Prefixes.Add("http://*:8081/"))
                 .ConfigureRouter(router =>
                 {
