@@ -9,13 +9,14 @@ namespace JetBlack.Http.Core
     {
         public static HttpServer<TRouter, TRouteInfo, TServerInfo> AddRoute<TRouter, TRouteInfo, TServerInfo>(
             this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
+            Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler,
             string path,
-            Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler)
+            params string[] methods)
             where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
             where TServerInfo : class
         {
-            server.Router.AddRoute(path, handler);
+            server.Router.AddRoute(handler, path, methods);
             return server;
         }
 

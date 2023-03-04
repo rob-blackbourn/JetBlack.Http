@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -14,9 +15,12 @@ namespace JetBlack.Http.Rest
 
     public class RestRouter : IHttpRouter<RestRouteInfo, RestServerInfo>
     {
+        private static readonly (RestRequestHandler?, Dictionary<string, object?>) NoRoute = (null, new Dictionary<string, object?>());
+        private static string[] defaultMethods = new[] { "GET" };
+
         private readonly ILogger<RestRouter> _logger;
 
-        private readonly List<Route> _routes = new List<Route>();
+        private readonly Dictionary<string, List<Route>> _routes = new Dictionary<string, List<Route>>();
 
         public bool IgnoreCase { get; set; }
 
@@ -27,22 +31,25 @@ namespace JetBlack.Http.Rest
             IgnoreCase = ignoreCase;
         }
 
-        private (RestRequestHandler?, Dictionary<string, object?>) FindRoute(string path)
+        private (RestRequestHandler?, Dictionary<string, object?>) FindRoute(string path, string method)
         {
-            foreach (var route in _routes)
+            if (!_routes.TryGetValue(method, out var methodRoutes))
+                return NoRoute;
+
+            foreach (var route in methodRoutes)
             {
                 var (isMatch, matches) = route.Path.Match(path, IgnoreCase);
                 if (isMatch)
                     return (route.Handler, matches);
             }
 
-            return (null, new Dictionary<string, object?>());
+            return NoRoute;
         }
 
-        public (RestRequestHandler, RestRouteInfo) FindHandler(string path)
+        public (RestRequestHandler, RestRouteInfo) FindHandler(string path, string method)
         {
             _logger.LogTrace($"Finding handler for route '{path}'.");
-            var (handler, matches) = FindRoute(path);
+            var (handler, matches) = FindRoute(path, method);
 
             if (handler == null)
             {
@@ -59,14 +66,19 @@ namespace JetBlack.Http.Rest
         }
 
         public void AddRoute(
+            Func<RestRequest, Task<HttpResponse>> handler,
             string path,
-            Func<RestRequest, Task<HttpResponse>> handler)
+            params string[] methods)
         {
             _logger.LogDebug("Adding handler for {Path}", path);
 
             var route = new Route(new PathDefinition(path), handler);
-            _routes.Add(route);
+            foreach (var method in methods.Length > 0 ? methods.Select(s => s.ToUpperInvariant()) : defaultMethods)
+            {
+                if (!_routes.TryGetValue(method, out var methodRoutes))
+                    _routes.Add(method, methodRoutes = new List<Route>());
+                methodRoutes.Add(route);
+            }
         }
-
     }
 }

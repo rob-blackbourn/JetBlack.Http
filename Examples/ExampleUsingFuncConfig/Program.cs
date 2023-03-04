@@ -26,10 +26,10 @@ namespace Example
                 {
                     router.IgnoreCase = true;
 
-                    router.AddRoute("/api/v1/helloWorld", SayHello);
-                    router.AddRoute("/api/v1/hello", SayWithQueryString);
-                    router.AddRoute("/api/v1/hello/{name:string}", SayName);
-                    router.AddRoute("/api/v1/hello/{name:string}/{age:int}", SayNameAndAge);
+                    router.AddRoute(SayHello, "/api/v1/helloWorld");
+                    router.AddRoute(SayWithQueryString, "/api/v1/hello");
+                    router.AddRoute(SayName, "/api/v1/hello/{name:string}");
+                    router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
                 });
 
             await server.RunAsync();

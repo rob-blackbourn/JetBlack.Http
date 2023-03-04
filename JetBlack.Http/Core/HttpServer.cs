@@ -114,7 +114,9 @@ namespace JetBlack.Http.Core
             try
             {
                 // Find a handler for the route.
-                var (handler, routeInfo) = Router.FindHandler(context.Request.Url.LocalPath);
+                var (handler, routeInfo) = Router.FindHandler(
+                    context.Request.Url.LocalPath,
+                    context.Request.HttpMethod);
 
                 // Build the request.
                 var request = new HttpRequest<TRouteInfo, TServerInfo>(

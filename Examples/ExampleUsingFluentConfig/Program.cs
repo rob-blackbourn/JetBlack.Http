@@ -23,10 +23,10 @@ namespace Example
             var server = new RestServer()
                 .AddPrefix("http://*:8081/")
                 .ConfigureRouter(router => router.IgnoreCase = true)
-                .AddRoute("/api/v1/helloWorld", SayHello)
-                .AddRoute("/api/v1/hello", SayWithQueryString)
-                .AddRoute("/api/v1/hello/{name:string}", SayName)
-                .AddRoute("/api/v1/hello/{name:string}/{age:int}", SayNameAndAge);
+                .AddRoute(SayHello, "/api/v1/helloWorld")
+                .AddRoute(SayWithQueryString, "/api/v1/hello")
+                .AddRoute(SayName, "/api/v1/hello/{name:string}")
+                .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
             await server.RunAsync();
         }
