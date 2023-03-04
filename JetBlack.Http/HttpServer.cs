@@ -9,59 +9,26 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace JetBlack.Http
 {
-    public class HttpServer
+    public class HttpServer<TRouter> where TRouter : class, IHttpRouter
     {
-        private readonly ILogger<HttpServer> _logger;
+        private readonly ILogger<HttpServer<TRouter>> _logger;
 
         public HttpListener Listener { get; }
         public IList<Func<HttpRequest, Task>> Middlewares { get; }
-        public IHttpRouter Router { get; }
+        public TRouter Router { get; }
 
         public HttpServer(
+            Func<ILoggerFactory, TRouter> routerFactory,
             HttpListener? listener = null,
-            IHttpRouter? router = null,
             IList<Func<HttpRequest, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
-            _logger = loggerFactory.CreateLogger<HttpServer>();
+            _logger = loggerFactory.CreateLogger<HttpServer<TRouter>>();
 
             Listener = listener ?? new HttpListener();
             Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
-            Router = router ?? new HttpRouter(true, loggerFactory);
-        }
-
-        public HttpServer(
-            Func<HttpListener> listenerFactory,
-            IHttpRouter? router = null,
-            IList<Func<HttpRequest, Task>>? middlewares = null,
-            ILoggerFactory? loggerFactory = null)
-            : this(listenerFactory.Invoke(), router, middlewares, loggerFactory)
-        {
-        }
-
-        public HttpServer(
-            string[] listenerPrefixes,
-            IHttpRouter? router = null,
-            IList<Func<HttpRequest, Task>>? middlewares = null,
-            ILoggerFactory? loggerFactory = null)
-            : this(
-                CreateHttpListener(listenerPrefixes),
-                router,
-                middlewares,
-                loggerFactory)
-        {
-        }
-
-        private static HttpListener CreateHttpListener(
-            IEnumerable<string> listenerPrefixes)
-        {
-            var listener = new HttpListener();
-
-            foreach (var prefix in listenerPrefixes)
-                listener.Prefixes.Add(prefix);
-
-            return listener;
+            Router = routerFactory(loggerFactory);
         }
 
         private async Task InvokeMiddlewaresAsync(HttpRequest request)

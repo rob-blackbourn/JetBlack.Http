@@ -7,17 +7,17 @@ using Microsoft.Extensions.Logging;
 
 namespace JetBlack.Http
 {
-    public class HttpRouter : IHttpRouter
+    public class RestRouter : IHttpRouter
     {
-        private readonly ILogger<HttpRouter> _logger;
+        private readonly ILogger<RestRouter> _logger;
 
         private readonly List<Route> _routes = new List<Route>();
 
         public bool IgnoreCase { get; set; }
 
-        public HttpRouter(bool ignoreCase, ILoggerFactory loggerFactory)
+        public RestRouter(bool ignoreCase, ILoggerFactory loggerFactory)
         {
-            _logger = loggerFactory.CreateLogger<HttpRouter>();
+            _logger = loggerFactory.CreateLogger<RestRouter>();
 
             IgnoreCase = ignoreCase;
         }

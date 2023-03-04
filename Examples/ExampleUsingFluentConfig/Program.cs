@@ -15,7 +15,7 @@ namespace Example
                 builder.SetMinimumLevel(LogLevel.Trace);
             });
 
-            var server = new HttpServer()
+            var server = new RestServer()
                 .AddPrefix("http://*:8081/")
                 .ConfigureRouter(router => router.IgnoreCase = true)
                 .AddRoute("/api/v1/helloWorld", SayHello)

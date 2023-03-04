@@ -15,7 +15,7 @@ namespace Example
                 builder.SetMinimumLevel(LogLevel.Trace);
             });
 
-            var server = new HttpServer()
+            var server = new RestServer()
                 .ConfigureListener(listener => listener.Prefixes.Add("http://*:8081/"))
                 .ConfigureRouter(router =>
                 {

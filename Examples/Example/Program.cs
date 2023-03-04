@@ -22,7 +22,7 @@ namespace Example
             var listener = new HttpListener();
             listener.Prefixes.Add("http://*:8081/");
 
-            var router = new HttpRouter(true, loggerFactory);
+            var router = new RestRouter(true, loggerFactory);
             router.AddRoute("/api/v1/helloWorld", SayHello);
             router.AddRoute("/api/v1/hello", SayWithQueryString);
             router.AddRoute("/api/v1/hello/{name:string}", SayName);
@@ -30,7 +30,7 @@ namespace Example
 
             var middlewares = new List<Func<HttpRequest, Task>>();
 
-            var server = new HttpServer(listener, router, middlewares, loggerFactory);
+            var server = new RestServer(listener, router, middlewares, loggerFactory);
             await server.RunAsync();
         }
 
