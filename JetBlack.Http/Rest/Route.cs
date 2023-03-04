@@ -8,9 +8,11 @@ namespace JetBlack.Http.Rest
     public class Route
     {
         public PathDefinition Path { get; }
-        public Func<HttpRequest, Task<HttpResponse>> Handler { get; }
+        public Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>> Handler { get; }
 
-        public Route(PathDefinition path, Func<HttpRequest, Task<HttpResponse>> handler)
+        public Route(
+            PathDefinition path,
+            Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>> handler)
         {
             Path = path;
             Handler = handler;

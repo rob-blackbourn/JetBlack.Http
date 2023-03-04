@@ -6,8 +6,11 @@ using Microsoft.Extensions.Logging;
 using JetBlack.Http.Core;
 using JetBlack.Http.Rest;
 
+
 namespace Example
 {
+    using RestRequest = HttpRequest<RestRouteInfo>;
+
     internal class Program
     {
         static async Task Main(string[] args)
@@ -29,7 +32,7 @@ namespace Example
             await server.RunAsync();
         }
 
-        public static Task<HttpResponse> SayHello(HttpRequest request)
+        public static Task<HttpResponse> SayHello(RestRequest request)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
@@ -38,31 +41,31 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayName(HttpRequest request)
+        public static Task<HttpResponse> SayName(RestRequest request)
         {
-            if (request.Matches == null)
+            if (request?.RouteInfo?.Matches == null)
                 return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.Matches["name"]}!",
+                $"Hello, {request.RouteInfo.Matches["name"]}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayNameAndAge(HttpRequest request)
+        public static Task<HttpResponse> SayNameAndAge(RestRequest request)
         {
-            if (request.Matches == null)
+            if (request?.RouteInfo?.Matches == null)
                 return Task.FromResult(new HttpResponse(HttpStatusCode.BadRequest));
 
             var response = HttpResponse.FromString(
-                $"Hello, {request.Matches["name"]}, you are {request.Matches["age"]}!",
+                $"Hello, {request.RouteInfo.Matches["name"]}, you are {request.RouteInfo.Matches["age"]}!",
                 statusCode: HttpStatusCode.OK);
 
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayWithQueryString(HttpRequest request)
+        public static Task<HttpResponse> SayWithQueryString(RestRequest request)
         {
             var name = request.Request.QueryString.Get("name");
             var age = request.Request.QueryString.Get("age");

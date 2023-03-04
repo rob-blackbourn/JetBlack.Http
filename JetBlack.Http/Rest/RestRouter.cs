@@ -9,7 +9,7 @@ using JetBlack.Http.Core;
 
 namespace JetBlack.Http.Rest
 {
-    public class RestRouter : IHttpRouter
+    public class RestRouter : IHttpRouter<RestRouteInfo>
     {
         private readonly ILogger<RestRouter> _logger;
 
@@ -25,7 +25,7 @@ namespace JetBlack.Http.Rest
         }
 
 
-        private (Func<HttpRequest, Task<HttpResponse>>?, Dictionary<string, object?>?) FindRoute(string path)
+        private (Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>>?, Dictionary<string, object?>?) FindRoute(string path)
         {
             foreach (var route in _routes)
             {
@@ -37,7 +37,7 @@ namespace JetBlack.Http.Rest
             return (null, null);
         }
 
-        public (Func<HttpRequest, Task<HttpResponse>>, Dictionary<string, object?>?) FindHandler(string path)
+        public (Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>>, RestRouteInfo?) FindHandler(string path)
         {
             _logger.LogTrace($"Finding handler for route '{path}'.");
             var (handler, matches) = FindRoute(path);
@@ -48,22 +48,23 @@ namespace JetBlack.Http.Rest
                 return (NotFound, null);
             }
 
-            return (handler, matches);
+            return (handler, new RestRouteInfo(matches));
         }
 
-        private Task<HttpResponse> NotFound(HttpRequest request)
+        private Task<HttpResponse> NotFound(HttpRequest<RestRouteInfo> request)
         {
             return Task.FromResult(new HttpResponse(HttpStatusCode.NotFound));
         }
 
         public void AddRoute(
             string path,
-            Func<HttpRequest, Task<HttpResponse>> handler)
+            Func<HttpRequest<RestRouteInfo>, Task<HttpResponse>> handler)
         {
             _logger.LogDebug("Adding handler for {Path}", path);
 
             var route = new Route(new PathDefinition(path), handler);
             _routes.Add(route);
         }
+
     }
 }

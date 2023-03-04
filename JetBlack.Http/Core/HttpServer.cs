@@ -9,29 +9,31 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace JetBlack.Http.Core
 {
-    public class HttpServer<TRouter> where TRouter : class, IHttpRouter
+    public class HttpServer<TRouter, TRouteInfo>
+        where TRouter : class, IHttpRouter<TRouteInfo>
+        where TRouteInfo : class
     {
-        private readonly ILogger<HttpServer<TRouter>> _logger;
+        private readonly ILogger<HttpServer<TRouter, TRouteInfo>> _logger;
 
         public HttpListener Listener { get; }
-        public IList<Func<HttpRequest, Task>> Middlewares { get; }
+        public IList<Func<HttpRequest<TRouteInfo>, Task>> Middlewares { get; }
         public TRouter Router { get; }
 
         public HttpServer(
             Func<ILoggerFactory, TRouter> routerFactory,
             HttpListener? listener = null,
-            IList<Func<HttpRequest, Task>>? middlewares = null,
+            IList<Func<HttpRequest<TRouteInfo>, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
-            _logger = loggerFactory.CreateLogger<HttpServer<TRouter>>();
+            _logger = loggerFactory.CreateLogger<HttpServer<TRouter, TRouteInfo>>();
 
             Listener = listener ?? new HttpListener();
-            Middlewares = middlewares ?? new List<Func<HttpRequest, Task>>();
+            Middlewares = middlewares ?? new List<Func<HttpRequest<TRouteInfo>, Task>>();
             Router = routerFactory(loggerFactory);
         }
 
-        private async Task InvokeMiddlewaresAsync(HttpRequest request)
+        private async Task InvokeMiddlewaresAsync(HttpRequest<TRouteInfo> request)
         {
             foreach (var handler in Middlewares)
                 await handler(request);
@@ -39,14 +41,12 @@ namespace JetBlack.Http.Core
 
         private async Task HandleRequestAsync(HttpListenerContext context)
         {
-            var request = new HttpRequest(context);
-            var path = context.Request.Url.LocalPath;
             try
             {
-                await InvokeMiddlewaresAsync(request);
+                var (handler, routeInfo) = Router.FindHandler(context.Request.Url.LocalPath);
+                var request = new HttpRequest<TRouteInfo>(context, routeInfo);
 
-                var (handler, matches) = Router.FindHandler(path);
-                request.Matches = matches;
+                await InvokeMiddlewaresAsync(request);
                 var response = await handler(request);
                 await response.Apply(context.Response);
             }

@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 
 namespace JetBlack.Http.Core
 {
-    public class HttpRequest
+    public class HttpRequest<TRouteInfo> where TRouteInfo : class
     {
         public HttpListenerContext Context { get; }
         public HttpListenerRequest Request => Context.Request;
-        public Dictionary<string, object?>? Matches { get; set; } = null;
+        public TRouteInfo? RouteInfo { get; }
 
-        public HttpRequest(HttpListenerContext context)
+        public HttpRequest(HttpListenerContext context, TRouteInfo? routeInfo)
         {
             Context = context;
+            RouteInfo = routeInfo;
         }
     }
 }
