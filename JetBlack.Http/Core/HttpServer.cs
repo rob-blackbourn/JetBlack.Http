@@ -72,36 +72,55 @@ namespace JetBlack.Http.Core
                     "Listening on [{Bindings}].",
                     string.Join(",", Listener.Prefixes));
 
+                // Create a list of pending tasks, with an initial listener task. 
                 var listenerTask = Task.Run(
                     () => Listener.GetContextAsync(),
                     cancellationToken
                 );
-                var tasks = new List<Task>(new[] { listenerTask });
+                var pendingTasks = new List<Task>(new[] { listenerTask });
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var task = await Task.WhenAny(tasks);
-                    tasks.Remove(task);
+                    // Wait for any of the tasks to be completed, then remove
+                    // it from the list of pending tasks.
+                    var completedTask = await Task.WhenAny(pendingTasks);
+                    pendingTasks.Remove(completedTask);
 
-                    if (task != listenerTask)
+                    if (completedTask != listenerTask)
                     {
-                        await task;
-                        continue;
+                        try
+                        {
+                            await completedTask;
+                        }
+                        catch (Exception handlerError)
+                        {
+                            // Handler errors shouldn't stop the server.
+                            _logger.LogError(handlerError, "A handler failed");
+                        }
                     }
+                    else
+                    {
+                        // The listener task returns the context required by
+                        // the handler. A new handler task is created for the
+                        // context, and added to the pending tasks. An exception
+                        // thrown by the listener task is unrecoverable, and
+                        // flows through to the outer catch.
+                        var context = await listenerTask;
+                        pendingTasks.Add(
+                            Task.Run(
+                                () => HandleRequestAsync(context),
+                                cancellationToken
+                            )
+                        );
 
-                    var context = await listenerTask;
-                    tasks.Add(
-                        Task.Run(
-                            () => HandleRequestAsync(context),
-                            cancellationToken
-                        )
-                    );
-                    tasks.Add(
-                        listenerTask = Task.Run(
-                            () => Listener.GetContextAsync(),
-                            cancellationToken
-                        )
-                    );
+                        // Add a task to listen for the next request.
+                        pendingTasks.Add(
+                            listenerTask = Task.Run(
+                                () => Listener.GetContextAsync(),
+                                cancellationToken
+                            )
+                        );
+                    }
                 }
 
                 _logger.LogInformation("Stopping the listener.");
