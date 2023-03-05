@@ -1,4 +1,3 @@
-# Example Using Fluent Config
+# Example Using a Controller
 
-This example demonstrates how to configure the server using fluent
-configuration.
+This example demonstrates how to use a controller class.
