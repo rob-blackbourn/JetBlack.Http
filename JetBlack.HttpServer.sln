@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CancellationBehaviour", "Ex
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleUsingController", "Examples\ExampleUsingController\ExampleUsingController.csproj", "{51825E10-27D9-4FBD-A049-0AC4770B0FD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleUsingControllerWithAttributes", "Examples\ExampleUsingControllerWithAttributes\ExampleUsingControllerWithAttributes.csproj", "{A3B3486F-6FC3-493D-AF32-DC4455445B40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{51825E10-27D9-4FBD-A049-0AC4770B0FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51825E10-27D9-4FBD-A049-0AC4770B0FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51825E10-27D9-4FBD-A049-0AC4770B0FD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3B3486F-6FC3-493D-AF32-DC4455445B40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3B3486F-6FC3-493D-AF32-DC4455445B40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3B3486F-6FC3-493D-AF32-DC4455445B40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3B3486F-6FC3-493D-AF32-DC4455445B40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C0AC082E-2E04-437A-BC69-956E487B76EF} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
@@ -64,5 +70,6 @@ Global
 		{02E6E785-EF81-4ADD-94FB-E3432C30EA90} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
 		{0F4A3BE0-4A46-40D2-BB84-BB28F930AFEA} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
 		{51825E10-27D9-4FBD-A049-0AC4770B0FD8} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
+		{A3B3486F-6FC3-493D-AF32-DC4455445B40} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
 	EndGlobalSection
 EndGlobal
