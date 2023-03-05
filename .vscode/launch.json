@@ -11,12 +11,8 @@
         "preLaunchTask": "build Example",
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/Example/bin/Debug/net6.0/Example.dll",
-        "args": [],
         "cwd": "${workspaceFolder}/Examples/Example",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "env": {
-          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
-        },
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
@@ -27,12 +23,8 @@
         "preLaunchTask": "build ExampleUsingFluentConfig",
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/ExampleUsingFluentConfig/bin/Debug/net6.0/ExampleUsingFluentConfig.dll",
-        "args": [],
         "cwd": "${workspaceFolder}/Examples/ExampleUsingFluentConfig",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "env": {
-          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
-        },
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
@@ -43,12 +35,8 @@
         "preLaunchTask": "build ExampleUsingFuncConfig",
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/ExampleUsingFuncConfig/bin/Debug/net6.0/ExampleUsingFuncConfig.dll",
-        "args": [],
         "cwd": "${workspaceFolder}/Examples/ExampleUsingFuncConfig",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "env": {
-          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
-        },
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
@@ -59,12 +47,8 @@
         "preLaunchTask": "build LongRunningHandler",
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
-        "args": [],
         "cwd": "${workspaceFolder}/Examples/LongRunningHandler",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "env": {
-          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
-        },
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
@@ -75,12 +59,20 @@
         "preLaunchTask": "build CancellationBehaviour",
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
-        "args": [],
         "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "env": {
-          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
-        },
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
+        "name": "ExampleUsingController",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build ExampleUsingController",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/ExampleUsingController/bin/Debug/net6.0/ExampleUsingController.dll",
+        "cwd": "${workspaceFolder}/Examples/ExampleUsingController",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
