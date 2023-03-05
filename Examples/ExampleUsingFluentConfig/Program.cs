@@ -14,21 +14,22 @@ namespace Example
     {
         static async Task Main(string[] args)
         {
-            var loggerFactory = LoggerFactory.Create(builder =>
+            using (var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.AddConsole();
                 builder.SetMinimumLevel(LogLevel.Trace);
-            });
+            }))
+            {
+                var server = new RestServer(loggerFactory)
+                    .AddPrefix("http://*:8081/")
+                    .ConfigureRouter(router => router.IgnoreCase = true)
+                    .AddRoute(SayHello, "/api/v1/helloWorld", "GET")
+                    .AddRoute(SayWithQueryString, "/api/v1/hello")
+                    .AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST")
+                    .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
-            var server = new RestServer(loggerFactory)
-                .AddPrefix("http://*:8081/")
-                .ConfigureRouter(router => router.IgnoreCase = true)
-                .AddRoute(SayHello, "/api/v1/helloWorld", "GET")
-                .AddRoute(SayWithQueryString, "/api/v1/hello") // GET is the default.
-                .AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST")
-                .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
-
-            await server.RunAsync();
+                await server.RunAsync();
+            }
         }
 
         public static Task<HttpResponse> SayHello(RestRequest request)

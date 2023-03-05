@@ -16,25 +16,32 @@ namespace Example
     {
         static async Task Main(string[] args)
         {
-            var loggerFactory = LoggerFactory.Create(builder =>
+            using (var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.AddConsole();
                 builder.SetMinimumLevel(LogLevel.Trace);
-            });
+            }))
+            {
+                // Setup the listener.
+                var listener = new HttpListener();
+                listener.Prefixes.Add("http://*:8081/");
 
-            var listener = new HttpListener();
-            listener.Prefixes.Add("http://*:8081/");
+                // Setup the router.
+                var router = new RestRouter(true, loggerFactory);
+                router.AddRoute(SayHello, "/api/v1/helloWorld", "GET");
+                router.AddRoute(SayWithQueryString, "/api/v1/hello"); // GET is the default.
+                router.AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST");
+                router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
-            var router = new RestRouter(true, loggerFactory);
-            router.AddRoute(SayHello, "/api/v1/helloWorld", "GET");
-            router.AddRoute(SayWithQueryString, "/api/v1/hello"); // GET is the default.
-            router.AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST");
-            router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
+                // Make a list of middlewares.
+                var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task>>();
 
-            var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task>>();
+                // Make the server.
+                var server = new RestServer(listener, router, middlewares, loggerFactory);
 
-            var server = new RestServer(listener, router, middlewares, loggerFactory);
-            await server.RunAsync();
+                // Start the server.
+                await server.RunAsync();
+            }
         }
 
         public static Task<HttpResponse> SayHello(RestRequest request)
