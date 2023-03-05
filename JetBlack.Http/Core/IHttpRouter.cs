@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JetBlack.Http.Core
@@ -19,7 +20,7 @@ namespace JetBlack.Http.Core
         /// <param name="path">The path.</param>
         /// <param name="methods">The HTTP methods.</param>
         void AddRoute(
-            Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler,
+            Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler,
             string path,
             params string[] methods);
 
@@ -29,7 +30,7 @@ namespace JetBlack.Http.Core
         /// <param name="path">The path.</param>
         /// <param name="method">The HTTP method</param>
         /// <returns></returns>
-        (Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>>, TRouteInfo) FindHandler(
+        (Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, TRouteInfo) FindHandler(
             string path,
             string method);
     }

@@ -61,16 +61,16 @@ namespace Example
         }
 
 
-        public static Task<HttpResponse> QuickHandler(RestRequest request)
+        public static Task<HttpResponse> QuickHandler(RestRequest request, CancellationToken token)
         {
             var response = HttpResponse.FromString($"Quick: {DateTime.Now}");
 
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SlowHandler(RestRequest request)
+        public static Task<HttpResponse> SlowHandler(RestRequest request, CancellationToken token)
         {
-            Thread.Sleep(TimeSpan.FromSeconds(30));
+            token.WaitHandle.WaitOne(TimeSpan.FromSeconds(30));
 
             var response = HttpResponse.FromString($"Slow: {DateTime.Now}");
 

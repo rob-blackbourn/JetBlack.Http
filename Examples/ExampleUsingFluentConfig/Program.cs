@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -32,7 +33,7 @@ namespace Example
             }
         }
 
-        public static Task<HttpResponse> SayHello(RestRequest request)
+        public static Task<HttpResponse> SayHello(RestRequest request, CancellationToken token)
         {
             var response = HttpResponse.FromString(
                 "Hello, World!",
@@ -41,7 +42,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayName(RestRequest request)
+        public static Task<HttpResponse> SayName(RestRequest request, CancellationToken token)
         {
             var name = request.RouteInfo.Matches["name"];
 
@@ -52,7 +53,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayNameAndAge(RestRequest request)
+        public static Task<HttpResponse> SayNameAndAge(RestRequest request, CancellationToken token)
         {
             var name = request.RouteInfo.Matches["name"];
             var age = request.RouteInfo.Matches["age"];
@@ -64,7 +65,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        public static Task<HttpResponse> SayWithQueryString(RestRequest request)
+        public static Task<HttpResponse> SayWithQueryString(RestRequest request, CancellationToken token)
         {
             var name = request.Request.QueryString.Get("name");
             var age = request.Request.QueryString.Get("age");

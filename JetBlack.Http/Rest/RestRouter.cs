@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -11,7 +12,7 @@ using JetBlack.Http.Core;
 namespace JetBlack.Http.Rest
 {
     using RestRequest = HttpRequest<RestRouteInfo, RestServerInfo>;
-    using RestRequestHandler = Func<HttpRequest<RestRouteInfo, RestServerInfo>, Task<HttpResponse>>;
+    using RestRequestHandler = Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>;
 
     public class RestRouter : IHttpRouter<RestRouteInfo, RestServerInfo>
     {
@@ -42,7 +43,7 @@ namespace JetBlack.Http.Rest
 
         /// <inheritdoc/>
         public void AddRoute(
-            Func<RestRequest, Task<HttpResponse>> handler,
+            RestRequestHandler handler,
             string path,
             params string[] methods)
         {
@@ -87,7 +88,7 @@ namespace JetBlack.Http.Rest
             return NoRoute;
         }
 
-        private Task<HttpResponse> NotFound(RestRequest request)
+        private Task<HttpResponse> NotFound(RestRequest request, CancellationToken token)
         {
             return Task.FromResult(new HttpResponse(HttpStatusCode.NotFound));
         }

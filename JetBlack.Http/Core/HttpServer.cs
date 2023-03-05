@@ -108,7 +108,7 @@ namespace JetBlack.Http.Core
                         var context = await listenerTask;
                         pendingTasks.Add(
                             Task.Run(
-                                () => HandleRequestAsync(context),
+                                () => HandleRequestAsync(context, cancellationToken),
                                 cancellationToken
                             )
                         );
@@ -136,7 +136,9 @@ namespace JetBlack.Http.Core
             _logger.LogInformation("Stopped.");
         }
 
-        private async Task HandleRequestAsync(HttpListenerContext context)
+        private async Task HandleRequestAsync(
+            HttpListenerContext context,
+            CancellationToken token)
         {
             try
             {
@@ -156,7 +158,7 @@ namespace JetBlack.Http.Core
                     await middlewareHandler(request);
 
                 // Invoke the route handler and apply the result.
-                var response = await handler(request);
+                var response = await handler(request, token);
                 await response.Apply(context.Response);
             }
             catch

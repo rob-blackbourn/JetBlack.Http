@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace JetBlack.Http.Core
@@ -20,7 +21,7 @@ namespace JetBlack.Http.Core
         /// <returns>The HTTP server.</returns>
         public static HttpServer<TRouter, TRouteInfo, TServerInfo> AddRoute<TRouter, TRouteInfo, TServerInfo>(
             this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
-            Func<HttpRequest<TRouteInfo, TServerInfo>, Task<HttpResponse>> handler,
+            Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler,
             string path,
             params string[] methods)
             where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
