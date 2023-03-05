@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JetBlack.Http", "JetBlack.H
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{A84F6657-14C1-4AC0-AFD3-B83BE1612E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Example", "Examples\Example\Example.csproj", "{C0AC082E-2E04-437A-BC69-956E487B76EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleRaw", "Examples\ExampleRaw\ExampleRaw.csproj", "{C0AC082E-2E04-437A-BC69-956E487B76EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleUsingFluentConfig", "Examples\ExampleUsingFluentConfig\ExampleUsingFluentConfig.csproj", "{1D0141BE-5C4B-4529-A1A2-EE8B3DF7B354}"
 EndProject

@@ -40,12 +40,12 @@
         },
 
         {
-            "label": "build Example",
+            "label": "build ExampleRaw",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/Example/Example.csproj",
+                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -56,25 +56,25 @@
             }
         },
         {
-            "label": "publish Example",
+            "label": "publish ExampleRaw",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/Example/Example.csproj",
+                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch Example",
+            "label": "watch ExampleRaw",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/Example/Example.csproj",
+                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "Example",
+        "name": "ExampleRaw",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build Example",
+        "preLaunchTask": "build ExampleRaw",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/Example/bin/Debug/net6.0/Example.dll",
-        "cwd": "${workspaceFolder}/Examples/Example",
+        "program": "${workspaceFolder}/Examples/ExampleRaw/bin/Debug/net6.0/ExampleRaw.dll",
+        "cwd": "${workspaceFolder}/Examples/ExampleRaw",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
