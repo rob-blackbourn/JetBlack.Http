@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 using JetBlack.Http.Core;
+using System.Threading;
 
 namespace JetBlack.Http.Rest
 {
@@ -26,7 +27,7 @@ namespace JetBlack.Http.Rest
         public RestServer(
             HttpListener? listener = null,
             RestRouter? router = null,
-            IList<Func<RestRequest, Task>>? middlewares = null,
+            IList<Func<RestRequest, CancellationToken, Task>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
             : base(
                 lf => router ?? new RestRouter(true, lf),
