@@ -23,13 +23,13 @@ namespace Example
             });
 
             var server = new RestServer(loggerFactory)
-                .ConfigureListener(listener => listener.Prefixes.Add("http://*:8081/"))
+                .ConfigureListener(listener => listener.Prefixes.Add("http://localhost:8081/"))
                 .ConfigureRouter(router =>
                 {
                     router.IgnoreCase = true;
 
-                    router.AddRoute(QuickHandler, "/api/v1/quick");
-                    router.AddRoute(SlowHandler, "/api/v1/slow");
+                    router.AddRoute(QuickHandler, "/quick");
+                    router.AddRoute(SlowHandler, "/slow");
                 });
 
             await server.RunAsync();
