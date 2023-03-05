@@ -68,5 +68,21 @@
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
+      {
+        "name": "CancellationBehaviour",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build CancellationBehaviour",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "env": {
+          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
+        },
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
     ]
 }
