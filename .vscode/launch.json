@@ -52,5 +52,21 @@
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
+      {
+        "name": "LongRunningHandler",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build LongRunningHandler",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
+        "args": [],
+        "cwd": "${workspaceFolder}/Examples/LongRunningHandler",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "env": {
+          "JETBLACK_MESSAGEBUS_ROOT": "${workspaceFolder}"
+        },
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
     ]
 }
