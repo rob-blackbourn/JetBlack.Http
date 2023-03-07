@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -37,20 +38,21 @@ namespace JetBlack.Http.Core
             Func<ILoggerFactory, TRouter> routerFactory,
             TServerInfo serverInfo,
             HttpListener? listener = null,
-            IList<Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task>>? middlewares = null,
+            IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
             _logger = loggerFactory.CreateLogger<HttpServer<TRouter, TRouteInfo, TServerInfo>>();
 
             Listener = listener ?? new HttpListener();
-            Middlewares = middlewares ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task>>();
+            Middlewares = middlewares
+                ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
             Router = routerFactory(loggerFactory);
             _serverInfo = serverInfo;
         }
 
         internal HttpListener Listener { get; }
-        internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task>> Middlewares { get; }
+        internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> Middlewares { get; }
         internal TRouter Router { get; }
 
         /// <summary>
@@ -136,6 +138,14 @@ namespace JetBlack.Http.Core
             _logger.LogInformation("Stopped.");
         }
 
+        private Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> MakeMiddlewareChain(
+            Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler)
+        {
+            foreach (var middleware in Middlewares.Reverse())
+                handler = async (HttpRequest<TRouteInfo, TServerInfo> request, CancellationToken token) => await middleware(request, handler, token);
+            return handler;
+        }
+
         private async Task HandleRequestAsync(
             HttpListenerContext context,
             CancellationToken token)
@@ -153,9 +163,7 @@ namespace JetBlack.Http.Core
                     routeInfo,
                     _serverInfo);
 
-                // Invoke the middleware.
-                foreach (var middlewareHandler in Middlewares)
-                    await middlewareHandler(request, token);
+                handler = MakeMiddlewareChain(handler);
 
                 // Invoke the route handler and apply the result.
                 var response = await handler(request, token);

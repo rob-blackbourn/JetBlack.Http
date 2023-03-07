@@ -27,7 +27,7 @@ namespace JetBlack.Http.Rest
         public RestServer(
             HttpListener? listener = null,
             RestRouter? router = null,
-            IList<Func<RestRequest, CancellationToken, Task>>? middlewares = null,
+            IList<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>? middlewares = null,
             ILoggerFactory? loggerFactory = null)
             : base(
                 lf => router ?? new RestRouter(true, lf),
