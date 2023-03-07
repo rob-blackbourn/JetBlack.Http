@@ -142,7 +142,7 @@ namespace JetBlack.Http.Core
             Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler)
         {
             foreach (var middleware in Middlewares.Reverse())
-                handler = async (HttpRequest<TRouteInfo, TServerInfo> request, CancellationToken token) => await middleware(request, handler, token);
+                handler = async (request, token) => await middleware(request, handler, token);
             return handler;
         }
 
