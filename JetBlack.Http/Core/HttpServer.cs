@@ -148,7 +148,7 @@ namespace JetBlack.Http.Core
         private Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> MakeMiddlewareChain(
             Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler)
         {
-            foreach (var middleware in Middlewares.Reverse().ToArray())
+            foreach (var middleware in Middlewares.Reverse())
                 handler = WrapMiddleware(middleware, handler);
             return handler;
         }
