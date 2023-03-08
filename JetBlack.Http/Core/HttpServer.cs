@@ -138,18 +138,14 @@ namespace JetBlack.Http.Core
             _logger.LogInformation("Stopped.");
         }
 
-        private static Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> WrapMiddleware(
-            Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>> middleware,
-            Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler)
-        {
-            return async (request, token) => await middleware(request, handler, token);
-        }
-
         private Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> MakeMiddlewareChain(
             Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler)
         {
             foreach (var middleware in Middlewares.Reverse())
-                handler = WrapMiddleware(middleware, handler);
+            {
+                var next = handler; // Without a new variable the last loop value is passed to all closures.
+                handler = async (request, token) => await middleware(request, next, token);
+            }
             return handler;
         }
 
