@@ -88,5 +88,17 @@
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
+      {
+        "name": "ExampleMiddleware",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build ExampleMiddleware",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/ExampleMiddleware/bin/Debug/net6.0/ExampleMiddleware.dll",
+        "cwd": "${workspaceFolder}/Examples/ExampleMiddleware",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
     ]
 }

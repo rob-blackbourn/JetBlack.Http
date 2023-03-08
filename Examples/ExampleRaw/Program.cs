@@ -35,7 +35,7 @@ namespace Example
                 router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
                 // Make a list of middlewares.
-                var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task>>();
+                var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
 
                 // Make the server.
                 var server = new RestServer(listener, router, middlewares, loggerFactory);

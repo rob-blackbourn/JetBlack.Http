@@ -43,7 +43,7 @@ namespace JetBlack.Http.Core
         /// <returns>The HTTP server.</returns>
         public static HttpServer<TRouter, TRouteInfo, TServerInfo> AddMiddleware<TRouter, TRouteInfo, TServerInfo>(
             this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
-            Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task> handler)
+            Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>> handler)
             where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
             where TServerInfo : class
@@ -123,7 +123,7 @@ namespace JetBlack.Http.Core
         /// <returns>The HTTP server.</returns>
         public static HttpServer<TRouter, TRouteInfo, TServerInfo> ConfigureMiddleware<TRouter, TRouteInfo, TServerInfo>(
             this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
-            Action<IList<Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task>>> configure)
+            Action<IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>> configure)
             where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
             where TRouteInfo : class
             where TServerInfo : class
