@@ -19,11 +19,6 @@ namespace JetBlack.Http.Core
         /// <summary>
         /// The Request.
         /// </summary>
-        public HttpListenerRequest Request => Context.Request;
-        /// <summary>
-        /// The route information. This is valid for the lifetime of the invocation of the route.
-        /// </summary>
-        /// <value>Route information</value>
         public TRouteInfo RouteInfo { get; }
         /// <summary>
         /// Server information. This is valid for the lifetime of the server.
