@@ -1,4 +1,4 @@
-# Example Using Fluent Config
+# Example Using CORS Middleware
 
-This example demonstrates how to configure the server using fluent
-configuration.
+To demonstrate the behaviour a back end server provides data, and a front end
+server makes requests.
