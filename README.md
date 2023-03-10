@@ -102,6 +102,52 @@ namespace Example
 }
 ```
 
+## Routing
+
+The default REST router allows variables in path names: i.e. `/foo/bar/{name:string}/{age:int}`.
+The available types are: `string`, `int`, `double`, `datetime`, `path`.
+The `path` type captures the remaining path as a string.
+
+## Middleware
+
+The middleware is nested, is called in order, and has access to both the request
+and the response.
+
+Given the following middleware:
+
+```csharp
+public static async Task<HttpResponse> FirstMiddleware(
+    RestRequest request,
+    Func<RestRequest, CancellationToken, Task<HttpResponse>> handler,
+    CancellationToken token)
+{
+    Console.WriteLine(">FirstMiddleware");
+    var response = await handler(request, token);
+    Console.WriteLine("<FirstMiddleware");
+    return response;
+}
+
+public static async Task<HttpResponse> SecondMiddleware(
+    RestRequest request,
+    Func<RestRequest, CancellationToken, Task<HttpResponse>> handler,
+    CancellationToken token)
+{
+    Console.WriteLine(">SecondMiddleware");
+    var response = await handler(request, token);
+    Console.WriteLine("<SecondMiddleware");
+    return response;
+}
+```
+
+The output would be:
+
+```
+>FirstMiddleware
+>SecondMiddleware
+<SecondMiddleware
+<FirstMiddleware
+```
+
 ## Acknowledgements
 
 This was derived from [Cherry](https://github.com/LegendaryB/Cherry).
