@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using System.Text;
 
@@ -23,7 +24,7 @@ namespace JetBlack.Http.Core
             string contentType = "text/html",
             Encoding? contentEncoding = null,
             WebHeaderCollection? headers = null,
-            byte[]? body = null)
+            Stream? body = null)
         {
             StatusCode = statusCode;
             ContentType = contentType;
@@ -56,7 +57,7 @@ namespace JetBlack.Http.Core
         /// The body.
         /// </summary>
         /// <value>The body bytes or null.</value>
-        public byte[]? Body { get; }
+        public Stream? Body { get; }
 
         internal async Task Apply(HttpListenerResponse response)
         {
@@ -72,8 +73,7 @@ namespace JetBlack.Http.Core
 
             if (Body != null)
             {
-                response.ContentLength64 = Body.LongLength;
-                await response.OutputStream.WriteAsync(Body, 0, Body.Length);
+                await Body.CopyToAsync(response.OutputStream);
             }
 
             response.Close();
@@ -96,15 +96,13 @@ namespace JetBlack.Http.Core
             WebHeaderCollection? headers = null
             )
         {
-            contentEncoding ??= Encoding.UTF8;
-            var body = Encoding.UTF8.GetBytes(text);
-
-            return new HttpResponse(
+            return FromBytes(
+                Encoding.UTF8.GetBytes(text),
                 statusCode,
                 contentType,
-                contentEncoding,
-                headers,
-                body);
+                contentEncoding ??= Encoding.UTF8,
+                headers
+            );
         }
 
         /// <summary>
@@ -124,12 +122,17 @@ namespace JetBlack.Http.Core
             WebHeaderCollection? headers = null
             )
         {
+            if (headers == null)
+                headers = new WebHeaderCollection();
+
+            headers["Content-Length"] = body.LongLength.ToString();
+
             return new HttpResponse(
                 statusCode,
                 contentType,
                 contentEncoding,
                 headers,
-                body);
+                new MemoryStream(body));
         }
     }
 }
