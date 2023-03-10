@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Specialized;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -59,6 +58,13 @@ namespace JetBlack.Http.Middleware
             return (uncompressedStream, "identity");
         }
 
+        /// <summary>
+        /// Apply the middleware to a request.
+        /// </summary>
+        /// <param name="request">The request</param>
+        /// <param name="handler">The handler to call.</param>
+        /// <param name="token">The cancellation token.</param>
+        /// <returns>The response, compressed where requested.</returns>
         public async Task<HttpResponse> Apply(
             HttpRequest<TRouteInfo, TServerInfo> request,
             Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler,
@@ -89,6 +95,10 @@ namespace JetBlack.Http.Middleware
                 body);
         }
 
+        /// <summary>
+        /// Create the middleware handler.
+        /// </summary>
+        /// <returns>A middleware handler.</returns>
         public static Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>> Create()
         {
             var middleware = new CompressionMiddleware<TRouteInfo, TServerInfo>();

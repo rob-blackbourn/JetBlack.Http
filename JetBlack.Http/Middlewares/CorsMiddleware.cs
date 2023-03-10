@@ -28,6 +28,17 @@ namespace JetBlack.Http.Middleware
         private readonly bool _allowAllHeaders;
         private readonly Regex? _allowOriginRegex;
 
+        /// <summary>
+        /// Construct the CORS middleware.
+        /// </summary>
+        /// <param name="allowOrigins">A set of allowed origins, or null if all are allowed.</param>
+        /// <param name="allowMethods">A set of allowed methods, or null if all are allowed.</param>
+        /// <param name="allowHeaders">A set of allowed headers, or none if all are allowed.</param>
+        /// <param name="allowCredentials">A boolean to control whether credentials are allowed.</param>
+        /// <param name="allowOriginRegex">A regular expression to match with origins, or null if not required.</param>
+        /// <param name="exposeHeaders">A set of headers to expose.</param>
+        /// <param name="maxAge">The maximum age of the CORS headers.</param>
+        /// <param name="loggerFactory">An optional logger factory.</param>
         public CorsMiddleware(
             ISet<string>? allowOrigins = null,
             ISet<string>? allowMethods = null,
@@ -193,6 +204,13 @@ namespace JetBlack.Http.Middleware
                 body: response.Body);
         }
 
+        /// <summary>
+        /// Apply the middleware to a request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="handler">The handler to call.</param>
+        /// <param name="token">A cancellation token.</param>
+        /// <returns>The response decorated with CORS headers.</returns>
         public async Task<HttpResponse> Apply(
             HttpRequest<TRouteInfo, TServerInfo> request,
             Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler,
@@ -216,6 +234,18 @@ namespace JetBlack.Http.Middleware
             return await CorsResponse(request, handler, token);
         }
 
+        /// <summary>
+        /// Create a CORS middleware handler.
+        /// </summary>
+        /// <param name="allowOrigins">A set of allowed origins, or null if all are allowed.</param>
+        /// <param name="allowMethods">A set of allowed methods, or null if all are allowed.</param>
+        /// <param name="allowHeaders">A set of allowed headers, or none if all are allowed.</param>
+        /// <param name="allowCredentials">A boolean to control whether credentials are allowed.</param>
+        /// <param name="allowOriginRegex">A regular expression to match with origins, or null if not required.</param>
+        /// <param name="exposeHeaders">A set of headers to expose.</param>
+        /// <param name="maxAge">The maximum age of the CORS headers.</param>
+        /// <param name="loggerFactory">An optional logger factory.</param>
+        /// <returns>A CORS middleware handler.</returns>
         public static Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>> Create(
              ISet<string>? allowOrigins = null,
             ISet<string>? allowMethods = null,
