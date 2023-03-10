@@ -1,5 +1,6 @@
-﻿using System.Net;
-using System.Text;
+﻿using System.IO;
+using System.IO.Compression;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,8 +9,6 @@ using Microsoft.Extensions.Logging;
 using JetBlack.Http.Core;
 using JetBlack.Http.Middleware;
 using JetBlack.Http.Rest;
-using System.IO;
-using System.IO.Compression;
 
 namespace Example
 {
@@ -18,71 +17,8 @@ namespace Example
 
     internal class Program
     {
-        public static byte[] Compress(byte[] bytes)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                using (var gzipStream = new GZipStream(memoryStream, CompressionLevel.Optimal))
-                {
-                    gzipStream.Write(bytes, 0, bytes.Length);
-                }
-                return memoryStream.ToArray();
-            }
-        }
-
-        public static byte[] Decompress(byte[] bytes)
-        {
-            using (var memoryStream = new MemoryStream(bytes))
-            {
-
-                using (var outputStream = new MemoryStream())
-                {
-                    using (var decompressStream = new GZipStream(memoryStream, CompressionMode.Decompress))
-                    {
-                        decompressStream.CopyTo(outputStream);
-                    }
-                    return outputStream.ToArray();
-                }
-            }
-        }
-        public static MemoryStream Compress2(Stream uncompressed)
-        {
-            var memoryStream = new MemoryStream();
-            using (var gzipStream = new GZipStream(memoryStream, CompressionLevel.Optimal))
-            {
-                uncompressed.CopyTo(gzipStream);
-                memoryStream.Seek(0, SeekOrigin.Begin);
-            }
-            return memoryStream;
-        }
-
-        public static MemoryStream Decompress2(Stream compressedStream)
-        {
-            var outputStream = new MemoryStream();
-
-            using (var decompressStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-            {
-                decompressStream.CopyTo(outputStream);
-            }
-            outputStream.Seek(0, SeekOrigin.Begin);
-            return outputStream;
-        }
-
         static async Task Main(string[] args)
         {
-            // var text = "This is not a test";
-            // var buf = Encoding.UTF8.GetBytes(text);
-            // var compressed = Compress(buf);
-            // var decompressed = Decompress(compressed);
-            // var result = Encoding.UTF8.GetString(decompressed);
-
-            // var uncompressedStream = new MemoryStream(buf);
-            // var compressedStream = Compress2(uncompressedStream);
-            // var decompressedStream = Decompress2(compressedStream);
-            // var outBuf = decompressedStream.ToArray();
-            // var result2 = Encoding.UTF8.GetString(outBuf);
-
-
             using (var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.AddConsole();
