@@ -107,11 +107,19 @@ namespace Example
 }
 ```
 
+## State
+
+Two properties are provided for maintaining state on the `HttpRequest` object:
+`RouteInfo` and `ServerInfo`. The lifetime of `ServerInfo` is the lifetime of
+the server. The lifetime of `RouteInfo` is that of the invocation of the route.
+
 ## Routing
 
 The default REST router allows variables in path names: i.e. `/foo/bar/{name:string}/{age:int}`.
 The available types are: `string`, `int`, `double`, `datetime`, `path`.
-The `path` type captures the remaining path as a string.
+The `path` type captures the remaining path as a string, and must be the last variable.
+
+The variables are stored in the `Matches` property on the `HttpRequest.RouteInfo`.
 
 ## Middleware
 
