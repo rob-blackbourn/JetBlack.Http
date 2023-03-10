@@ -19,108 +19,118 @@ namespace JetBlack.Http.Middleware
         private static readonly HashSet<string> ALL_METHODS = new HashSet<string>(new[] { "DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT" });
 
         private readonly ILogger<CorsMiddleware<TRouteInfo, TServerInfo>> _logger;
-        private readonly ISet<string> _allow_methods;
-        private readonly ISet<string>? _allow_origins;
-        private readonly ISet<string>? _allow_headers;
-        private readonly IDictionary<string, string> _simple_headers = new Dictionary<string, string>();
-        private readonly IDictionary<string, string> _preflight_headers = new Dictionary<string, string>();
-        private readonly bool _allow_all_origins;
-        private readonly bool _allow_all_headers;
-        private readonly Regex? _allow_origin_regex;
+        private readonly ISet<string> _allowMethods;
+        private readonly ISet<string>? _allowOrigins;
+        private readonly ISet<string>? _allowHeaders;
+        private readonly IDictionary<string, string> _corsHeaders = new Dictionary<string, string>();
+        private readonly IDictionary<string, string> _preflightHeaders = new Dictionary<string, string>();
+        private readonly bool _allowAllOrigins;
+        private readonly bool _allowAllHeaders;
+        private readonly Regex? _allowOriginRegex;
 
         public CorsMiddleware(
-            ISet<string>? allow_origins = null,
-            ISet<string>? allow_methods = null,
-            ISet<string>? allow_headers = null,
-            bool allow_credentials = false,
-            string? allow_origin_regex = null,
-            ISet<string>? expose_headers = null,
-            int max_age = 600,
+            ISet<string>? allowOrigins = null,
+            ISet<string>? allowMethods = null,
+            ISet<string>? allowHeaders = null,
+            bool allowCredentials = false,
+            string? allowOriginRegex = null,
+            ISet<string>? exposeHeaders = null,
+            int maxAge = 600,
             ILoggerFactory? loggerFactory = null)
         {
             _logger = (loggerFactory ?? NullLoggerFactory.Instance).CreateLogger<CorsMiddleware<TRouteInfo, TServerInfo>>();
 
-            _allow_methods = allow_methods != null ? allow_methods : ALL_METHODS;
+            _allowMethods = allowMethods != null ? allowMethods : ALL_METHODS;
 
-            _allow_all_origins = allow_origins == null;
-            if (_allow_all_origins)
+            _allowAllOrigins = allowOrigins == null;
+            if (_allowAllOrigins)
             {
-                _allow_origins = null;
-                _simple_headers.Add("Access-Control-Allow-Origin", "*");
+                _allowOrigins = null;
+                _corsHeaders.Add("Access-Control-Allow-Origin", "*");
             }
             else
-                _allow_origins = allow_origins;
+                _allowOrigins = allowOrigins;
 
-            if (allow_credentials)
-                _simple_headers.Add("Access-Control-Allow-Credentials", "true");
+            if (allowCredentials)
+                _corsHeaders.Add("Access-Control-Allow-Credentials", "true");
 
-            if (expose_headers != null)
-                _simple_headers.Add("Access-Control-Expose-Headers", string.Join(", ", expose_headers));
+            if (exposeHeaders != null)
+                _corsHeaders.Add(
+                    "Access-Control-Expose-Headers",
+                    string.Join(", ", exposeHeaders));
 
-            if (_allow_all_origins)
-                _preflight_headers.Add("Access-Control-Allow-Origin", "*");
+            if (_allowAllOrigins)
+                _preflightHeaders.Add("Access-Control-Allow-Origin", "*");
             else
-                _preflight_headers.Add("Vary", "Origin");
+                _preflightHeaders.Add("Vary", "Origin");
 
-            _preflight_headers.Add("Access-Control-Allow-Methods", string.Join(", ", _allow_methods));
-            _preflight_headers.Add("Access-Control-Max-Age", max_age.ToString());
+            _preflightHeaders.Add(
+                "Access-Control-Allow-Methods",
+                string.Join(", ", _allowMethods));
+            _preflightHeaders.Add("Access-Control-Max-Age", maxAge.ToString());
 
-            _allow_all_headers = allow_headers != null;
-            if (allow_headers == null)
-                _allow_headers = null;
+            _allowAllHeaders = allowHeaders != null;
+            if (allowHeaders == null)
+                _allowHeaders = null;
             else
             {
-                _allow_headers = allow_headers;
-                _preflight_headers.Add("Access-Control-Allow-Headers", string.Join(", ", allow_headers));
+                _allowHeaders = allowHeaders;
+                _preflightHeaders.Add(
+                    "Access-Control-Allow-Headers",
+                    string.Join(", ", allowHeaders));
             }
 
-            if (allow_credentials)
-                _preflight_headers.Add("Access-Control-Allow-Credentials", "true");
+            if (allowCredentials)
+                _preflightHeaders.Add("Access-Control-Allow-Credentials", "true");
 
-            _allow_origin_regex = allow_origin_regex == null ? null : new Regex(allow_origin_regex);
+            _allowOriginRegex = allowOriginRegex == null
+                ? null
+                : new Regex(allowOriginRegex);
         }
 
-        private HttpResponse PreflightCheck(NameValueCollection request_header_map)
+        private HttpResponse PreflightCheck(NameValueCollection requestHeaders)
         {
-            var response_headers = new WebHeaderCollection();
-            foreach (var (key, value) in _preflight_headers)
-                response_headers[key] = value;
+            var responseHeaders = new WebHeaderCollection();
+            foreach (var (key, value) in _preflightHeaders)
+                responseHeaders[key] = value;
 
             try
             {
-                var requested_origin = request_header_map["ORIGIN"];
-                if (IsAllowedOrigin(requested_origin))
+                var requestOrigin = requestHeaders["Origin"];
+                if (IsAllowedOrigin(requestOrigin))
                 {
-                    if (!_allow_all_origins)
+                    if (!_allowAllOrigins)
+                    {
                         // If self.allow_all_origins is True, then the "Access-Control-Allow-Origin"
                         // header is already set to "*".
                         // If we only allow specific origins, then we have to mirror back
                         // the Origin header in the response.
-                        response_headers["Access-Control-Allow-Origin"] = requested_origin;
+                        responseHeaders["Access-Control-Allow-Origin"] = requestOrigin;
+                    }
                 }
                 else
-                    throw new ApplicationException($"Invalid origin {requested_origin}");
+                    throw new ApplicationException($"Invalid origin {requestOrigin}");
 
-                var requested_method = request_header_map["Access-Control-Request-Method"];
-                if (!_allow_methods.Contains(requested_method))
-                    throw new ApplicationException($"Invalid method {requested_method}");
+                var requestMethod = requestHeaders["Access-Control-Request-Method"];
+                if (!_allowMethods.Contains(requestMethod))
+                    throw new ApplicationException($"Invalid method {requestMethod}");
 
                 // If we allow all headers, then we have to mirror back any requested
                 // headers in the response.
-                var access_control_request_header = request_header_map["Access-Control-Request-Headers"];
-                if (access_control_request_header != null)
+                var accessControlRequestHeader = requestHeaders["Access-Control-Request-Headers"];
+                if (accessControlRequestHeader != null)
                 {
-                    if (_allow_all_headers)
-                        response_headers["Access-Control-Allow-Headers"] = access_control_request_header;
-                    else if (_allow_headers != null)
-                        foreach (var hdr in access_control_request_header.Split(",").Select(x => x.Trim()))
-                            if (!_allow_headers.Contains(hdr))
-                                throw new ApplicationException($"Invalid header {hdr}");
+                    if (_allowAllHeaders)
+                        responseHeaders["Access-Control-Allow-Headers"] = accessControlRequestHeader;
+                    else if (_allowHeaders != null)
+                        foreach (var name in accessControlRequestHeader.Split(",").Select(x => x.Trim()))
+                            if (!_allowHeaders.Contains(name))
+                                throw new ApplicationException($"Invalid header {name}");
                 }
 
                 _logger.LogDebug("Passed preflight checks");
 
-                return HttpResponse.FromString("OK", HttpStatusCode.OK, headers: response_headers);
+                return HttpResponse.FromString("OK", HttpStatusCode.OK, headers: responseHeaders);
             }
             catch (Exception error)
             {
@@ -134,47 +144,47 @@ namespace JetBlack.Http.Middleware
 
         private bool IsAllowedOrigin(string origin)
         {
-            if (_allow_all_origins)
+            if (_allowAllOrigins)
                 return true;
 
-            if (_allow_origin_regex != null && _allow_origin_regex.IsMatch(origin))
+            if (_allowOriginRegex != null && _allowOriginRegex.IsMatch(origin))
                 return true;
 
-            return _allow_origins != null && _allow_origins.Contains(origin);
+            return _allowOrigins != null && _allowOrigins.Contains(origin);
         }
 
-        private async Task<HttpResponse> SimpleResponse(
+        private async Task<HttpResponse> CorsResponse(
                 HttpRequest<TRouteInfo, TServerInfo> request,
                 Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler,
                 CancellationToken token)
         {
-            var request_headers = request.Context.Request.Headers;
+            var requestHeaders = request.Context.Request.Headers;
 
             var response = await handler(request, token);
 
             var headers = response.Headers ?? new WebHeaderCollection();
-            foreach (var (key, value) in _simple_headers)
+            foreach (var (key, value) in _corsHeaders)
                 headers[key] = value;
 
-            var origin = request_headers["Origin"];
+            var origin = requestHeaders["Origin"];
             if (origin == null)
                 throw new ApplicationException("Origin cannot be null");
 
             // If request includes any cookie headers, then we must respond
             // with the specific origin instead of '*'.
-            if (_allow_all_origins && request_headers["Cookie"] != null)
+            if (_allowAllOrigins && requestHeaders["Cookie"] != null)
                 headers["Access-Control-Allow-Origin"] = origin;
 
             // If we only allow specific origins, then we have to mirror back
             // the Origin header in the response.
-            else if (!_allow_all_origins && IsAllowedOrigin(origin))
+            else if (!_allowAllOrigins && IsAllowedOrigin(origin))
             {
                 headers["Access-Control-Allow-Origin"] = origin;
-                var vary_values = headers["Vary"];
-                if (vary_values == null)
+                var varyValues = headers["Vary"];
+                if (varyValues == null)
                     headers.Add("Vary", "Origin");
                 else
-                    headers["Vary"] = vary_values + ",Origin";
+                    headers["Vary"] = varyValues + ",Origin";
             }
 
             return new HttpResponse(
@@ -202,8 +212,8 @@ namespace JetBlack.Http.Middleware
                 return PreflightCheck(request.Context.Request.Headers);
             }
 
-            _logger.LogDebug("Processing simple response");
-            return await SimpleResponse(request, handler, token);
+            _logger.LogDebug("Processing CORS response");
+            return await CorsResponse(request, handler, token);
         }
     }
 }
