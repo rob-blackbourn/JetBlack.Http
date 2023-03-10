@@ -100,5 +100,41 @@
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
+      {
+        "name": "CompressionMiddlewareExample",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build CompressionMiddlewareExample",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/CompressionMiddlewareExample/bin/Debug/net6.0/CompressionMiddlewareExample.dll",
+        "cwd": "${workspaceFolder}/Examples/CompressionMiddlewareExample",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
+        "name": "UsingCorsMiddleware/BackEnd",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build UsingCorsMiddleware/BackEnd",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd/bin/Debug/net6.0/BackEnd.dll",
+        "cwd": "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
+        "name": "UsingCorsMiddleware/FrontEnd",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build UsingCorsMiddleware/FrontEnd",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd/bin/Debug/net6.0/FrontEnd.dll",
+        "cwd": "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
     ]
 }

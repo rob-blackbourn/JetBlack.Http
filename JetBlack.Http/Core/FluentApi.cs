@@ -81,6 +81,26 @@ namespace JetBlack.Http.Core
         /// <typeparam name="TRouteInfo">The type of the route information.</typeparam>
         /// <typeparam name="TServerInfo">The type of the server information.</typeparam>
         /// <returns>The HTTP server.</returns>
+        public static HttpServer<TRouter, TRouteInfo, TServerInfo> ConfigureServerInfo<TRouter, TRouteInfo, TServerInfo>(
+            this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
+            Action<TServerInfo> configure)
+            where TRouter : class, IHttpRouter<TRouteInfo, TServerInfo>
+            where TRouteInfo : class
+            where TServerInfo : class
+        {
+            configure(server.ServerInfo);
+            return server;
+        }
+
+        /// <summary>
+        /// Configure the listener.
+        /// </summary>
+        /// <param name="server">The HTTP server.</param>
+        /// <param name="configure">A function with which the listener is configured.</param>
+        /// <typeparam name="TRouter">The type of the router.</typeparam>
+        /// <typeparam name="TRouteInfo">The type of the route information.</typeparam>
+        /// <typeparam name="TServerInfo">The type of the server information.</typeparam>
+        /// <returns>The HTTP server.</returns>
         public static HttpServer<TRouter, TRouteInfo, TServerInfo> ConfigureListener<TRouter, TRouteInfo, TServerInfo>(
             this HttpServer<TRouter, TRouteInfo, TServerInfo> server,
             Action<HttpListener> configure)

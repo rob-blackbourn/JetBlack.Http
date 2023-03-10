@@ -23,7 +23,6 @@ namespace JetBlack.Http.Core
         where TServerInfo : class
     {
         private readonly ILogger<HttpServer<TRouter, TRouteInfo, TServerInfo>> _logger;
-        private readonly TServerInfo _serverInfo;
 
         /// <summary>
         /// Create an HTTP Server.
@@ -48,9 +47,10 @@ namespace JetBlack.Http.Core
             Middlewares = middlewares
                 ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
             Router = routerFactory(loggerFactory);
-            _serverInfo = serverInfo;
+            ServerInfo = serverInfo;
         }
 
+        internal TServerInfo ServerInfo { get; }
         internal HttpListener Listener { get; }
         internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> Middlewares { get; }
         internal TRouter Router { get; }
@@ -164,7 +164,7 @@ namespace JetBlack.Http.Core
                 var request = new HttpRequest<TRouteInfo, TServerInfo>(
                     context,
                     routeInfo,
-                    _serverInfo);
+                    ServerInfo);
 
                 handler = MakeMiddlewareChain(handler);
 
@@ -172,8 +172,9 @@ namespace JetBlack.Http.Core
                 var response = await handler(request, token);
                 await response.Apply(context.Response);
             }
-            catch
+            catch (Exception error)
             {
+                _logger.LogError(error, "Failed to handler request");
                 var response = new HttpResponse(HttpStatusCode.InternalServerError);
                 await response.Apply(context.Response);
             }
