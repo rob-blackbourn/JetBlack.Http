@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleUsingControllerWithA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleMiddleware", "Examples\ExampleMiddleware\ExampleMiddleware.csproj", "{72E0C272-72E1-4FBA-B160-514468795972}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressionMiddlewareExample", "Examples\CompressionMiddlewareExample\CompressionMiddlewareExample.csproj", "{983002AC-CB0D-45BC-BBC6-EDCB20CEF269}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -68,6 +70,10 @@ Global
 		{72E0C272-72E1-4FBA-B160-514468795972}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72E0C272-72E1-4FBA-B160-514468795972}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72E0C272-72E1-4FBA-B160-514468795972}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983002AC-CB0D-45BC-BBC6-EDCB20CEF269}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983002AC-CB0D-45BC-BBC6-EDCB20CEF269}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983002AC-CB0D-45BC-BBC6-EDCB20CEF269}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983002AC-CB0D-45BC-BBC6-EDCB20CEF269}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C0AC082E-2E04-437A-BC69-956E487B76EF} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
@@ -78,5 +84,6 @@ Global
 		{51825E10-27D9-4FBD-A049-0AC4770B0FD8} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
 		{A3B3486F-6FC3-493D-AF32-DC4455445B40} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
 		{72E0C272-72E1-4FBA-B160-514468795972} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
+		{983002AC-CB0D-45BC-BBC6-EDCB20CEF269} = {A84F6657-14C1-4AC0-AFD3-B83BE1612E03}
 	EndGlobalSection
 EndGlobal
