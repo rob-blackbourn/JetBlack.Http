@@ -77,8 +77,7 @@ namespace JetBlack.Http.Middleware
 
             if (contentEncoding != null && body != null)
             {
-                responseHeaders.Remove("Content-Length");
-                // responseHeaders["Content-Length"] = body.Length.ToString();
+                responseHeaders["Content-Length"] = body.Length.ToString();
                 responseHeaders["Content-Encoding"] = contentEncoding;
             }
 
