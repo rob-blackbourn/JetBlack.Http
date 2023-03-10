@@ -73,10 +73,10 @@ namespace JetBlack.Http.Core
         }
 
         /// <summary>
-        /// Configure the listener.
+        /// Configure the server info.
         /// </summary>
         /// <param name="server">The HTTP server.</param>
-        /// <param name="configure">A function with which the listener is configured.</param>
+        /// <param name="configure">A function with which the server info is configured.</param>
         /// <typeparam name="TRouter">The type of the router.</typeparam>
         /// <typeparam name="TRouteInfo">The type of the route information.</typeparam>
         /// <typeparam name="TServerInfo">The type of the server information.</typeparam>
