@@ -27,7 +27,7 @@ namespace Example
                     .AddPrefix("http://*:8081/")
                     .ConfigureRouter(router => router.IgnoreCase = true)
                     .AddMiddleware(RestCompressionMiddleware.Create())
-                    .AddRoute(SayHello, "/api/v1/helloWorld", "GET");
+                    .AddRoute(SayHello, "/quote", "GET");
 
                 await server.RunAsync();
             }
