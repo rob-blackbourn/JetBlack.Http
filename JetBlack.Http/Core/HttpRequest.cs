@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 
 namespace JetBlack.Http.Core
 {
@@ -19,17 +20,18 @@ namespace JetBlack.Http.Core
         /// <summary>
         /// The Request.
         /// </summary>
-        public HttpListenerRequest Request => Context.Request;
-        /// <summary>
-        /// The route information. This is valid for the lifetime of the invocation of the route.
-        /// </summary>
-        /// <value>Route information</value>
         public TRouteInfo RouteInfo { get; }
         /// <summary>
         /// Server information. This is valid for the lifetime of the server.
         /// </summary>
         /// <value>Server information</value>
         public TServerInfo ServerInfo { get; }
+        /// <summary>
+        /// The request body. This is exposed as a writable property to allow
+        /// middleware to change it.
+        /// </summary>
+        /// <value>A stream</value>
+        public Stream Body { get; set; }
 
         /// <summary>
         /// Constructs an HTTP request.
@@ -42,6 +44,7 @@ namespace JetBlack.Http.Core
             Context = context;
             RouteInfo = routeInfo;
             ServerInfo = serverInfo;
+            Body = context.Request.InputStream;
         }
     }
 }

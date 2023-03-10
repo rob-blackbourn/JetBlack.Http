@@ -62,8 +62,8 @@ namespace Example
         {
             _logger.LogTrace("In SayWithQueryString");
 
-            var name = request.Request.QueryString.Get("name");
-            var age = request.Request.QueryString.Get("age");
+            var name = request.Context.Request.QueryString.Get("name");
+            var age = request.Context.Request.QueryString.Get("age");
 
             var response = HttpResponse.FromString(
                 $"Hello, {name ?? "nobody"}, you are {age ?? "a mystery"}!",
