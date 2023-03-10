@@ -8,3 +8,4 @@ These include:
 * Configuration.
 * Cancellation and long running tasks.
 * Controllers.
+* Middleware.
