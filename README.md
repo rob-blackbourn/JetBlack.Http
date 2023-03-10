@@ -1,6 +1,7 @@
 # jetblack-http
 
-This repo contains an HTTP server for dotnet targeting netStandard2.0/2.1.
+This repo contains an HTTP server for dotnet targeting netStandard2.0/2.1,
+which means it supports .Net Framework, as well as Core.
 
 It is a bare-bones implementation, suitable for embedding in applications.
 
@@ -10,7 +11,7 @@ can be routed to an appropriate handler, with the path variables resolved
 by name and type.
 
 Other features include middleware, fluent configuration, and a replaceable
-router.
+router. Middleware implementations include compression and CORS.
 
 ## Installation
 
