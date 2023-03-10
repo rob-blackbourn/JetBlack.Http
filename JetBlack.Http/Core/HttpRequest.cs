@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.IO;
+using System.Net;
 
 namespace JetBlack.Http.Core
 {
@@ -25,6 +26,12 @@ namespace JetBlack.Http.Core
         /// </summary>
         /// <value>Server information</value>
         public TServerInfo ServerInfo { get; }
+        /// <summary>
+        /// The request body. This is exposed as a writable property to allow
+        /// middleware to change it.
+        /// </summary>
+        /// <value>A stream</value>
+        public Stream Body { get; set; }
 
         /// <summary>
         /// Constructs an HTTP request.
@@ -37,6 +44,7 @@ namespace JetBlack.Http.Core
             Context = context;
             RouteInfo = routeInfo;
             ServerInfo = serverInfo;
+            Body = context.Request.InputStream;
         }
     }
 }
