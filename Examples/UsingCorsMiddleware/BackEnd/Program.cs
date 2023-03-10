@@ -19,6 +19,7 @@ namespace Example
 
     internal class Program
     {
+        private static readonly object _gate = new object();
         static async Task Main(string[] args)
         {
             using (var loggerFactory = LoggerFactory.Create(builder =>
@@ -44,13 +45,16 @@ namespace Example
 
         public static Task<HttpResponse> GetInfo(RestRequest request, CancellationToken token)
         {
-            var text = JsonConvert.SerializeObject(request.ServerInfo.Data);
-            var response = HttpResponse.FromString(
-                text,
-                statusCode: HttpStatusCode.OK,
-                contentType: "application/json");
+            lock (_gate)
+            {
+                var text = JsonConvert.SerializeObject(request.ServerInfo.Data);
+                var response = HttpResponse.FromString(
+                    text,
+                    statusCode: HttpStatusCode.OK,
+                    contentType: "application/json");
 
-            return Task.FromResult(response);
+                return Task.FromResult(response);
+            }
         }
 
         public static async Task<HttpResponse> SetInfo(RestRequest request, CancellationToken token)
@@ -60,7 +64,12 @@ namespace Example
             var text = Encoding.UTF8.GetString(buffer, 0, bytesRead);
             var data = JsonConvert.DeserializeObject<Dictionary<string, object>>(text);
             if (data != null && data.ContainsKey("name"))
-                request.ServerInfo.Data["name"] = data["name"];
+            {
+                lock (_gate)
+                {
+                    request.ServerInfo.Data["name"] = data["name"];
+                }
+            }
 
             var response = HttpResponse.FromString(
                 "Hello, World!",
