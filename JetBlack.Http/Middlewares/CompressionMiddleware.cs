@@ -15,6 +15,19 @@ namespace JetBlack.Http.Middleware
         where TRouteInfo : class
         where TServerInfo : class
     {
+        private static Func<Stream, Stream>? GetCompressorFactory(string? compression)
+        {
+            switch (compression)
+            {
+                case "gzip":
+                    return stream => new GZipStream(stream, CompressionMode.Compress);
+                case "deflate":
+                    return stream => new DeflateStream(stream, CompressionMode.Compress);
+                default:
+                    return null;
+            }
+        }
+
         private async Task<(Stream?, string?)> GetCompressedStream(string? acceptEncoding, Stream? uncompressedStream)
         {
             if (acceptEncoding == null || uncompressedStream == null)
@@ -25,27 +38,21 @@ namespace JetBlack.Http.Middleware
                 var parts = encoding.Split(';');
                 if (parts.Length == 0)
                     continue;
+                var compression = parts[0];
 
-                switch (parts[0])
+                var compressorFactory = GetCompressorFactory(compression);
+                if (compressorFactory == null)
+                    continue;
+
+                using (var buffer = new MemoryStream())
                 {
-                    case "gzip":
-                        {
-                            var buffer = new MemoryStream();
-                            var compressor = new GZipStream(buffer, CompressionMode.Compress);
-                            await uncompressedStream.CopyToAsync(compressor);
-                            compressor.Close();
-                            var compressedStream = new MemoryStream(buffer.ToArray());
-                            return (compressedStream, "gzip");
-                        }
-                    case "deflate":
-                        {
-                            var buffer = new MemoryStream();
-                            var compressor = new DeflateStream(buffer, CompressionMode.Compress);
-                            await uncompressedStream.CopyToAsync(compressor);
-                            compressor.Close();
-                            var compressedStream = new MemoryStream(buffer.ToArray());
-                            return (compressedStream, "gzip");
-                        }
+                    using (var compressor = compressorFactory(buffer))
+                    {
+                        await uncompressedStream.CopyToAsync(compressor);
+                        compressor.Close();
+                    }
+                    var compressedStream = new MemoryStream(buffer.ToArray());
+                    return (compressedStream, compression);
                 }
             }
 
