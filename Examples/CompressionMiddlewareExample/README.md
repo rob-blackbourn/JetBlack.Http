@@ -1,4 +1,3 @@
-# Example Using Fluent Config
+# Example Using Compression Middleware
 
-This example demonstrates how to configure the server using fluent
-configuration.
+This example demonstrates how to use the compression middleware.
