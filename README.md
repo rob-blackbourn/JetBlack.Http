@@ -1,7 +1,9 @@
 # jetblack-http
 
 This repo contains an HTTP server for dotnet targeting netStandard2.0/2.1,
-which means it supports .Net Framework, as well as Core.
+which means it supports .Net Framework, as well as Core. It is based on
+[HttpListener](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener)
+and attempts to maintain the majority of features and supporting classes.
 
 It is a bare-bones implementation, suitable for embedding in applications.
 
