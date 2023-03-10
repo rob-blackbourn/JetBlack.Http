@@ -69,7 +69,7 @@ namespace JetBlack.Http.Middleware
                 string.Join(", ", _allowMethods));
             _preflightHeaders.Add("Access-Control-Max-Age", maxAge.ToString());
 
-            _allowAllHeaders = allowHeaders != null;
+            _allowAllHeaders = allowHeaders == null;
             if (allowHeaders == null)
                 _allowHeaders = null;
             else
@@ -91,8 +91,8 @@ namespace JetBlack.Http.Middleware
         private HttpResponse PreflightCheck(NameValueCollection requestHeaders)
         {
             var responseHeaders = new WebHeaderCollection();
-            foreach (var (key, value) in _preflightHeaders)
-                responseHeaders[key] = value;
+            foreach (var header in _preflightHeaders)
+                responseHeaders[header.Key] = header.Value;
 
             try
             {
@@ -123,7 +123,7 @@ namespace JetBlack.Http.Middleware
                     if (_allowAllHeaders)
                         responseHeaders["Access-Control-Allow-Headers"] = accessControlRequestHeader;
                     else if (_allowHeaders != null)
-                        foreach (var name in accessControlRequestHeader.Split(",").Select(x => x.Trim()))
+                        foreach (var name in accessControlRequestHeader.Split(',').Select(x => x.Trim()))
                             if (!_allowHeaders.Contains(name))
                                 throw new ApplicationException($"Invalid header {name}");
                 }
@@ -163,8 +163,8 @@ namespace JetBlack.Http.Middleware
             var response = await handler(request, token);
 
             var headers = response.Headers ?? new WebHeaderCollection();
-            foreach (var (key, value) in _corsHeaders)
-                headers[key] = value;
+            foreach (var header in _corsHeaders)
+                headers[header.Key] = header.Value;
 
             var origin = requestHeaders["Origin"];
             if (origin == null)
@@ -214,6 +214,20 @@ namespace JetBlack.Http.Middleware
 
             _logger.LogDebug("Processing CORS response");
             return await CorsResponse(request, handler, token);
+        }
+
+        public static Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>> Create(
+             ISet<string>? allowOrigins = null,
+            ISet<string>? allowMethods = null,
+            ISet<string>? allowHeaders = null,
+            bool allowCredentials = false,
+            string? allowOriginRegex = null,
+            ISet<string>? exposeHeaders = null,
+            int maxAge = 600,
+            ILoggerFactory? loggerFactory = null)
+        {
+            var middleware = new CorsMiddleware<TRouteInfo, TServerInfo>();
+            return middleware.Apply;
         }
     }
 }
