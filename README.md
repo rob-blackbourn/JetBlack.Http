@@ -15,7 +15,7 @@ router. Middleware implementations include compression and CORS.
 
 ## Installation
 
-The package can be installed through [nuget](https://www.nuget.org/packages/JetBlack.Http/1.0.0-alpha.3).
+The package can be installed through [nuget](https://www.nuget.org/packages/JetBlack.Http).
 
 ## Usage
 
