@@ -27,7 +27,7 @@ namespace Example
                     .AddMiddleware(FirstMiddleware)
                     .AddMiddleware(SecondMiddleware)
                     .ConfigureRouter(router => router.IgnoreCase = true)
-                    .AddRoute(SayHello, "/api/v1/helloWorld", "GET");
+                    .AddRoute(SayHello, "/sayHello", "GET");
 
                 await server.RunAsync();
             }

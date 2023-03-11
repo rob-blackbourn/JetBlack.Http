@@ -49,12 +49,15 @@ namespace JetBlack.Http.Rest
         {
             _logger.LogDebug("Adding handler for {Path}", path);
 
-            var route = new Route(new PathDefinition(path), handler);
-            foreach (var method in methods.Length > 0 ? methods.Select(s => s.ToUpperInvariant()) : defaultMethods)
+            lock (_routes)
             {
-                if (!_routes.TryGetValue(method, out var methodRoutes))
-                    _routes.Add(method, methodRoutes = new List<Route>());
-                methodRoutes.Add(route);
+                var route = new Route(new PathDefinition(path), handler);
+                foreach (var method in methods.Length > 0 ? methods.Select(s => s.ToUpperInvariant()) : defaultMethods)
+                {
+                    if (!_routes.TryGetValue(method, out var methodRoutes))
+                        _routes.Add(method, methodRoutes = new List<Route>());
+                    methodRoutes.Add(route);
+                }
             }
         }
 
@@ -62,15 +65,19 @@ namespace JetBlack.Http.Rest
         public (RestRequestHandler, RestRouteInfo) FindHandler(string path, string method)
         {
             _logger.LogTrace($"Finding handler for route '{path}'.");
-            var (handler, matches) = FindRoute(path, method);
 
-            if (handler == null)
+            lock (_routes)
             {
-                _logger.LogWarning($"Failed to find handler for route '{path}'.");
-                return (NotFound, new RestRouteInfo(matches));
-            }
+                var (handler, matches) = FindRoute(path, method);
 
-            return (handler, new RestRouteInfo(matches));
+                if (handler == null)
+                {
+                    _logger.LogWarning($"Failed to find handler for route '{path}'.");
+                    return (NotFound, new RestRouteInfo(matches));
+                }
+
+                return (handler, new RestRouteInfo(matches));
+            }
         }
 
         private (RestRequestHandler?, Dictionary<string, object?>) FindRoute(string path, string method)

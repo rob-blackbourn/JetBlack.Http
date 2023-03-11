@@ -24,6 +24,8 @@ namespace JetBlack.Http.Core
     {
         private readonly ILogger<HttpServer<TRouter, TRouteInfo, TServerInfo>> _logger;
 
+        private readonly IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> _middlewares;
+
         /// <summary>
         /// Create an HTTP Server.
         /// </summary>
@@ -44,7 +46,7 @@ namespace JetBlack.Http.Core
             _logger = loggerFactory.CreateLogger<HttpServer<TRouter, TRouteInfo, TServerInfo>>();
 
             Listener = listener ?? new HttpListener();
-            Middlewares = middlewares
+            _middlewares = middlewares
                 ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
             Router = routerFactory(loggerFactory);
             ServerInfo = serverInfo;
@@ -52,7 +54,10 @@ namespace JetBlack.Http.Core
 
         internal TServerInfo ServerInfo { get; }
         internal HttpListener Listener { get; }
-        internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> Middlewares { get; }
+        internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> Middlewares
+        {
+            get { lock (_middlewares) { return _middlewares; } }
+        }
         internal TRouter Router { get; }
 
         /// <summary>
@@ -141,12 +146,15 @@ namespace JetBlack.Http.Core
         private Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> MakeMiddlewareChain(
             Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>> handler)
         {
-            foreach (var middleware in Middlewares.Reverse())
+            lock (_middlewares)
             {
-                var next = handler; // Without a new variable the last loop value is passed to all closures.
-                handler = async (request, token) => await middleware(request, next, token);
+                foreach (var middleware in _middlewares.Reverse())
+                {
+                    var next = handler; // Without a new variable the last loop value is passed to all closures.
+                    handler = async (request, token) => await middleware(request, next, token);
+                }
+                return handler;
             }
-            return handler;
         }
 
         private async Task HandleRequestAsync(
