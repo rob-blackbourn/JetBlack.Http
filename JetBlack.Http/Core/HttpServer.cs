@@ -25,7 +25,6 @@ namespace JetBlack.Http.Core
         private readonly ILogger<HttpServer<TRouter, TRouteInfo, TServerInfo>> _logger;
 
         private readonly IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> _middlewares;
-        private readonly TRouter _router;
 
         /// <summary>
         /// Create an HTTP Server.
@@ -49,7 +48,7 @@ namespace JetBlack.Http.Core
             Listener = listener ?? new HttpListener();
             _middlewares = middlewares
                 ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
-            _router = routerFactory(loggerFactory);
+            Router = routerFactory(loggerFactory);
             ServerInfo = serverInfo;
         }
 
@@ -59,7 +58,7 @@ namespace JetBlack.Http.Core
         {
             get { lock (_middlewares) { return _middlewares; } }
         }
-        internal TRouter Router { get { lock (_router) { return _router; } } }
+        internal TRouter Router { get; }
 
         /// <summary>
         /// Run the server.
@@ -158,16 +157,6 @@ namespace JetBlack.Http.Core
             }
         }
 
-        private (Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, TRouteInfo) FindHandler(
-            string path,
-            string method)
-        {
-            lock (_router)
-            {
-                return _router.FindHandler(path, method);
-            }
-        }
-
         private async Task HandleRequestAsync(
             HttpListenerContext context,
             CancellationToken token)
@@ -175,7 +164,7 @@ namespace JetBlack.Http.Core
             try
             {
                 // Find a handler for the route.
-                var (handler, routeInfo) = FindHandler(
+                var (handler, routeInfo) = Router.FindHandler(
                     context.Request.Url.LocalPath,
                     context.Request.HttpMethod);
 
