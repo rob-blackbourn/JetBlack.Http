@@ -11,4 +11,4 @@ These include:
 * Middleware.
 
 A good place to start would be the
-[example using fluent config]](./ExampleUsingFluentConfig).
+[example using fluent config](./ExampleUsingFluentConfig).
