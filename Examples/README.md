@@ -9,3 +9,6 @@ These include:
 * Cancellation and long running tasks.
 * Controllers.
 * Middleware.
+
+A good place to start would be the
+[example using fluent config]](./ExampleUsingFluentConfig).
