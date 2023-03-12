@@ -5,6 +5,18 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "name": "GettingStarted",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build GettingStarted",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/GettingStarted/bin/Debug/net6.0/GettingStarted.dll",
+        "cwd": "${workspaceFolder}/Examples/GettingStarted",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "ExampleRaw",
         "type": "coreclr",
         "request": "launch",
