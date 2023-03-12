@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
@@ -44,7 +43,7 @@ namespace Example
                 "up arms, I myself will be your general, judge, and rewarder of " +
                 "every one of your virtues in the field.";
 
-            var response = HttpResponse.FromString(text, statusCode: HttpStatusCode.OK);
+            var response = HttpResponse.FromString(text);
 
             return Task.FromResult(response);
         }

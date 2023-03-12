@@ -24,9 +24,7 @@ namespace Example
         {
             _logger.LogTrace("In SayHello");
 
-            var response = HttpResponse.FromString(
-                "Hello, World!",
-                statusCode: HttpStatusCode.OK);
+            var response = HttpResponse.FromString("Hello, World!");
 
             return Task.FromResult(response);
         }
@@ -37,9 +35,7 @@ namespace Example
 
             var name = request.RouteInfo.Matches["name"];
 
-            var response = HttpResponse.FromString(
-                $"Hello, {name}!",
-                statusCode: HttpStatusCode.OK);
+            var response = HttpResponse.FromString($"Hello, {name}!");
 
             return Task.FromResult(response);
         }
@@ -51,9 +47,7 @@ namespace Example
             var name = request.RouteInfo.Matches["name"];
             var age = request.RouteInfo.Matches["age"];
 
-            var response = HttpResponse.FromString(
-                $"Hello, {name}, you are {age}!",
-                statusCode: HttpStatusCode.OK);
+            var response = HttpResponse.FromString($"Hello, {name}, you are {age}!");
 
             return Task.FromResult(response);
         }
@@ -66,8 +60,7 @@ namespace Example
             var age = request.Context.Request.QueryString.Get("age");
 
             var response = HttpResponse.FromString(
-                $"Hello, {name ?? "nobody"}, you are {age ?? "a mystery"}!",
-                statusCode: HttpStatusCode.OK);
+                $"Hello, {name ?? "nobody"}, you are {age ?? "a mystery"}!");
 
             return Task.FromResult(response);
         }

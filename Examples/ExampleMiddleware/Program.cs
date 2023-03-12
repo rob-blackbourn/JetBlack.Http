@@ -35,9 +35,7 @@ namespace Example
 
         public static Task<HttpResponse> SayHello(RestRequest request, CancellationToken token)
         {
-            var response = HttpResponse.FromString(
-                "Hello, World!",
-                statusCode: HttpStatusCode.OK);
+            var response = HttpResponse.FromString("Hello, World!");
 
             return Task.FromResult(response);
         }

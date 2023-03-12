@@ -48,10 +48,7 @@ namespace Example
             lock (_gate)
             {
                 var text = JsonConvert.SerializeObject(request.ServerInfo.Data);
-                var response = HttpResponse.FromString(
-                    text,
-                    statusCode: HttpStatusCode.OK,
-                    contentType: "application/json");
+                var response = HttpResponse.FromString(text, 200, "application/json");
 
                 return Task.FromResult(response);
             }
@@ -71,9 +68,7 @@ namespace Example
                 }
             }
 
-            var response = HttpResponse.FromString(
-                "Hello, World!",
-                statusCode: HttpStatusCode.OK);
+            var response = HttpResponse.FromString("Hello, World!");
 
             return response;
         }

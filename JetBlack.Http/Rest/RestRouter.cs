@@ -97,7 +97,7 @@ namespace JetBlack.Http.Rest
 
         private Task<HttpResponse> NotFound(RestRequest request, CancellationToken token)
         {
-            return Task.FromResult(new HttpResponse(HttpStatusCode.NotFound));
+            return Task.FromResult(new HttpResponse(404));
         }
     }
 }

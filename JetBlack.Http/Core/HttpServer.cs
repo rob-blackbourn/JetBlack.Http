@@ -183,7 +183,7 @@ namespace JetBlack.Http.Core
             catch (Exception error)
             {
                 _logger.LogError(error, "Failed to handler request");
-                var response = new HttpResponse(HttpStatusCode.InternalServerError);
+                var response = new HttpResponse(500);
                 await response.Apply(context.Response);
             }
         }

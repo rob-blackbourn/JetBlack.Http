@@ -83,10 +83,7 @@ namespace Example
 </html>    
 ".Replace("%HOSTNAME%", "localhost");
 
-            var response = HttpResponse.FromString(
-                page,
-                statusCode: HttpStatusCode.OK,
-                "text/html");
+            var response = HttpResponse.FromString(page, 200, "text/html");
 
             return Task.FromResult(response);
         }
