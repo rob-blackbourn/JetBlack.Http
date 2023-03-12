@@ -22,22 +22,34 @@ namespace Example
             }))
             {
                 var server = new RestServer(loggerFactory)
-                    .AddPrefix("http://*:8081/")
-                    .ConfigureRouter(router => router.IgnoreCase = true)
-                    .AddRoute(SayHello, "/api/v1/helloWorld", "GET")
-                    .AddRoute(SayWithQueryString, "/api/v1/hello")
-                    .AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST")
-                    .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
+                    .AddPrefix("http://localhost:8081/")
+                    .AddRoute(IndexHandler, "/index.html", "GET");
 
                 await server.RunAsync();
             }
         }
 
-        public static Task<HttpResponse> SayHello(RestRequest request, CancellationToken token)
+        public static Task<HttpResponse> IndexHandler(
+            RestRequest request,
+            CancellationToken token)
         {
+            var page = @"
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <title>title</title>
+  </head>
+  <body>
+    <h1>Getting Started</h1>
+    <p>This is a good place to start<p>
+  </body>
+</html>
+";
             var response = HttpResponse.FromString(
-                "Hello, World!",
-                statusCode: HttpStatusCode.OK);
+                page,
+                HttpStatusCode.OK,
+                "text/html");
 
             return Task.FromResult(response);
         }
