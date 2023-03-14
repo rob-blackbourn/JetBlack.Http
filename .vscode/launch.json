@@ -29,6 +29,18 @@
         "stopAtEntry": false
       },
       {
+        "name": "RoutesAndRequestHandlers/Controllers",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build RoutesAndRequestHandlers/Controllers",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers/bin/Debug/net6.0/Controllers.dll",
+        "cwd": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "ExampleRaw",
         "type": "coreclr",
         "request": "launch",
