@@ -93,16 +93,14 @@ namespace JetBlack.Http.Core
             int statusCode = 200,
             string contentType = "text/plain",
             Encoding? contentEncoding = null,
-            WebHeaderCollection? headers = null
-            )
+            WebHeaderCollection? headers = null)
         {
             return FromBytes(
                 Encoding.UTF8.GetBytes(text),
                 statusCode,
                 contentType,
                 contentEncoding ??= Encoding.UTF8,
-                headers
-            );
+                headers);
         }
 
         /// <summary>
@@ -119,8 +117,7 @@ namespace JetBlack.Http.Core
             int statusCode = 200,
             string contentType = "application/octet-stream",
             Encoding? contentEncoding = null,
-            WebHeaderCollection? headers = null
-            )
+            WebHeaderCollection? headers = null)
         {
             if (headers == null)
                 headers = new WebHeaderCollection();
