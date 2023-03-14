@@ -25,7 +25,7 @@ namespace Example
             // Only methods with attributes get included.
         }
 
-        [Route("/api/v1/helloWorld", "GET")]
+        [Route("/helloWorld", "GET")]
         public Task<HttpResponse> SayHello(RestRequest request, CancellationToken token)
         {
             _logger.LogTrace("In SayHello");
@@ -35,7 +35,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        [Route("/api/v1/hello/{name:string}", "GET", "POST")]
+        [Route("/hello/{name:string}", "GET", "POST")]
         public Task<HttpResponse> SayName(RestRequest request, CancellationToken token)
         {
             _logger.LogTrace("In SayName");
@@ -47,7 +47,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        [Route("/api/v1/hello/{name:string}/{age:int}")]
+        [Route("/hello/{name:string}/{age:int}")]
         public Task<HttpResponse> SayNameAndAge(RestRequest request, CancellationToken token)
         {
             _logger.LogTrace("In SayNameAndAge");
@@ -60,7 +60,7 @@ namespace Example
             return Task.FromResult(response);
         }
 
-        [Route("/api/v1/hello")]
+        [Route("/hello")]
         public Task<HttpResponse> SayWithQueryString(RestRequest request, CancellationToken token)
         {
             _logger.LogTrace("In SayWithQueryString");

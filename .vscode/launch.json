@@ -41,6 +41,18 @@
         "stopAtEntry": false
       },
       {
+        "name": "RoutesAndRequestHandlers/ControllerWithAttributes",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build RoutesAndRequestHandlers/ControllerWithAttributes",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes/bin/Debug/net6.0/ControllerWithAttributes.dll",
+        "cwd": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "ExampleRaw",
         "type": "coreclr",
         "request": "launch",
@@ -96,18 +108,6 @@
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
         "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        "name": "ExampleUsingControllerWithAttributes",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build ExampleUsingControllerWithAttributes",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes/bin/Debug/net6.0/ExampleUsingControllerWithAttributes.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
