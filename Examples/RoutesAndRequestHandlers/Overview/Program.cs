@@ -22,7 +22,7 @@ namespace Example
             }))
             {
                 var server = new RestServer(loggerFactory)
-                    .AddPrefix("http://*:8081/")
+                    .AddPrefix("http://localhost:8081/")
                     .ConfigureRouter(router => router.IgnoreCase = true)
                     .AddRoute(SayHello, "/helloWorld", "GET")
                     .AddRoute(SayWithQueryString, "/hello")
