@@ -65,13 +65,13 @@
         "stopAtEntry": false
       },
       {
-        "name": "ExampleUsingFluentConfig",
+        "name": "Configuration/Simple",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleUsingFluentConfig",
+        "preLaunchTask": "build Configuration/Simple",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingFluentConfig/bin/Debug/net6.0/ExampleUsingFluentConfig.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingFluentConfig",
+        "program": "${workspaceFolder}/Examples/Configuration/Simple/bin/Debug/net6.0/Simple.dll",
+        "cwd": "${workspaceFolder}/Examples/Configuration/Simple",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false

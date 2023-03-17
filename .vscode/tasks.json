@@ -250,12 +250,12 @@
         },
 
         {
-            "label": "build ExampleUsingFluentConfig",
+            "label": "build Configuration/Simple",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "${workspaceFolder}/Examples/Configuration/Simple/Simple.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -266,25 +266,25 @@
             }
         },
         {
-            "label": "publish ExampleUsingFluentConfig",
+            "label": "publish Configuration/Simple",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "${workspaceFolder}/Examples/Configuration/Simple/Simple.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleUsingFluentConfig",
+            "label": "watch Configuration/Simple",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "${workspaceFolder}/Examples/Configuration/Simple/Simple.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
