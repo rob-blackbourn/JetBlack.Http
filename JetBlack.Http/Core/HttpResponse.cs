@@ -20,7 +20,7 @@ namespace JetBlack.Http.Core
         /// <param name="headers">Optional headers.</param>
         /// <param name="body">An optional body.</param>
         public HttpResponse(
-            HttpStatusCode statusCode,
+            int statusCode,
             string contentType = "text/html",
             Encoding? contentEncoding = null,
             WebHeaderCollection? headers = null,
@@ -37,7 +37,7 @@ namespace JetBlack.Http.Core
         /// The HTTP status code.
         /// </summary>
         /// <value>The status code.</value>
-        public HttpStatusCode StatusCode { get; }
+        public int StatusCode { get; }
         /// <summary>
         /// The content type.
         /// </summary>
@@ -61,7 +61,7 @@ namespace JetBlack.Http.Core
 
         internal async Task Apply(HttpListenerResponse response)
         {
-            response.StatusCode = (int)StatusCode;
+            response.StatusCode = StatusCode;
             response.ContentType = ContentType;
             response.ContentEncoding = ContentEncoding;
 
@@ -90,19 +90,17 @@ namespace JetBlack.Http.Core
         /// <returns>An HTTP response.</returns>
         public static HttpResponse FromString(
             string text,
-            HttpStatusCode statusCode = HttpStatusCode.OK,
+            int statusCode = 200,
             string contentType = "text/plain",
             Encoding? contentEncoding = null,
-            WebHeaderCollection? headers = null
-            )
+            WebHeaderCollection? headers = null)
         {
             return FromBytes(
                 Encoding.UTF8.GetBytes(text),
                 statusCode,
                 contentType,
                 contentEncoding ??= Encoding.UTF8,
-                headers
-            );
+                headers);
         }
 
         /// <summary>
@@ -116,11 +114,10 @@ namespace JetBlack.Http.Core
         /// <returns>An HTTP response.</returns>
         public static HttpResponse FromBytes(
             byte[] body,
-            HttpStatusCode statusCode = HttpStatusCode.OK,
+            int statusCode = 200,
             string contentType = "application/octet-stream",
             Encoding? contentEncoding = null,
-            WebHeaderCollection? headers = null
-            )
+            WebHeaderCollection? headers = null)
         {
             if (headers == null)
                 headers = new WebHeaderCollection();

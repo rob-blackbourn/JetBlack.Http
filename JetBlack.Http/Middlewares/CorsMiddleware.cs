@@ -141,7 +141,7 @@ namespace JetBlack.Http.Middleware
 
                 _logger.LogDebug("Passed preflight checks");
 
-                return HttpResponse.FromString("OK", HttpStatusCode.OK, headers: responseHeaders);
+                return HttpResponse.FromString("OK", 200, headers: responseHeaders);
             }
             catch (Exception error)
             {
@@ -149,7 +149,7 @@ namespace JetBlack.Http.Middleware
                 // We don't strictly need to use 400 responses here, since its up to
                 // the browser to enforce the CORS policy, but its more informative
                 // if we do.
-                return HttpResponse.FromString(error.Message, HttpStatusCode.BadRequest);
+                return HttpResponse.FromString(error.Message, 400);
             }
         }
 

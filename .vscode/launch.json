@@ -5,136 +5,160 @@
     "version": "0.2.0",
     "configurations": [
       {
-        "name": "ExampleRaw",
+        "name": "GettingStarted",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleRaw",
+        "preLaunchTask": "build GettingStarted",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleRaw/bin/Debug/net6.0/ExampleRaw.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleRaw",
+        "program": "${workspaceFolder}/Examples/GettingStarted/bin/Debug/net6.0/GettingStarted.dll",
+        "cwd": "${workspaceFolder}/Examples/GettingStarted",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "ExampleUsingFluentConfig",
+        "name": "RoutesAndRequestHandlers/Overview",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleUsingFluentConfig",
+        "preLaunchTask": "build RoutesAndRequestHandlers/Overview",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingFluentConfig/bin/Debug/net6.0/ExampleUsingFluentConfig.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingFluentConfig",
+        "program": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Overview/bin/Debug/net6.0/Overview.dll",
+        "cwd": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Overview",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "ExampleUsingFuncConfig",
+        "name": "RoutesAndRequestHandlers/Controllers",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleUsingFuncConfig",
+        "preLaunchTask": "build RoutesAndRequestHandlers/Controllers",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingFuncConfig/bin/Debug/net6.0/ExampleUsingFuncConfig.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingFuncConfig",
+        "program": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers/bin/Debug/net6.0/Controllers.dll",
+        "cwd": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "LongRunningHandler",
+        "name": "RoutesAndRequestHandlers/ControllerWithAttributes",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build LongRunningHandler",
+        "preLaunchTask": "build RoutesAndRequestHandlers/ControllerWithAttributes",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
-        "cwd": "${workspaceFolder}/Examples/LongRunningHandler",
+        "program": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes/bin/Debug/net6.0/ControllerWithAttributes.dll",
+        "cwd": "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "CancellationBehaviour",
+        "name": "Configuration/Manual",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build CancellationBehaviour",
+        "preLaunchTask": "build Configuration/Manual",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
-        "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
+        "program": "${workspaceFolder}/Examples/Configuration/Manual/bin/Debug/net6.0/Manual.dll",
+        "cwd": "${workspaceFolder}/Examples/Configuration/Manual",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "ExampleUsingController",
+        "name": "Configuration/Simple",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleUsingController",
+        "preLaunchTask": "build Configuration/Simple",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingController/bin/Debug/net6.0/ExampleUsingController.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingController",
+        "program": "${workspaceFolder}/Examples/Configuration/Simple/bin/Debug/net6.0/Simple.dll",
+        "cwd": "${workspaceFolder}/Examples/Configuration/Simple",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "ExampleUsingControllerWithAttributes",
+        "name": "Configuration/Advanced",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleUsingControllerWithAttributes",
+        "preLaunchTask": "build Configuration/Advanced",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes/bin/Debug/net6.0/ExampleUsingControllerWithAttributes.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes",
+        "program": "${workspaceFolder}/Examples/Configuration/Advanced/bin/Debug/net6.0/Advanced.dll",
+        "cwd": "${workspaceFolder}/Examples/Configuration/Advanced",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "ExampleMiddleware",
+        "name": "Middleware/Overview",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleMiddleware",
+        "preLaunchTask": "build Middleware/Overview",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleMiddleware/bin/Debug/net6.0/ExampleMiddleware.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleMiddleware",
+        "program": "${workspaceFolder}/Examples/Middleware/Overview/bin/Debug/net6.0/Overview.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/Overview",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "CompressionMiddlewareExample",
+        "name": "Middleware/Compression",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build CompressionMiddlewareExample",
+        "preLaunchTask": "build Middleware/Compression",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/CompressionMiddlewareExample/bin/Debug/net6.0/CompressionMiddlewareExample.dll",
-        "cwd": "${workspaceFolder}/Examples/CompressionMiddlewareExample",
+        "program": "${workspaceFolder}/Examples/Middleware/Compression/bin/Debug/net6.0/Compression.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/Compression",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "UsingCorsMiddleware/BackEnd",
+        "name": "Middleware/CORS/BackEnd",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build UsingCorsMiddleware/BackEnd",
+        "preLaunchTask": "build Middleware/CORS/BackEnd",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd/bin/Debug/net6.0/BackEnd.dll",
-        "cwd": "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd",
+        "program": "${workspaceFolder}/Examples/Middleware/CORS/BackEnd/bin/Debug/net6.0/BackEnd.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/CORS/BackEnd",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
       {
-        "name": "UsingCorsMiddleware/FrontEnd",
+        "name": "Middleware/CORS/FrontEnd",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build UsingCorsMiddleware/FrontEnd",
+        "preLaunchTask": "build Middleware/CORS/FrontEnd",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd/bin/Debug/net6.0/FrontEnd.dll",
-        "cwd": "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd",
+        "program": "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd/bin/Debug/net6.0/FrontEnd.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
       },
+      {
+        "name": "Lifecycle/CancellationBehaviour",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Lifecycle/CancellationBehaviour",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
+        "cwd": "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
+        "name": "Lifecycle/LongRunningHandler",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Lifecycle/LongRunningHandler",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
+        "cwd": "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      }
     ]
 }

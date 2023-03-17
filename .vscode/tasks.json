@@ -40,12 +40,12 @@
         },
 
         {
-            "label": "build ExampleRaw",
+            "label": "build GettingStarted",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
+                "${workspaceFolder}/Examples/GettingStarted/GettingStarted.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -56,25 +56,25 @@
             }
         },
         {
-            "label": "publish ExampleRaw",
+            "label": "publish GettingStarted",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
+                "${workspaceFolder}/Examples/GettingStarted/GettingStarted.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleRaw",
+            "label": "watch GettingStarted",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
+                "${workspaceFolder}/Examples/GettingStarted/GettingStarted.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -82,12 +82,12 @@
         },
 
         {
-            "label": "build ExampleUsingFluentConfig",
+            "label": "build RoutesAndRequestHandlers/Overview",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Overview/Overview.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -98,25 +98,25 @@
             }
         },
         {
-            "label": "publish ExampleUsingFluentConfig",
+            "label": "publish RoutesAndRequestHandlers/Overview",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Overview/Overview.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleUsingFluentConfig",
+            "label": "watch RoutesAndRequestHandlers/Overview",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleUsingFluentConfig/ExampleUsingFluentConfig.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Overview/Overview.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -124,12 +124,12 @@
         },
 
         {
-            "label": "build ExampleUsingFuncConfig",
+            "label": "build RoutesAndRequestHandlers/Controllers",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers/Controllers.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -140,25 +140,25 @@
             }
         },
         {
-            "label": "publish ExampleUsingFuncConfig",
+            "label": "publish RoutesAndRequestHandlers/Controllers",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers/Controllers.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleUsingFuncConfig",
+            "label": "watch RoutesAndRequestHandlers/Controllers",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/Controllers/Controllers.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -166,12 +166,12 @@
         },
 
         {
-            "label": "build LongRunningHandler",
+            "label": "build RoutesAndRequestHandlers/ControllerWithAttributes",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/LongRunningHandler/LongRunningHandler.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes/ControllerWithAttributes.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -182,25 +182,25 @@
             }
         },
         {
-            "label": "publish LongRunningHandler",
+            "label": "publish RoutesAndRequestHandlers/ControllerWithAttributes",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/LongRunningHandler/LongRunningHandler.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes/ControllerWithAttributes.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch LongRunningHandler",
+            "label": "watch RoutesAndRequestHandlers/ControllerWithAttributes",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/LongRunningHandler/LongRunningHandler.csproj",
+                "${workspaceFolder}/Examples/RoutesAndRequestHandlers/ControllerWithAttributes/ControllerWithAttributes.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -208,12 +208,12 @@
         },
 
         {
-            "label": "build CancellationBehaviour",
+            "label": "build Configuration/Manual",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/CancellationBehaviour/CancellationBehaviour.csproj",
+                "${workspaceFolder}/Examples/Configuration/Manual/Manual.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -224,25 +224,25 @@
             }
         },
         {
-            "label": "publish CancellationBehaviour",
+            "label": "publish Configuration/Manual",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/CancellationBehaviour/CancellationBehaviour.csproj",
+                "${workspaceFolder}/Examples/Configuration/Manual/Manual.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch CancellationBehaviour",
+            "label": "watch Configuration/Manual",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/CancellationBehaviour/CancellationBehaviour.csproj",
+                "${workspaceFolder}/Examples/Configuration/Manual/Manual.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -250,12 +250,12 @@
         },
 
         {
-            "label": "build ExampleUsingController",
+            "label": "build Configuration/Simple",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleUsingController/ExampleUsingController.csproj",
+                "${workspaceFolder}/Examples/Configuration/Simple/Simple.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -266,25 +266,25 @@
             }
         },
         {
-            "label": "publish ExampleUsingController",
+            "label": "publish Configuration/Simple",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleUsingController/ExampleUsingController.csproj",
+                "${workspaceFolder}/Examples/Configuration/Simple/Simple.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleUsingController",
+            "label": "watch Configuration/Simple",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleUsingController/ExampleUsingController.csproj",
+                "${workspaceFolder}/Examples/Configuration/Simple/Simple.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -292,12 +292,12 @@
         },
 
         {
-            "label": "build ExampleUsingControllerWithAttributes",
+            "label": "build Configuration/Advanced",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes/ExampleUsingControllerWithAttributes.csproj",
+                "${workspaceFolder}/Examples/Configuration/Advanced/Advanced.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -308,25 +308,25 @@
             }
         },
         {
-            "label": "publish ExampleUsingControllerWithAttributes",
+            "label": "publish Configuration/Advanced",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes/ExampleUsingControllerWithAttributes.csproj",
+                "${workspaceFolder}/Examples/Configuration/Advanced/Advanced.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleUsingControllerWithAttributes",
+            "label": "watch Configuration/Advanced",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleUsingControllerWithAttributes/ExampleUsingControllerWithAttributes.csproj",
+                "${workspaceFolder}/Examples/Configuration/Advanced/Advanced.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -334,12 +334,12 @@
         },
 
         {
-            "label": "build ExampleMiddleware",
+            "label": "build Middleware/Overview",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleMiddleware/ExampleMiddleware.csproj",
+                "${workspaceFolder}/Examples/Middleware/Overview/Overview.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -350,25 +350,25 @@
             }
         },
         {
-            "label": "publish ExampleMiddleware",
+            "label": "publish Middleware/Overview",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleMiddleware/ExampleMiddleware.csproj",
+                "${workspaceFolder}/Examples/Middleware/Overview/Overview.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleMiddleware",
+            "label": "watch Middleware/Overview",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleMiddleware/ExampleMiddleware.csproj",
+                "${workspaceFolder}/Examples/Middleware/Overview/Overview.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -376,12 +376,12 @@
         },
 
         {
-            "label": "build CompressionMiddlewareExample",
+            "label": "build Middleware/Compression",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/CompressionMiddlewareExample/CompressionMiddlewareExample.csproj",
+                "${workspaceFolder}/Examples/Middleware/Compression/Compression.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -392,25 +392,25 @@
             }
         },
         {
-            "label": "publish CompressionMiddlewareExample",
+            "label": "publish Middleware/Compression",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/CompressionMiddlewareExample/CompressionMiddlewareExample.csproj",
+                "${workspaceFolder}/Examples/Middleware/Compression/Compression.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch CompressionMiddlewareExample",
+            "label": "watch Middleware/Compression",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/CompressionMiddlewareExample/CompressionMiddlewareExample.csproj",
+                "${workspaceFolder}/Examples/Middleware/Compression/Compression.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -418,12 +418,12 @@
         },
 
         {
-            "label": "build UsingCorsMiddleware/BackEnd",
+            "label": "build Middleware/CORS/BackEnd",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd/BackEnd.csproj",
+                "${workspaceFolder}/Examples/Middleware/CORS/BackEnd/BackEnd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -434,25 +434,25 @@
             }
         },
         {
-            "label": "publish UsingCorsMiddleware/BackEnd",
+            "label": "publish Middleware/CORS/BackEnd",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd/BackEnd.csproj",
+                "${workspaceFolder}/Examples/Middleware/CORS/BackEnd/BackEnd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch UsingCorsMiddleware/BackEnd",
+            "label": "watch Middleware/CORS/BackEnd",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd/BackEnd.csproj",
+                "${workspaceFolder}/Examples/Middleware/CORS/BackEnd/BackEnd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -460,12 +460,12 @@
         },
 
         {
-            "label": "build UsingCorsMiddleware/FrontEnd",
+            "label": "build Middleware/CORS/FrontEnd",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd/FrontEnd.csproj",
+                "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd/FrontEnd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -476,30 +476,114 @@
             }
         },
         {
-            "label": "publish UsingCorsMiddleware/FrontEnd",
+            "label": "publish Middleware/CORS/FrontEnd",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd/FrontEnd.csproj",
+                "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd/FrontEnd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch UsingCorsMiddleware/FrontEnd",
+            "label": "watch Middleware/CORS/FrontEnd",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd/FrontEnd.csproj",
+                "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd/FrontEnd.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
+
+        {
+            "label": "build Lifecycle/CancellationBehaviour",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/CancellationBehaviour.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "publish Lifecycle/CancellationBehaviour",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/CancellationBehaviour.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch Lifecycle/CancellationBehaviour",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/CancellationBehaviour.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
+            "label": "build Lifecycle/LongRunningHandler",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/LongRunningHandler.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "publish Lifecycle/LongRunningHandler",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/LongRunningHandler.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch Lifecycle/LongRunningHandler",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/LongRunningHandler.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        }
 
     ]
 }
