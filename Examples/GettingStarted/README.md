@@ -132,4 +132,4 @@ with a background worker. An embedded project might use `Task.Run`.
 At this point the server is listening for requests. Try the following
 endpoint in a browser: http://localhost:8081/index.html
 
-Next: [Configuration](../Configuration/README.md)
+Next: [Configuration](../Configuration/)

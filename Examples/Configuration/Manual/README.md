@@ -1,4 +1,4 @@
-# Example Raw
+# Manual Configuration
 
 This example builds the server from scratch using none of the fluent helper
 methods.
@@ -13,3 +13,5 @@ Four endpoints are defined:
     `http://localhost:8081/api/v1/hello/mary`.
 * `http://localhost:8081/api/v1/hello/{name:string}/{age:int}` - demonstrates
     multiple parameters: e.g. `http://localhost:8081/api/v1/hello/mary/12`.
+
+Next: [Routes and Request Handlers](../../RoutesAndRequestHandlers/)

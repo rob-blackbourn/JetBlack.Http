@@ -5,10 +5,10 @@ of the server.
 
 These include:
 
-* [Getting Started](./GettingStarted/README.md)
-* [Configuration](./Configuration/README.md).
-* [Routes and Request Handlers](./RoutesAndRequestHandlers/README.md).
-* [Middleware](./Middleware/README.md).
-* [Lifecycle](./Lifecycle/README.md).
+* [Getting Started](./GettingStarted/)
+* [Configuration](./Configuration/).
+* [Routes and Request Handlers](./RoutesAndRequestHandlers/).
+* [Middleware](./Middleware/).
+* [Lifecycle](./Lifecycle/).
 
-Next: [Getting Started](./GettingStarted/README.md).
+Next: [Getting Started](./GettingStarted/).
