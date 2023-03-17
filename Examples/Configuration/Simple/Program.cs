@@ -23,11 +23,10 @@ namespace Example
             {
                 var server = new RestServer(loggerFactory)
                     .AddPrefix("http://*:8081/")
-                    .ConfigureRouter(router => router.IgnoreCase = true)
-                    .AddRoute(SayHello, "/api/v1/helloWorld", "GET")
-                    .AddRoute(SayWithQueryString, "/api/v1/hello")
-                    .AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST")
-                    .AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
+                    .AddRoute(SayHello, "/helloworld", "GET")
+                    .AddRoute(SayWithQueryString, "/hello")
+                    .AddRoute(SayName, "/hello/{name:string}", "GET", "POST")
+                    .AddRoute(SayNameAndAge, "/hello/{name:string}/{age:int}");
 
                 await server.RunAsync();
             }
