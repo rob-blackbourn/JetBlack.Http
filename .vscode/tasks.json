@@ -292,12 +292,12 @@
         },
 
         {
-            "label": "build ExampleUsingFuncConfig",
+            "label": "build Configuration/Advanced",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "${workspaceFolder}/Examples/Configuration/Advanced/Advanced.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -308,25 +308,25 @@
             }
         },
         {
-            "label": "publish ExampleUsingFuncConfig",
+            "label": "publish Configuration/Advanced",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "${workspaceFolder}/Examples/Configuration/Advanced/Advanced.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleUsingFuncConfig",
+            "label": "watch Configuration/Advanced",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleUsingFuncConfig/ExampleUsingFuncConfig.csproj",
+                "${workspaceFolder}/Examples/Configuration/Advanced/Advanced.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

@@ -77,13 +77,13 @@
         "stopAtEntry": false
       },
       {
-        "name": "ExampleUsingFuncConfig",
+        "name": "Configuration/Advanced",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleUsingFuncConfig",
+        "preLaunchTask": "build Configuration/Advanced",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleUsingFuncConfig/bin/Debug/net6.0/ExampleUsingFuncConfig.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleUsingFuncConfig",
+        "program": "${workspaceFolder}/Examples/Configuration/Advanced/bin/Debug/net6.0/Advanced.dll",
+        "cwd": "${workspaceFolder}/Examples/Configuration/Advanced",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
