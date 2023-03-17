@@ -21,4 +21,4 @@ Compression is activate through the client request headers. If the
 `Accept-Encoding` header contains `gzip` or `deflate` the middleware will
 automatically compress the response body.
 
-Next: [Lifecycle](../../Lifecycle/)
+Next: [Lifecycle](../../Lifecycle/) or [up](..).
