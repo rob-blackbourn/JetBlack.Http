@@ -502,6 +502,48 @@
         },
 
         {
+            "label": "build Lifecycle/CancellationBehaviour",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/CancellationBehaviour.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "publish Lifecycle/CancellationBehaviour",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/CancellationBehaviour.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch Lifecycle/CancellationBehaviour",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/CancellationBehaviour.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+        {
             "label": "build LongRunningHandler",
             "command": "dotnet",
             "type": "process",

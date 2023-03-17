@@ -137,6 +137,18 @@
         "stopAtEntry": false
       },
       {
+        "name": "Lifecycle/CancellationBehaviour",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Lifecycle/CancellationBehaviour",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
+        "cwd": "${workspaceFolder}/Examples/Lifecycle/CancellationBehaviour",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "LongRunningHandler",
         "type": "coreclr",
         "request": "launch",
@@ -144,18 +156,6 @@
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
         "cwd": "${workspaceFolder}/Examples/LongRunningHandler",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        "name": "CancellationBehaviour",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build CancellationBehaviour",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
-        "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
