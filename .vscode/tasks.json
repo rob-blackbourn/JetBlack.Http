@@ -208,12 +208,12 @@
         },
 
         {
-            "label": "build ExampleRaw",
+            "label": "build Configuration/Manual",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
+                "${workspaceFolder}/Examples/Configuration/Manual/Manual.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -224,25 +224,25 @@
             }
         },
         {
-            "label": "publish ExampleRaw",
+            "label": "publish Configuration/Manual",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
+                "${workspaceFolder}/Examples/Configuration/Manual/Manual.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch ExampleRaw",
+            "label": "watch Configuration/Manual",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/ExampleRaw/ExampleRaw.csproj",
+                "${workspaceFolder}/Examples/Configuration/Manual/Manual.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

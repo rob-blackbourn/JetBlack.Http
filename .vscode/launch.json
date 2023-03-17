@@ -53,13 +53,13 @@
         "stopAtEntry": false
       },
       {
-        "name": "ExampleRaw",
+        "name": "Configuration/Manual",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build ExampleRaw",
+        "preLaunchTask": "build Configuration/Manual",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleRaw/bin/Debug/net6.0/ExampleRaw.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleRaw",
+        "program": "${workspaceFolder}/Examples/Configuration/Manual/bin/Debug/net6.0/Manual.dll",
+        "cwd": "${workspaceFolder}/Examples/Configuration/Manual",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
