@@ -22,4 +22,4 @@ var server = new RestServer(loggerFactory)
     });
 ```
 
-Next: [Manual Configuration](../Manual/)
+Next: [Manual Configuration](../Manual/) or [up](..).

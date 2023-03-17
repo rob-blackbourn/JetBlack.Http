@@ -15,7 +15,7 @@ by name and type.
 Other features include middleware, fluent configuration, and a replaceable
 router. Middleware implementations include compression and CORS.
 
-The documentation is [here](./Examples/)
+The documentation is [here](./Examples/).
 
 ## Installation
 

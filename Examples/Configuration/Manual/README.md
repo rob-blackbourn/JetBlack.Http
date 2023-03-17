@@ -37,4 +37,4 @@ var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Func
 var server = new RestServer(listener, router, middlewares, loggerFactory);
 ```
 
-Next: [Routes and Request Handlers](../../RoutesAndRequestHandlers/)
+Next: [Routes and Request Handlers](../../RoutesAndRequestHandlers/) or [up](..).

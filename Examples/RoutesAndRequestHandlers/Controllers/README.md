@@ -63,4 +63,4 @@ The handlers are added to routes in the same way as local methods.
 
 Note how the controller is created before the routes are registered.
 
-Next: [Controllers With Attributes](../ControllerWithAttributes/)
+Next: [Controllers With Attributes](../ControllerWithAttributes/) or [up](..).

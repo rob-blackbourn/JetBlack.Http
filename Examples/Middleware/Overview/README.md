@@ -41,4 +41,4 @@ The output would be:
 <FirstMiddleware
 ```
 
-Next: [CORS](../CORS/) or [up](..)
+Next: [CORS](../CORS/) or [up](..).

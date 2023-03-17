@@ -41,4 +41,4 @@ or methods.
 The `AddMiddleware` method adds a middleware handler. The middleware handles
 are called in the order in which they were added.
 
-Next: [Advanced Fluent Configuration](../Advanced/)
+Next: [Advanced Fluent Configuration](../Advanced/) or [up](..).

@@ -10,4 +10,4 @@ The following projects demonstrate some middleware features:
 * [CORS](./CORS/)
 * [Compression](./Compression/)
 
-Next: [Lifecycle](../Lifecycle/)
+Next: [Lifecycle](../Lifecycle/) or [up](..).

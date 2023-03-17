@@ -8,4 +8,4 @@ The following projects demonstrate this:
 * [Advanced fluent configuration](./Advanced/)
 * [Manual configuration](./Manual/)
 
-Next: [Simple fluent configuration](./Simple/)
+Next: [Simple fluent configuration](./Simple/) or [up](..).
