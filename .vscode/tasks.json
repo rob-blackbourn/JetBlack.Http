@@ -544,12 +544,12 @@
         },
 
         {
-            "label": "build LongRunningHandler",
+            "label": "build Lifecycle/LongRunningHandler",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Examples/LongRunningHandler/LongRunningHandler.csproj",
+                "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/LongRunningHandler.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -560,72 +560,30 @@
             }
         },
         {
-            "label": "publish LongRunningHandler",
+            "label": "publish Lifecycle/LongRunningHandler",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Examples/LongRunningHandler/LongRunningHandler.csproj",
+                "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/LongRunningHandler.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "watch LongRunningHandler",
+            "label": "watch Lifecycle/LongRunningHandler",
             "command": "dotnet",
             "type": "process",
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/Examples/LongRunningHandler/LongRunningHandler.csproj",
+                "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/LongRunningHandler.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
             "problemMatcher": "$msCompile"
-        },
-
-        {
-            "label": "build CancellationBehaviour",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/Examples/CancellationBehaviour/CancellationBehaviour.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "publish CancellationBehaviour",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "publish",
-                "${workspaceFolder}/Examples/CancellationBehaviour/CancellationBehaviour.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch CancellationBehaviour",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "${workspaceFolder}/Examples/CancellationBehaviour/CancellationBehaviour.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
+        }
 
     ]
 }

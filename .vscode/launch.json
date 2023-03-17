@@ -149,13 +149,13 @@
         "stopAtEntry": false
       },
       {
-        "name": "LongRunningHandler",
+        "name": "Lifecycle/LongRunningHandler",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "build LongRunningHandler",
+        "preLaunchTask": "build Lifecycle/LongRunningHandler",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
-        "cwd": "${workspaceFolder}/Examples/LongRunningHandler",
+        "program": "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler/bin/Debug/net6.0/LongRunningHandler.dll",
+        "cwd": "${workspaceFolder}/Examples/Lifecycle/LongRunningHandler",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
