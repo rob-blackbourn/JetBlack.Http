@@ -10,3 +10,5 @@ Exposes the endpoints:
 
 * `http://localhost:8081/quick` - responds immediately.
 * `http://localhost:8081/slow` - responds after 30 seconds.
+
+Next: [Long Running Tasks](../LongRunningHandler/) or [up](..).
