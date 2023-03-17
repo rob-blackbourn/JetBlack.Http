@@ -89,6 +89,18 @@
         "stopAtEntry": false
       },
       {
+        "name": "Middleware/Overview",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Middleware/Overview",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Middleware/Overview/bin/Debug/net6.0/Overview.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/Overview",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "LongRunningHandler",
         "type": "coreclr",
         "request": "launch",
@@ -108,18 +120,6 @@
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
         "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        "name": "ExampleMiddleware",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build ExampleMiddleware",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/ExampleMiddleware/bin/Debug/net6.0/ExampleMiddleware.dll",
-        "cwd": "${workspaceFolder}/Examples/ExampleMiddleware",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
