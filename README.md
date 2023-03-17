@@ -15,6 +15,8 @@ by name and type.
 Other features include middleware, fluent configuration, and a replaceable
 router. Middleware implementations include compression and CORS.
 
+The documentation is [here](./Examples/)
+
 ## Installation
 
 The package can be installed through [nuget](https://www.nuget.org/packages/JetBlack.Http).
