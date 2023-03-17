@@ -101,6 +101,18 @@
         "stopAtEntry": false
       },
       {
+        "name": "Middleware/Compression",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Middleware/Compression",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Middleware/Compression/bin/Debug/net6.0/Compression.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/Compression",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "LongRunningHandler",
         "type": "coreclr",
         "request": "launch",
@@ -120,18 +132,6 @@
         // If you have changed target frameworks, make sure to update the program path.
         "program": "${workspaceFolder}/Examples/CancellationBehaviour/bin/Debug/net6.0/CancellationBehaviour.dll",
         "cwd": "${workspaceFolder}/Examples/CancellationBehaviour",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        "name": "CompressionMiddlewareExample",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build CompressionMiddlewareExample",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/CompressionMiddlewareExample/bin/Debug/net6.0/CompressionMiddlewareExample.dll",
-        "cwd": "${workspaceFolder}/Examples/CompressionMiddlewareExample",
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
