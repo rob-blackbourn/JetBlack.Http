@@ -83,3 +83,5 @@ The response constructor contains four arguments:
             Encoding? contentEncoding = null,
             WebHeaderCollection? headers = null,
             Stream? body = null)
+
+Next: [Middleware](../Middleware/README.md)

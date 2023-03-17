@@ -5,10 +5,10 @@ of the server.
 
 These include:
 
-* Configuration.
-* Cancellation and long running tasks.
-* Controllers.
-* Middleware.
+* [Getting Started](./GettingStarted/README.md)
+* [Configuration](./Configuration/README.md).
+* [Lifecycle](./Lifecycle/README.md).
+* [Routes and Request Handlers](./RoutesAndRequestHandlers/README.md).
+* [Middleware](./Middleware/README.md).
 
-A good place to start would be the
-[example using fluent config](./ExampleUsingFluentConfig).
+Next: [Getting Started](./GettingStarted/README.md).
