@@ -113,6 +113,30 @@
         "stopAtEntry": false
       },
       {
+        "name": "Middleware/CORS/BackEnd",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Middleware/CORS/BackEnd",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Middleware/CORS/BackEnd/bin/Debug/net6.0/BackEnd.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/CORS/BackEnd",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
+        "name": "Middleware/CORS/FrontEnd",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Middleware/CORS/FrontEnd",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd/bin/Debug/net6.0/FrontEnd.dll",
+        "cwd": "${workspaceFolder}/Examples/Middleware/CORS/FrontEnd",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
+      },
+      {
         "name": "LongRunningHandler",
         "type": "coreclr",
         "request": "launch",
@@ -135,30 +159,6 @@
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
-      },
-      {
-        "name": "UsingCorsMiddleware/BackEnd",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build UsingCorsMiddleware/BackEnd",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd/bin/Debug/net6.0/BackEnd.dll",
-        "cwd": "${workspaceFolder}/Examples/UsingCorsMiddleware/BackEnd",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
-      {
-        "name": "UsingCorsMiddleware/FrontEnd",
-        "type": "coreclr",
-        "request": "launch",
-        "preLaunchTask": "build UsingCorsMiddleware/FrontEnd",
-        // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd/bin/Debug/net6.0/FrontEnd.dll",
-        "cwd": "${workspaceFolder}/Examples/UsingCorsMiddleware/FrontEnd",
-        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-        "console": "integratedTerminal",
-        "stopAtEntry": false
-      },
+      }
     ]
 }
