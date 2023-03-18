@@ -23,23 +23,34 @@ namespace JetBlack.Http.Rest
         /// <param name="listener">An optional listener.</param>
         /// <param name="router">An optional router.</param>
         /// <param name="middlewares">Optional middlewares.</param>
+        /// <param name="startupHandlers">Optional startup handlers</param>
+        /// <param name="shutdownHandlers">Optional shutdown handlers</param>
         /// <param name="loggerFactory">An optional logger factory.</param>
         public RestServer(
             HttpListener? listener = null,
             RestRouter? router = null,
-            IList<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>? middlewares = null,
+            IList<
+                Func<
+                    HttpRequest<RestRouteInfo, RestServerInfo>,
+                    Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>,
+                    CancellationToken,
+                    Task<HttpResponse>>>? middlewares = null,
+            IList<Func<RestServerInfo, CancellationToken, Task>>? startupHandlers = null,
+            IList<Func<RestServerInfo, Task>>? shutdownHandlers = null,
             ILoggerFactory? loggerFactory = null)
             : base(
                 lf => router ?? new RestRouter(true, lf),
                 new RestServerInfo(),
                 listener,
                 middlewares,
+                startupHandlers,
+                shutdownHandlers,
                 loggerFactory)
         {
         }
 
         public RestServer(ILoggerFactory loggerFactory)
-            : this(null, null, null, loggerFactory)
+            : this(null, null, null, null, null, loggerFactory)
         {
         }
     }

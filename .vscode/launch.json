@@ -159,6 +159,18 @@
         // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
         "console": "integratedTerminal",
         "stopAtEntry": false
+      },
+      {
+        "name": "Lifecycle/LifecycleHandlers",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "build Lifecycle/LifecycleHandlers",
+        // If you have changed target frameworks, make sure to update the program path.
+        "program": "${workspaceFolder}/Examples/Lifecycle/LifecycleHandlers/bin/Debug/net6.0/LifecycleHandlers.dll",
+        "cwd": "${workspaceFolder}/Examples/Lifecycle/LifecycleHandlers",
+        // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
+        "console": "integratedTerminal",
+        "stopAtEntry": false
       }
     ]
 }

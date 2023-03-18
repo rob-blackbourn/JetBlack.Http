@@ -13,6 +13,8 @@ The advanced configuration methods are:
 * `ConfigureListener`
 * `ConfigureRouter`
 * `ConfigureMiddleware`
+* `ConfigureStartupHandler`
+* `ConfigureShutdownHandler`
 * `ConfigureServerInfo`
 
 Here is the configuration code from the example program.

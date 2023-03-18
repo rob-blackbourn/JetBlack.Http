@@ -20,4 +20,4 @@ indicate it is waiting.
 3. Go back to the quick tab and refresh. The time should change, indicating
 the quick endpoint is not blocked by the slow endpoint.
 
-Next: [up](..).
+Next: [Lifecycle Handlers](../LifecycleHandlers/) or [up](..).
