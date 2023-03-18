@@ -29,10 +29,10 @@ namespace Example
 
                 // Setup the router.
                 var router = new RestRouter(true, loggerFactory);
-                router.AddRoute(SayHello, "/api/v1/helloWorld", "GET");
-                router.AddRoute(SayWithQueryString, "/api/v1/hello"); // GET is the default.
-                router.AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST");
-                router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
+                router.AddRoute(SayHello, "/helloWorld", "GET");
+                router.AddRoute(SayWithQueryString, "/hello"); // GET is the default.
+                router.AddRoute(SayName, "/hello/{name:string}", "GET", "POST");
+                router.AddRoute(SayNameAndAge, "/hello/{name:string}/{age:int}");
 
                 // Make a list of middlewares.
                 var middlewares = new List<
