@@ -66,7 +66,7 @@ details.
 
 The `AddMiddleware` method adds a middleware handler. The middleware handles
 are called in the order in which they were added. See
-[middleware](../../Middleware/) for more details.
+[middleware overview](../../Middleware/Overview/) for more details.
 
 ### `AddStartupHandler`
 
