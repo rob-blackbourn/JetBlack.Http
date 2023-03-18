@@ -10,7 +10,7 @@ argument the object to be configured.
 
 The advanced configuration methods are:
 
-* `ConfigureListener` - passes `[HttpListener](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener)`.
+* `ConfigureListener` - passes [`HttpListener`](https://learn.microsoft.com/en-us/dotnet/api/system.net.httplistener).
 * `ConfigureRouter` - passes `RestRouter`.
 * `ConfigureMiddleware` - passes the list of middleware.
 * `ConfigureStartupHandler` - passes the list of startup handlers.
