@@ -31,10 +31,25 @@ router.AddRoute(SayName, "/api/v1/hello/{name:string}", "GET", "POST");
 router.AddRoute(SayNameAndAge, "/api/v1/hello/{name:string}/{age:int}");
 
 // Make a list of middlewares.
-var middlewares = new List<Func<HttpRequest<RestRouteInfo, RestServerInfo>, Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
+var middlewares = new List<
+    Func<
+        HttpRequest<RestRouteInfo, RestServerInfo>,
+        Func<HttpRequest<RestRouteInfo, RestServerInfo>, CancellationToken, Task<HttpResponse>>,
+        CancellationToken,
+        Task<HttpResponse>>>();
+
+// Make a list of startup and shutdown handlers.
+var startupHandlers = new List<Func<RestServerInfo, CancellationToken, Task>>();
+var shutdownHandlers = new List<Func<RestServerInfo, CancellationToken, Task>>();
 
 // Make the server.
-var server = new RestServer(listener, router, middlewares, loggerFactory);
+var server = new RestServer(
+    listener,
+    router,
+    middlewares,
+    startupHandlers,
+    shutdownHandlers,
+    loggerFactory);
 ```
 
 Next: [Routes and Request Handlers](../../RoutesAndRequestHandlers/) or [up](..).

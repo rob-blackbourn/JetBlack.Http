@@ -41,4 +41,15 @@ or methods.
 The `AddMiddleware` method adds a middleware handler. The middleware handles
 are called in the order in which they were added.
 
+### `AddStartupHandler`
+
+The `AddStartupHandler` adds a startup handler. The handlers are called in the
+order the are added.
+
+### `AddShutdownHandler`
+
+The `AddShutdownHandler` adds a startup handler. The handlers are called in the
+order the are added.
+
+
 Next: [Advanced Fluent Configuration](../Advanced/) or [up](..).

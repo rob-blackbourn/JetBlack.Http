@@ -24,7 +24,14 @@ namespace JetBlack.Http.Core
     {
         private readonly ILogger<HttpServer<TRouter, TRouteInfo, TServerInfo>> _logger;
 
-        private readonly IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> _middlewares;
+        private readonly IList<
+            Func<
+                HttpRequest<TRouteInfo, TServerInfo>,
+                Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>,
+                CancellationToken,
+                Task<HttpResponse>>> _middlewares;
+        private readonly IList<Func<TServerInfo, CancellationToken, Task>> _startupHandlers;
+        private readonly IList<Func<TServerInfo, Task>> _shutdownHandlers;
 
         /// <summary>
         /// Create an HTTP Server.
@@ -34,12 +41,21 @@ namespace JetBlack.Http.Core
         /// <param name="serverInfo">The server info.</param>
         /// <param name="listener">An optional listener.</param>
         /// <param name="middlewares">Optional middlewares</param>
+        /// <param name="startupHandlers">Optional startup handlers</param>
+        /// <param name="shutdownHandlers">Optional shutdown handlers</param>
         /// <param name="loggerFactory">An optional logger factory.</param>
         public HttpServer(
             Func<ILoggerFactory, TRouter> routerFactory,
             TServerInfo serverInfo,
             HttpListener? listener = null,
-            IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>? middlewares = null,
+            IList<
+                Func<
+                    HttpRequest<TRouteInfo, TServerInfo>,
+                    Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>,
+                    CancellationToken,
+                    Task<HttpResponse>>>? middlewares = null,
+            IList<Func<TServerInfo, CancellationToken, Task>>? startupHandlers = null,
+            IList<Func<TServerInfo, Task>>? shutdownHandlers = null,
             ILoggerFactory? loggerFactory = null)
         {
             loggerFactory ??= NullLoggerFactory.Instance;
@@ -47,18 +63,37 @@ namespace JetBlack.Http.Core
 
             Listener = listener ?? new HttpListener();
             _middlewares = middlewares
-                ?? new List<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>>();
+                ?? new List<
+                        Func<HttpRequest<TRouteInfo, TServerInfo>,
+                        Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>,
+                        CancellationToken,
+                        Task<HttpResponse>>>();
+            _startupHandlers = startupHandlers ?? new List<Func<TServerInfo, CancellationToken, Task>>();
+            _shutdownHandlers = shutdownHandlers ?? new List<Func<TServerInfo, Task>>();
             Router = routerFactory(loggerFactory);
             ServerInfo = serverInfo;
         }
 
         internal TServerInfo ServerInfo { get; }
         internal HttpListener Listener { get; }
-        internal IList<Func<HttpRequest<TRouteInfo, TServerInfo>, Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>, CancellationToken, Task<HttpResponse>>> Middlewares
+        internal IList<
+            Func<
+                HttpRequest<TRouteInfo, TServerInfo>,
+                Func<HttpRequest<TRouteInfo, TServerInfo>, CancellationToken, Task<HttpResponse>>,
+                CancellationToken,
+                Task<HttpResponse>>> Middlewares
         {
             get { lock (_middlewares) { return _middlewares; } }
         }
         internal TRouter Router { get; }
+        internal IList<Func<TServerInfo, CancellationToken, Task>> StartupHandlers
+        {
+            get { lock (_startupHandlers) { return _startupHandlers; } }
+        }
+        internal IList<Func<TServerInfo, Task>> ShutdownHandlers
+        {
+            get { lock (_shutdownHandlers) { return _shutdownHandlers; } }
+        }
 
         /// <summary>
         /// Run the server.
@@ -71,6 +106,10 @@ namespace JetBlack.Http.Core
 
             try
             {
+                _logger.LogDebug("Running the startup handlers");
+                foreach (var handler in _startupHandlers)
+                    await handler(ServerInfo, cancellationToken);
+
                 _logger.LogInformation("Starting the listener.");
 
                 Listener.Start();
@@ -84,7 +123,13 @@ namespace JetBlack.Http.Core
                     () => Listener.GetContextAsync(),
                     cancellationToken
                 );
-                var pendingTasks = new List<Task>(new[] { listenerTask });
+                var cancellationTask = Task.Run(
+                    () => cancellationToken.WaitHandle.WaitOne()
+                );
+                var pendingTasks = new List<Task>(
+                    new Task[] {
+                        listenerTask,
+                        cancellationTask });
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -93,7 +138,16 @@ namespace JetBlack.Http.Core
                     var completedTask = await Task.WhenAny(pendingTasks);
                     pendingTasks.Remove(completedTask);
 
-                    if (completedTask != listenerTask)
+                    if (completedTask == cancellationTask)
+                    {
+                        // No new requests will be handled.
+                        pendingTasks.Remove(listenerTask);
+                        // The cancellation token has been set.
+                        pendingTasks.Remove(cancellationTask);
+                        // Let the loop exit.
+                        continue;
+                    }
+                    else if (completedTask != listenerTask)
                     {
                         try
                         {
@@ -130,9 +184,18 @@ namespace JetBlack.Http.Core
                     }
                 }
 
+                // Complete any outstanding requests.
+                foreach (var task in pendingTasks)
+                    await task;
+
                 _logger.LogInformation("Stopping the listener.");
 
                 Listener.Stop();
+
+                _logger.LogDebug("Running the shutdown handlers");
+
+                foreach (var handler in _shutdownHandlers)
+                    await handler(ServerInfo);
             }
             catch (Exception error)
             {
