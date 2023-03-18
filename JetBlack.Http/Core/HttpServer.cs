@@ -123,7 +123,13 @@ namespace JetBlack.Http.Core
                     () => Listener.GetContextAsync(),
                     cancellationToken
                 );
-                var pendingTasks = new List<Task>(new[] { listenerTask });
+                var cancellationTask = Task.Run(
+                    () => cancellationToken.WaitHandle.WaitOne()
+                );
+                var pendingTasks = new List<Task>(
+                    new Task[] {
+                        listenerTask,
+                        cancellationTask });
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
@@ -132,7 +138,16 @@ namespace JetBlack.Http.Core
                     var completedTask = await Task.WhenAny(pendingTasks);
                     pendingTasks.Remove(completedTask);
 
-                    if (completedTask != listenerTask)
+                    if (completedTask == cancellationTask)
+                    {
+                        // No new requests will be handled.
+                        pendingTasks.Remove(listenerTask);
+                        // The cancellation token has been set.
+                        pendingTasks.Remove(cancellationTask);
+                        // Let the loop exit.
+                        continue;
+                    }
+                    else if (completedTask != listenerTask)
                     {
                         try
                         {
@@ -168,6 +183,10 @@ namespace JetBlack.Http.Core
                         );
                     }
                 }
+
+                // Complete any outstanding requests.
+                foreach (var task in pendingTasks)
+                    await task;
 
                 _logger.LogInformation("Stopping the listener.");
 
