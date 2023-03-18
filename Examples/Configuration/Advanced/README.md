@@ -6,7 +6,16 @@ give complete access to the listener and router.
 ## Usage
 
 With advanced configuration the methods take a function which has as it's
-argument the object to be fonfigured.
+argument the object to be configured.
+
+The advanced configuration methods are:
+
+* `ConfigureListener`
+* `ConfigureRouter`
+* `ConfigureMiddleware`
+* `ConfigureServerInfo`
+
+Here is the configuration code from the example program.
 
 ```csharp
 var server = new RestServer(loggerFactory)
@@ -23,7 +32,7 @@ var server = new RestServer(loggerFactory)
 ```
 
 Note the `router.IgnoreCase = true;` line. This configuration was not possible
-with the simple methods. However it is possible to use both. For example
+with the simple methods. However it is possible to use both. For example:
 
 ```csharp
 var server = new RestServer(loggerFactory)
